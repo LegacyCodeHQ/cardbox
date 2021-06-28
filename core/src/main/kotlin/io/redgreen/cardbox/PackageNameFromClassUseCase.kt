@@ -24,8 +24,22 @@ class PackageNameFromClassUseCase {
 
   sealed class Result {
     data class PackageName(val value: String) : Result()
-    object DefaultPackage : Result()
-    object NotClassFile : Result()
+
+    object DefaultPackage : Result() {
+      private val simpleName by lazy { this::class.java.simpleName }
+
+      override fun toString(): String {
+        return simpleName
+      }
+    }
+
+    object NotClassFile : Result() {
+      private val simpleName by lazy { this::class.java.simpleName }
+
+      override fun toString(): String {
+        return simpleName
+      }
+    }
   }
 
   companion object {
