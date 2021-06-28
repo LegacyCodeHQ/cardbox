@@ -6,18 +6,18 @@ import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.File
 
-class PackageNameFromDirectoryUseCase {
+class GetClassesRootDirectoryUseCase {
   private val packageNameFromClassUseCase = PackageNameFromClassUseCase()
 
-  fun invoke(classFilesDirectory: File): ClassDirectoryPackageNameAssociation {
+  fun invoke(classFilesDirectory: File): ClassesDirectoryPackageNameAssociation {
     val firstClassFile = classFilesDirectory.listFiles()!!.first { it.isFile }
-    return ClassDirectoryPackageNameAssociation(
+    return ClassesDirectoryPackageNameAssociation(
       classFilesDirectory,
       packageNameFromClassUseCase.invoke(firstClassFile.inputStream())
     )
   }
 
-  data class ClassDirectoryPackageNameAssociation(
+  data class ClassesDirectoryPackageNameAssociation(
     val classFilesDirectory: File,
     val result: Result
   ) {

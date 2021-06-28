@@ -1,14 +1,14 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.ClassesDirectoryPackageNameAssociation
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
-import io.redgreen.cardbox.PackageNameFromDirectoryUseCase.ClassDirectoryPackageNameAssociation
 import java.io.File
 import org.junit.jupiter.api.Test
 
-class PackageNameFromDirectoryUseCaseTest {
-  private val useCase = PackageNameFromDirectoryUseCase()
+class GetClassesRootDirectoryUseCaseTest {
+  private val useCase = GetClassesRootDirectoryUseCase()
 
   @Test
   fun `test classes package name`() {
@@ -20,7 +20,7 @@ class PackageNameFromDirectoryUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassDirectoryPackageNameAssociation(testClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(ClassesDirectoryPackageNameAssociation(testClassesDirectory, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
@@ -33,7 +33,7 @@ class PackageNameFromDirectoryUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassDirectoryPackageNameAssociation(productionClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(ClassesDirectoryPackageNameAssociation(productionClassesDirectory, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
@@ -46,6 +46,6 @@ class PackageNameFromDirectoryUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassDirectoryPackageNameAssociation(classesDirectory, DefaultPackage))
+      .isEqualTo(ClassesDirectoryPackageNameAssociation(classesDirectory, DefaultPackage))
   }
 }
