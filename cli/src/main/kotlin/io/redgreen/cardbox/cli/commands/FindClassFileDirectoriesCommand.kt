@@ -1,6 +1,7 @@
 package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.FindClassFileDirectoriesUseCase
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase
 import java.io.File
 import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
@@ -14,12 +15,14 @@ class FindClassFileDirectoriesCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 
-  private val useCase by lazy { FindClassFileDirectoriesUseCase() }
+  private val findClassFileDirectoriesUseCase by lazy { FindClassFileDirectoriesUseCase() }
+  private val getClassesRootDirectoryUseCase by lazy { GetClassesRootDirectoryUseCase() }
 
   override fun run() {
-    val classFileDirectoryPaths = useCase.invoke(directory)
+    val classFileDirectoryPaths = findClassFileDirectoriesUseCase.invoke(directory)
 
     classFileDirectoryPaths
+      .map { getClassesRootDirectoryUseCase.invoke(File(".$it")) }
       .onEach { println(it) }
   }
 }

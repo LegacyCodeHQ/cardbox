@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="cardbox (run)" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="io.redgreen.cardbox.cli.CliKt" />
+    <module name="cardbox.cli.main" />
+    <option name="PROGRAM_PARAMETERS" value="directories ." />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
