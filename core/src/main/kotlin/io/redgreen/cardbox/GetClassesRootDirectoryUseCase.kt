@@ -9,15 +9,15 @@ import java.io.File
 class GetClassesRootDirectoryUseCase {
   private val packageNameFromClassUseCase = PackageNameFromClassUseCase()
 
-  fun invoke(classFilesDirectory: File): ClassesDirectoryPackageNameAssociation {
+  fun invoke(classFilesDirectory: File): Association {
     val firstClassFile = classFilesDirectory.listFiles()!!.first { it.isFile }
-    return ClassesDirectoryPackageNameAssociation(
+    return Association(
       classFilesDirectory,
       packageNameFromClassUseCase.invoke(firstClassFile.inputStream())
     )
   }
 
-  data class ClassesDirectoryPackageNameAssociation(
+  data class Association(
     val classFilesDirectory: File,
     val result: Result
   ) {

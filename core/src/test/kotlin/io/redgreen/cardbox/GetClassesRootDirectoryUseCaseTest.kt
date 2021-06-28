@@ -1,7 +1,7 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.ClassesDirectoryPackageNameAssociation
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.File
@@ -20,7 +20,7 @@ class GetClassesRootDirectoryUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassesDirectoryPackageNameAssociation(testClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(Association(testClassesDirectory, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
@@ -33,7 +33,7 @@ class GetClassesRootDirectoryUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassesDirectoryPackageNameAssociation(productionClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(Association(productionClassesDirectory, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
@@ -46,6 +46,6 @@ class GetClassesRootDirectoryUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassesDirectoryPackageNameAssociation(classesDirectory, DefaultPackage))
+      .isEqualTo(Association(classesDirectory, DefaultPackage))
   }
 }
