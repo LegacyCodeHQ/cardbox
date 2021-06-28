@@ -9,8 +9,8 @@ class FindClassFileDirectoriesUseCase {
     private const val EXTENSION_CLASS = ".class"
   }
 
-  fun invoke(workingDir: File): Set<String> {
-    val normalizedWorkingDirectoryPath = workingDir.toPath().toAbsolutePath().normalize()
+  fun invoke(directory: File): Set<String> {
+    val normalizedWorkingDirectoryPath = directory.toPath().toAbsolutePath().normalize()
 
     return Files
       .walk(normalizedWorkingDirectoryPath)
