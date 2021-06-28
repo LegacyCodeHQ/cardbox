@@ -1,7 +1,7 @@
 plugins {
   kotlin("jvm")
-  kotlin("kapt")
   id("application")
+  id("io.gitlab.arturbosch.detekt")
 }
 
 application.mainClassName = "io.redgreen.cardbox.cli.CliKt"

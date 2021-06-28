@@ -21,16 +21,11 @@ class PackageNameFromDirectoryUseCase {
     val classFilesDirectory: File,
     val result: Result
   ) {
-    companion object {
-      private const val DOT = '.'
-      private val SEPARATOR = File.separatorChar
-    }
-
     val jarToolPath: File by lazy {
       when (result) {
         is PackageName -> findJarToolPath(result)
         DefaultPackage -> classFilesDirectory
-        NotClassFile -> throw IllegalStateException("This cannot happen!")
+        NotClassFile -> error("This cannot happen!")
       }
     }
 
@@ -42,6 +37,11 @@ class PackageNameFromDirectoryUseCase {
       val packageDirectoryName = packageNamePathSegment.substring(0, packageNamePathSegment.indexOf(SEPARATOR))
 
       return File("$packageRootDirectoryPath$SEPARATOR$packageDirectoryName")
+    }
+
+    companion object {
+      private const val DOT = '.'
+      private val SEPARATOR = File.separatorChar
     }
   }
 }

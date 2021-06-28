@@ -8,10 +8,6 @@ import java.io.InputStream
 import org.apache.bcel.classfile.ClassParser
 
 class PackageNameFromClassUseCase {
-  companion object {
-    private const val NONSENSE_FILE_NAME = "Applesauce.class"
-  }
-
   fun invoke(classFileInputStream: InputStream): Result {
     val classParser = ClassParser(classFileInputStream, NONSENSE_FILE_NAME)
     return try {
@@ -30,5 +26,9 @@ class PackageNameFromClassUseCase {
     data class PackageName(val value: String) : Result()
     object DefaultPackage : Result()
     object NotClassFile : Result()
+  }
+
+  companion object {
+    private const val NONSENSE_FILE_NAME = "Applesauce.class"
   }
 }
