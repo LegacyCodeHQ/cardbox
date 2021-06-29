@@ -1,5 +1,7 @@
 package io.redgreen.cardbox
 
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.PRODUCTION
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.TEST
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
@@ -21,6 +23,20 @@ class GetClassesRootDirectoryUseCase {
     val classFilesDirectory: File,
     val result: Result
   ) {
+    enum class SourceSet {
+      TEST,
+      PRODUCTION
+    }
+
+    val sourceSet: SourceSet by lazy {
+      val classFilesDirectoryPath = classFilesDirectory.toString()
+      when  {
+        classFilesDirectoryPath.matches(REGEX_PRODUCTION_SOURCE_SET) -> PRODUCTION
+        classFilesDirectoryPath.matches(REGEX_TEST_SOURCE_SET) -> TEST
+        else -> TODO()
+      }
+    }
+
     val jarToolPath: File by lazy {
       when (result) {
         is PackageName -> findJarToolPath(result)
@@ -42,6 +58,12 @@ class GetClassesRootDirectoryUseCase {
     companion object {
       private const val DOT = '.'
       private val SEPARATOR = File.separatorChar
+
+      private const val SOURCE_SET_TEST_DIRECTORY = "test"
+      private val REGEX_TEST_SOURCE_SET = Regex(".*${SEPARATOR}$SOURCE_SET_TEST_DIRECTORY(${SEPARATOR})?.*")
+
+      private const val SOURCE_SET_PRODUCTION_DIRECTORY = "main"
+      private val REGEX_PRODUCTION_SOURCE_SET = Regex(".*${SEPARATOR}$SOURCE_SET_PRODUCTION_DIRECTORY(${SEPARATOR})?.*")
     }
   }
 }
