@@ -4,6 +4,10 @@ import io.redgreen.cardbox.FindClassFileDirectoriesUseCase
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet
+import io.redgreen.cardbox.PackageNameFromClassUseCase.Result
+import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
+import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
+import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.File
 import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
@@ -48,7 +52,21 @@ class FindClassFileDirectoriesCommand : Runnable {
   ) {
     println(key)
     println("============")
-    associations.onEach(::println)
-    println()
+    val jarToolPathAssociations = associations.groupBy { it.jarToolPath }
+    jarToolPathAssociations.keys.onEach { jarToolPath ->
+      println(jarToolPath)
+      jarToolPathAssociations[jarToolPath]!!
+        .map(Association::result)
+        .onEach(this::printPackageName)
+      println()
+    }
+  }
+
+  private fun printPackageName(result: Result) {
+    when (result) {
+      is PackageName -> println(result.value)
+      DefaultPackage -> println("(default package)")
+      NotClassFile -> println("Uh oh!")
+    }
   }
 }
