@@ -4,8 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
-import java.io.File
-import java.io.InputStream
+import io.redgreen.testassist.getResourceStream
 import org.junit.jupiter.api.Test
 
 class PackageNameFromClassUseCaseTest {
@@ -49,11 +48,4 @@ class PackageNameFromClassUseCaseTest {
     assertThat(result)
       .isEqualTo(NotClassFile)
   }
-}
-
-private inline fun <reified T> getResourceStream(
-  resourceFilePath: String
-): InputStream {
-  val separator = File.separator
-  return T::class.java.getResourceAsStream("$separator$resourceFilePath")!!
 }
