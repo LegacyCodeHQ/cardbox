@@ -48,4 +48,17 @@ class GetClassesRootDirectoryUseCaseTest {
     assertThat(result)
       .isEqualTo(Association(classesDirectory, DefaultPackage))
   }
+
+  @Test
+  fun `single identifier package name`() {
+    // given
+    val testClassesDirectory = File("./build/classes/kotlin/test/one")
+
+    // when
+    val result = useCase.invoke(testClassesDirectory)
+
+    // then
+    assertThat(result)
+      .isEqualTo(Association(testClassesDirectory, PackageName("one")))
+  }
 }

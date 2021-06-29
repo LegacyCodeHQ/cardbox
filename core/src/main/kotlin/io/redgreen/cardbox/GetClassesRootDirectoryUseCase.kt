@@ -56,7 +56,14 @@ class GetClassesRootDirectoryUseCase {
       val classFilesDirectoryPath = classFilesDirectory.toString()
       val packageRootDirectoryPath = classFilesDirectoryPath
         .substring(0, classFilesDirectoryPath.indexOf(packageNamePathSegment))
-      val packageDirectoryName = packageNamePathSegment.substring(0, packageNamePathSegment.indexOf(SEPARATOR))
+      val indexOfSeparator = packageNamePathSegment.indexOf(SEPARATOR)
+
+      val singleIdentifierPackageName = indexOfSeparator == -1
+      val packageDirectoryName = if (singleIdentifierPackageName) {
+        packageNamePathSegment
+      } else {
+        packageNamePathSegment.substring(0, indexOfSeparator)
+      }
 
       return File("$packageRootDirectoryPath$SEPARATOR$packageDirectoryName")
     }
