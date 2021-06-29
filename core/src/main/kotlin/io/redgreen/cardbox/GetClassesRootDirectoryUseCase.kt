@@ -2,6 +2,7 @@ package io.redgreen.cardbox
 
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.PRODUCTION
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.TEST
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.UNDETERMINED
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
@@ -25,15 +26,17 @@ class GetClassesRootDirectoryUseCase {
   ) {
     enum class SourceSet {
       TEST,
-      PRODUCTION
+      PRODUCTION,
+      UNDETERMINED
     }
 
     val sourceSet: SourceSet by lazy {
       val classFilesDirectoryPath = classFilesDirectory.toString()
-      when  {
+      when {
+        !packageNameMatchesDirectoryPath(classFilesDirectoryPath) -> UNDETERMINED
         classFilesDirectoryPath.matches(REGEX_PRODUCTION_SOURCE_SET) -> PRODUCTION
         classFilesDirectoryPath.matches(REGEX_TEST_SOURCE_SET) -> TEST
-        else -> TODO()
+        else -> UNDETERMINED
       }
     }
 
@@ -45,8 +48,11 @@ class GetClassesRootDirectoryUseCase {
       }
     }
 
+    private fun packageNameMatchesDirectoryPath(path: String): Boolean =
+      result is PackageName && path.contains(result.toPathSegment()) || result is DefaultPackage
+
     private fun findJarToolPath(packageName: PackageName): File {
-      val packageNamePathSegment = packageName.value.replace(DOT, SEPARATOR)
+      val packageNamePathSegment = packageName.toPathSegment()
       val classFilesDirectoryPath = classFilesDirectory.toString()
       val packageRootDirectoryPath = classFilesDirectoryPath
         .substring(0, classFilesDirectoryPath.indexOf(packageNamePathSegment))
@@ -56,7 +62,6 @@ class GetClassesRootDirectoryUseCase {
     }
 
     companion object {
-      private const val DOT = '.'
       private val SEPARATOR = File.separatorChar
 
       private const val SOURCE_SET_TEST_DIRECTORY = "test"

@@ -4,11 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.PRODUCTION
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.TEST
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.UNDETERMINED
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.File
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class AssociationTest {
   @Nested
@@ -102,6 +105,22 @@ class AssociationTest {
       // when & then
       assertThat(association.sourceSet)
         .isEqualTo(PRODUCTION)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = [
+      "./core/build/resources/test",
+      "./core/build/testData/something",
+      "./core/build/io/redgreen/cardbox"
+    ])
+    fun `classes inside undetermined locations`(path: String) {
+      // given
+      val classesDirectory = File(path)
+      val association = Association(classesDirectory, PackageName("io.redgreen.cardbox"))
+
+      // when & then
+      assertThat(association.sourceSet)
+        .isEqualTo(UNDETERMINED)
     }
   }
 }

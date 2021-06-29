@@ -4,6 +4,7 @@ import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.EOFException
+import java.io.File
 import java.io.InputStream
 import org.apache.bcel.classfile.ClassParser
 
@@ -23,7 +24,15 @@ class PackageNameFromClassUseCase {
   }
 
   sealed class Result {
-    data class PackageName(val value: String) : Result()
+    data class PackageName(val value: String) : Result() {
+      fun toPathSegment(): String =
+        value.replace(DOT, SEPARATOR)
+
+      companion object {
+        private const val DOT = '.'
+        private val SEPARATOR = File.separatorChar
+      }
+    }
 
     object DefaultPackage : Result() {
       private val simpleName by lazy { this::class.java.simpleName }
