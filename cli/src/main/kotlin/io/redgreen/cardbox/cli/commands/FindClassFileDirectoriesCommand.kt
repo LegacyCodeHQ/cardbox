@@ -2,6 +2,8 @@ package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.FindClassFileDirectoriesUseCase
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association
+import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
@@ -20,9 +22,33 @@ class FindClassFileDirectoriesCommand : Runnable {
 
   override fun run() {
     val classFileDirectoryPaths = findClassFileDirectoriesUseCase.invoke(directory)
+    printSourcesSetsByAssociation(classFileDirectoryPaths)
+  }
 
-    classFileDirectoryPaths
+  private fun printSourcesSetsByAssociation(classFileDirectoryPaths: Set<String>) {
+    val sourceSets = getSourceSets(classFileDirectoryPaths)
+
+    sourceSets.keys.onEach { key ->
+      val associations = sourceSets[key]
+      if (associations != null) {
+        printSummary(key, associations)
+      }
+    }
+  }
+
+  private fun getSourceSets(classFileDirectoryPaths: Set<String>): Map<SourceSet, List<Association>> {
+    return classFileDirectoryPaths
       .map { getClassesRootDirectoryUseCase.invoke(File(".$it")) }
-      .onEach { println(it) }
+      .groupBy { it.sourceSet }
+  }
+
+  private fun printSummary(
+    key: SourceSet,
+    associations: List<Association>
+  ) {
+    println(key)
+    println("============")
+    associations.onEach(::println)
+    println()
   }
 }
