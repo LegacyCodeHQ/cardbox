@@ -111,7 +111,6 @@ class ClassFilesLocationTest {
       strings = [
         "./core/build/resources/test",
         "./core/build/testData/something",
-        "./core/build/io/redgreen/cardbox"
       ]
     )
     fun `classes inside undetermined locations`(path: String) {
@@ -122,6 +121,16 @@ class ClassFilesLocationTest {
       // when & then
       assertThat(location.sourceSet)
         .isEqualTo(UNDETERMINED)
+    }
+
+    @Test
+    fun `classes with proper package directory structure is production`() {
+      val classesDirectory = File("./core/build/io/redgreen/cardbox")
+      val location = ClassFilesLocation(classesDirectory, PackageName("io.redgreen.cardbox"))
+
+      // when & then
+      assertThat(location.sourceSet)
+        .isEqualTo(PRODUCTION)
     }
   }
 }

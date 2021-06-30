@@ -17,16 +17,13 @@ data class ClassFilesLocation(
 
     private const val SOURCE_SET_TEST_DIRECTORY = "test"
     private val REGEX_TEST_SOURCE_SET = Regex(".*$SEPARATOR$SOURCE_SET_TEST_DIRECTORY($SEPARATOR)?.*")
-
-    private const val SOURCE_SET_PRODUCTION_DIRECTORY = "main"
-    private val REGEX_PRODUCTION_SOURCE_SET = Regex(".*$SEPARATOR$SOURCE_SET_PRODUCTION_DIRECTORY($SEPARATOR)?.*")
   }
 
   val sourceSet: SourceSet by lazy {
     val classFilesDirectoryPath = classFilesDirectory.toString()
     when {
       !packageNameMatchesDirectoryPath(classFilesDirectoryPath) -> UNDETERMINED
-      classFilesDirectoryPath.matches(REGEX_PRODUCTION_SOURCE_SET) -> PRODUCTION
+      !classFilesDirectoryPath.matches(REGEX_TEST_SOURCE_SET) -> PRODUCTION
       classFilesDirectoryPath.matches(REGEX_TEST_SOURCE_SET) -> TEST
       else -> UNDETERMINED
     }
