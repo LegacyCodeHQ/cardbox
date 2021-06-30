@@ -8,18 +8,16 @@ import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 
-typealias ArtifactName = String
-
 class PackagesInPathTest {
   companion object {
     @JvmStatic
     fun defaultPackageArtifactNames(): List<Pair<String, ArtifactName>> {
       return listOf(
-        "./core/build/classes/java/test" to "core-java-test.jar",
-        "./core/build/classes/kotlin/test" to "core-kotlin-test.jar",
-        "./cli/build/classes/kotlin/test" to "cli-kotlin-test.jar",
-        "./core/build/classes/kotlin/main" to "core-kotlin-main.jar",
-        "./cli/build/classes/kotlin/main" to "cli-kotlin-main.jar",
+        "./core/build/classes/java/test" to ArtifactName("core-java-test.jar"),
+        "./core/build/classes/kotlin/test" to ArtifactName("core-kotlin-test.jar"),
+        "./cli/build/classes/kotlin/test" to ArtifactName("cli-kotlin-test.jar"),
+        "./core/build/classes/kotlin/main" to ArtifactName("core-kotlin-main.jar"),
+        "./cli/build/classes/kotlin/main" to ArtifactName("cli-kotlin-main.jar"),
       )
     }
 
@@ -42,8 +40,8 @@ class PackagesInPathTest {
       )
 
       return listOf(
-        example1 to "core-kotlin-main.jar",
-        example2 to "cli-kotlin-main.jar",
+        example1 to ArtifactName("core-kotlin-main.jar"),
+        example2 to ArtifactName("cli-kotlin-main.jar"),
       )
     }
   }

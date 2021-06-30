@@ -3,6 +3,7 @@ package io.redgreen.cardbox.cli.commands
 import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
 import io.redgreen.cardbox.GroupClassFilesLocationsUseCase
 import io.redgreen.cardbox.GroupPackagesInPathsUseCase
+import io.redgreen.cardbox.model.ArtifactName
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackagesInPath
 import io.redgreen.cardbox.model.RelativePath
@@ -10,8 +11,6 @@ import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
-
-typealias ArtifactName = String
 
 @Command(
   name = "discover",
@@ -42,7 +41,7 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
 
   private fun groupPackagesByArtifacts(
     sourceSetsPackagesInPathMap: Map<SourceSet, List<PackagesInPath>>
-  ): Map<SourceSet, Map<String, List<PackagesInPath>>> {
+  ): Map<SourceSet, Map<ArtifactName, List<PackagesInPath>>> {
     return sourceSetsPackagesInPathMap
       .mapValues { (_, packagesInPath) -> packagesInPath.groupBy { it.artifactName } }
   }
@@ -56,7 +55,7 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
 
       artifactNamePackagesInPath
         .onEach { (artifactName, packagesInPath) ->
-          println("[$EMOJI_PACKAGE ${artifactName}]")
+          println("[$EMOJI_PACKAGE ${artifactName.value}]")
           packagesInPath.onEach { (path, packageNameResults) ->
             packageNameResults.onEachIndexed { index, packageNameResult ->
               val showPath = index == 0

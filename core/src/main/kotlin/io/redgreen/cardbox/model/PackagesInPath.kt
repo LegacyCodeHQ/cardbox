@@ -12,7 +12,7 @@ data class PackagesInPath(
     private const val EXTENSION_JAR = ".jar"
   }
 
-  val artifactName: String
+  val artifactName: ArtifactName
     get() {
       val pathContainsDefaultPackage = packageNameResults.first() is DefaultPackage
 
@@ -23,7 +23,7 @@ data class PackagesInPath(
         identifiers.takeLast(3).dropLast(1)
       }
 
-      return (listOf(identifiers[1]) + finalIdentifiers)
-        .joinToString("-", postfix = EXTENSION_JAR)
+      val value = (listOf(identifiers[1]) + finalIdentifiers).joinToString("-", postfix = EXTENSION_JAR)
+      return ArtifactName(value)
     }
 }
