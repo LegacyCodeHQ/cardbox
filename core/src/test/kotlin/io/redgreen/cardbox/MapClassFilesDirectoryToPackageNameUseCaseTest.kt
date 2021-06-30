@@ -7,8 +7,8 @@ import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import java.io.File
 import org.junit.jupiter.api.Test
 
-class GuessClassFilesRootDirectoryFromPackageNameUseCaseTest {
-  private val useCase = GuessClassFilesRootDirectoryFromPackageNameUseCase()
+class MapClassFilesDirectoryToPackageNameUseCaseTest {
+  private val useCase = MapClassFilesDirectoryToPackageNameUseCase()
 
   @Test
   fun `test classes package name`() {

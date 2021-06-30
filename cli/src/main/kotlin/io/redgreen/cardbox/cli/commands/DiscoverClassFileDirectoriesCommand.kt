@@ -1,7 +1,7 @@
 package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.FindDirectoriesContainingClassFilesUseCase
-import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase
+import io.redgreen.cardbox.MapClassFilesDirectoryToPackageNameUseCase
 import io.redgreen.cardbox.model.Association
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
@@ -22,7 +22,7 @@ class DiscoverClassFileDirectoriesCommand : Runnable {
   lateinit var directory: File
 
   private val directoriesContainingClassFilesUseCase by lazy { FindDirectoriesContainingClassFilesUseCase() }
-  private val rootDirectoryFromPackageNameUseCase by lazy { GuessClassFilesRootDirectoryFromPackageNameUseCase() }
+  private val directoryToPackageNameUseCase by lazy { MapClassFilesDirectoryToPackageNameUseCase() }
 
   override fun run() {
     val classFileDirectoryPaths = directoriesContainingClassFilesUseCase.invoke(directory)
@@ -30,18 +30,18 @@ class DiscoverClassFileDirectoriesCommand : Runnable {
   }
 
   private fun printSourcesSetsByAssociation(classFileDirectoryPaths: Set<String>) {
-    val sourceSets = getSourceSets(classFileDirectoryPaths)
+    val sourceSets = groupAssociationsBySourceSet(classFileDirectoryPaths)
 
     sourceSets.keys.onEach { key ->
       printSummary(key, sourceSets[key]!!)
     }
   }
 
-  private fun getSourceSets(
-    classFileDirectoryPaths: Set<String>
+  private fun groupAssociationsBySourceSet(
+    classFilesDirectoryPaths: Set<String>
   ): Map<SourceSet, List<Association>> {
-    return classFileDirectoryPaths
-      .map { rootDirectoryFromPackageNameUseCase.invoke(File(".$it")) }
+    return classFilesDirectoryPaths
+      .map { directoryToPackageNameUseCase.invoke(File(".$it")) }
       .groupBy { it.sourceSet }
   }
 
