@@ -1,12 +1,11 @@
-package io.redgreen.cardbox
+package io.redgreen.cardbox.model
 
 import com.google.common.truth.Truth.assertThat
-import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association
-import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.PRODUCTION
-import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.TEST
-import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.UNDETERMINED
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
+import io.redgreen.cardbox.model.SourceSet.PRODUCTION
+import io.redgreen.cardbox.model.SourceSet.TEST
+import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
 import java.io.File
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

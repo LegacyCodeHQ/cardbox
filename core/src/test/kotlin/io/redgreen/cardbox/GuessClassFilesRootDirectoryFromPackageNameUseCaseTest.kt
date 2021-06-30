@@ -1,9 +1,9 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
-import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
+import io.redgreen.cardbox.model.Association
 import java.io.File
 import org.junit.jupiter.api.Test
 
