@@ -27,26 +27,25 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
 
   override fun run() {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
-    printSourcesSetsByLocation(classFilesDirectoryPaths)
+    val sourceSetLocationsMap = groupLocationsBySourceSets(classFilesDirectoryPaths)
+    printSourcesSetsByLocation(sourceSetLocationsMap)
   }
 
-  private fun printSourcesSetsByLocation(classFileDirectoryPaths: Set<RelativePath>) {
-    val sourceSets = groupLocationsBySourceSet(classFileDirectoryPaths)
-
-    sourceSets.keys.onEach { key ->
-      printSummary(key, sourceSets[key]!!)
-    }
-  }
-
-  private fun groupLocationsBySourceSet(
-    classFilesDirectoryPaths: Set<RelativePath>
+  private fun groupLocationsBySourceSets(
+    classFileDirectoryPaths: Set<RelativePath>
   ): Map<SourceSet, List<ClassFilesLocation>> {
-    return classFilesDirectoryPaths
+    return classFileDirectoryPaths
       .map { classFilesLocationUseCase.invoke(File(".${it.segment}")) }
       .groupBy { it.sourceSet }
   }
 
-  private fun printSummary(
+  private fun printSourcesSetsByLocation(sourceSetLocationsMap: Map<SourceSet, List<ClassFilesLocation>>) {
+    sourceSetLocationsMap.keys.onEach { sourceSet ->
+      printLocationsForSourceSet(sourceSet, sourceSetLocationsMap[sourceSet]!!)
+    }
+  }
+
+  private fun printLocationsForSourceSet(
     sourceSet: SourceSet,
     classFilesLocations: List<ClassFilesLocation>
   ) {
@@ -57,7 +56,7 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
       println(jarToolPath)
       jarToolPathLocations[jarToolPath]!!
         .map(ClassFilesLocation::packageNameResult)
-        .onEach(this::printPackageName)
+        .onEach(::printPackageName)
       println()
     }
   }
