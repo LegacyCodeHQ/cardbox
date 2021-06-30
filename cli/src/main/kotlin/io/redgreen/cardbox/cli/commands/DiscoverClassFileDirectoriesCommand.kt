@@ -13,11 +13,11 @@ import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
 
 @Command(
-  name = "directories",
+  name = "discover",
   mixinStandardHelpOptions = true,
   description = ["finds directories containing java .class files"]
 )
-class FindClassFileDirectoriesCommand : Runnable {
+class DiscoverClassFileDirectoriesCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 

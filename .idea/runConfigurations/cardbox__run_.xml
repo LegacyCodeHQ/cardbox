@@ -2,7 +2,7 @@
   <configuration default="false" name="cardbox (run)" type="JetRunConfigurationType">
     <option name="MAIN_CLASS_NAME" value="io.redgreen.cardbox.cli.CliKt" />
     <module name="cardbox.cli.main" />
-    <option name="PROGRAM_PARAMETERS" value="directories ." />
+    <option name="PROGRAM_PARAMETERS" value="discover ." />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
