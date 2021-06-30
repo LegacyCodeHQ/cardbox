@@ -13,7 +13,8 @@ class GetClassesRootDirectoryUseCase {
   private val packageNameFromClassUseCase = PackageNameFromClassUseCase()
 
   fun invoke(classFilesDirectory: File): Association {
-    val firstClassFile = classFilesDirectory.listFiles()!!.first { it.isFile }
+    val firstClassFile = classFilesDirectory.listFiles()!!
+      .first { it.isFile && it.extension == CLASS_FILE_EXTENSION }
     return Association(
       classFilesDirectory,
       packageNameFromClassUseCase.invoke(firstClassFile.inputStream())
@@ -77,5 +78,9 @@ class GetClassesRootDirectoryUseCase {
       private const val SOURCE_SET_PRODUCTION_DIRECTORY = "main"
       private val REGEX_PRODUCTION_SOURCE_SET = Regex(".*${SEPARATOR}$SOURCE_SET_PRODUCTION_DIRECTORY(${SEPARATOR})?.*")
     }
+  }
+
+  companion object {
+    private const val CLASS_FILE_EXTENSION = "class"
   }
 }

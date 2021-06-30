@@ -6,6 +6,7 @@ import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.EOFException
 import java.io.File
 import java.io.InputStream
+import org.apache.bcel.classfile.ClassFormatException
 import org.apache.bcel.classfile.ClassParser
 
 class PackageNameFromClassUseCase {
@@ -18,6 +19,8 @@ class PackageNameFromClassUseCase {
       } else {
         DefaultPackage
       }
+    } catch (e: ClassFormatException) {
+      NotClassFile
     } catch (e: EOFException) {
       NotClassFile
     }
