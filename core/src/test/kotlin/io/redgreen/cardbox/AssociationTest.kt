@@ -1,10 +1,10 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.PRODUCTION
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.TEST
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.UNDETERMINED
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.PRODUCTION
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.TEST
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.UNDETERMINED
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.File
@@ -108,11 +108,13 @@ class AssociationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = [
-      "./core/build/resources/test",
-      "./core/build/testData/something",
-      "./core/build/io/redgreen/cardbox"
-    ])
+    @ValueSource(
+      strings = [
+        "./core/build/resources/test",
+        "./core/build/testData/something",
+        "./core/build/io/redgreen/cardbox"
+      ]
+    )
     fun `classes inside undetermined locations`(path: String) {
       // given
       val classesDirectory = File(path)

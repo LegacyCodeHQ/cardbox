@@ -13,7 +13,9 @@ class PackageNameFromClassUseCaseTest {
   @Test
   fun `has a package name`() {
     // given
-    val classFileInputStream = getResourceStream<PackageNameFromClassUseCaseTest>("FindClassFileDirectoriesUseCase.class")
+    val classFileInputStream = getResourceStream<PackageNameFromClassUseCaseTest>(
+      "FindClassFileDirectoriesUseCase.class"
+    )
 
     // when
     val result = useCase.invoke(classFileInputStream)

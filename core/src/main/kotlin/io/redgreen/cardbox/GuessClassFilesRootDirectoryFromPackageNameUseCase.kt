@@ -1,15 +1,19 @@
 package io.redgreen.cardbox
 
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.PRODUCTION
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.TEST
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet.UNDETERMINED
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.PRODUCTION
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.TEST
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet.UNDETERMINED
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.File
 
-class GetClassesRootDirectoryUseCase {
+class GuessClassFilesRootDirectoryFromPackageNameUseCase {
+  companion object {
+    private const val CLASS_FILE_EXTENSION = "class"
+  }
+
   private val packageNameFromClassUseCase = PackageNameFromClassUseCase()
 
   fun invoke(classFilesDirectory: File): Association {
@@ -29,6 +33,16 @@ class GetClassesRootDirectoryUseCase {
       TEST,
       PRODUCTION,
       UNDETERMINED
+    }
+
+    companion object {
+      private val SEPARATOR = File.separatorChar
+
+      private const val SOURCE_SET_TEST_DIRECTORY = "test"
+      private val REGEX_TEST_SOURCE_SET = Regex(".*${SEPARATOR}$SOURCE_SET_TEST_DIRECTORY(${SEPARATOR})?.*")
+
+      private const val SOURCE_SET_PRODUCTION_DIRECTORY = "main"
+      private val REGEX_PRODUCTION_SOURCE_SET = Regex(".*${SEPARATOR}$SOURCE_SET_PRODUCTION_DIRECTORY(${SEPARATOR})?.*")
     }
 
     val sourceSet: SourceSet by lazy {
@@ -73,19 +87,5 @@ class GetClassesRootDirectoryUseCase {
 
       return File("$packageRootDirectoryPath$SEPARATOR$packageDirectoryName")
     }
-
-    companion object {
-      private val SEPARATOR = File.separatorChar
-
-      private const val SOURCE_SET_TEST_DIRECTORY = "test"
-      private val REGEX_TEST_SOURCE_SET = Regex(".*${SEPARATOR}$SOURCE_SET_TEST_DIRECTORY(${SEPARATOR})?.*")
-
-      private const val SOURCE_SET_PRODUCTION_DIRECTORY = "main"
-      private val REGEX_PRODUCTION_SOURCE_SET = Regex(".*${SEPARATOR}$SOURCE_SET_PRODUCTION_DIRECTORY(${SEPARATOR})?.*")
-    }
-  }
-
-  companion object {
-    private const val CLASS_FILE_EXTENSION = "class"
   }
 }

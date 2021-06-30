@@ -1,9 +1,9 @@
 package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.FindDirectoriesContainingClassFilesUseCase
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association
-import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association
+import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase.Association.SourceSet
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
@@ -21,11 +21,11 @@ class FindClassFileDirectoriesCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 
-  private val findDirectoriesContainingClassFilesUseCase by lazy { FindDirectoriesContainingClassFilesUseCase() }
-  private val getClassesRootDirectoryUseCase by lazy { GetClassesRootDirectoryUseCase() }
+  private val directoriesContainingClassFilesUseCase by lazy { FindDirectoriesContainingClassFilesUseCase() }
+  private val rootDirectoryFromPackageNameUseCase by lazy { GuessClassFilesRootDirectoryFromPackageNameUseCase() }
 
   override fun run() {
-    val classFileDirectoryPaths = findDirectoriesContainingClassFilesUseCase.invoke(directory)
+    val classFileDirectoryPaths = directoriesContainingClassFilesUseCase.invoke(directory)
     printSourcesSetsByAssociation(classFileDirectoryPaths)
   }
 
@@ -41,7 +41,7 @@ class FindClassFileDirectoriesCommand : Runnable {
     classFileDirectoryPaths: Set<String>
   ): Map<SourceSet, List<Association>> {
     return classFileDirectoryPaths
-      .map { getClassesRootDirectoryUseCase.invoke(File(".$it")) }
+      .map { rootDirectoryFromPackageNameUseCase.invoke(File(".$it")) }
       .groupBy { it.sourceSet }
   }
 
