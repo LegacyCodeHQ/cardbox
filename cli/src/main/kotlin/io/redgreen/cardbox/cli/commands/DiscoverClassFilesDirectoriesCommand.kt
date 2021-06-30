@@ -26,23 +26,43 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
 
   override fun run() {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
-    val sourceSetLocationsMap = groupLocationsBySourceSetsUseCase.invoke(classFilesDirectoryPaths)
-    printSourcesSetsByLocation(sourceSetLocationsMap)
+    val sourceSetsLocationsMap = groupLocationsBySourceSetsUseCase.invoke(classFilesDirectoryPaths)
+    val sourceSetsPackageNamesMap = associateSourceSetsWithLocationsPackageNames(sourceSetsLocationsMap)
+
+    printSourcesSetsByLocation(sourceSetsPackageNamesMap)
   }
 
-  private fun printSourcesSetsByLocation(sourceSetLocationsMap: Map<SourceSet, List<ClassFilesLocation>>) {
-    sourceSetLocationsMap.keys.onEach { sourceSet ->
-      println(sourceSet)
-      println("============")
-      val jarToolPathLocations = sourceSetLocationsMap[sourceSet]!!.groupBy { it.jarToolPath }
-      jarToolPathLocations.keys.onEach { jarToolPath ->
-        println(jarToolPath)
-        jarToolPathLocations[jarToolPath]!!
-          .map(ClassFilesLocation::packageNameResult)
-          .onEach(::printPackageName)
-        println()
+  private fun associateSourceSetsWithLocationsPackageNames(
+    sourceSetsLocationsMap: Map<SourceSet, List<ClassFilesLocation>>
+  ): Map<SourceSet, Map<File, List<PackageNameResult>>> {
+    return sourceSetsLocationsMap
+      .map { (sourceSet, _) ->
+        sourceSet to sourceSetsLocationsMap[sourceSet]!!.groupBy { it.jarToolPath }
+      }.associate { (sourceSet, jarToolPathClassFilesLocationsMap) ->
+        sourceSet to jarToolPathClassFilesLocationsMap.mapValues { it.value.map(ClassFilesLocation::packageNameResult) }
       }
-    }
+  }
+
+  private fun printSourcesSetsByLocation(
+    sourceSetsPackageNamesMap: Map<SourceSet, Map<File, List<PackageNameResult>>>
+  ) {
+    sourceSetsPackageNamesMap
+      .onEach { (sourceSet, jarToolPathPackageNamesMap) ->
+        println(sourceSet)
+        println("============")
+        jarToolPathPackageNamesMap.onEach { (jarToolPath, packageNameResults) ->
+          printPackageNameResults(jarToolPath, packageNameResults)
+        }
+      }
+  }
+
+  private fun printPackageNameResults(
+    jarToolPath: File,
+    packageNameResults: List<PackageNameResult>
+  ) {
+    println(jarToolPath)
+    packageNameResults.onEach(::printPackageName)
+    println()
   }
 
   private fun printPackageName(result: PackageNameResult) {
