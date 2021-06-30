@@ -9,6 +9,9 @@ import java.io.InputStream
 import org.apache.bcel.classfile.ClassFormatException
 import org.apache.bcel.classfile.ClassParser
 
+/**
+ * Retrieves the package name of a compiled .class file from an `InputStream`.
+ */
 class PackageNameFromClassUseCase {
   fun invoke(classFileInputStream: InputStream): Result {
     val classParser = ClassParser(classFileInputStream, NONSENSE_FILE_NAME)

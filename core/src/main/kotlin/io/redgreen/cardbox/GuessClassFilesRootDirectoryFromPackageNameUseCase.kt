@@ -9,6 +9,10 @@ import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
 import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import java.io.File
 
+/**
+ * Given a directory that contains compiled .class files, the use case returns the original directory and the package
+ * name of the classes present inside the directory.
+ */
 class GuessClassFilesRootDirectoryFromPackageNameUseCase {
   companion object {
     private const val CLASS_FILE_EXTENSION = "class"

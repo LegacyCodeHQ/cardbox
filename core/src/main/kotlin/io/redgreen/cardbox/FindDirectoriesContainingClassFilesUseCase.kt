@@ -4,6 +4,9 @@ import java.io.File
 import java.nio.file.Files
 import kotlin.streams.toList
 
+/**
+ * Scans a directory recursively and returns all paths containing compiled .class files relative to the given directory.
+ */
 class FindDirectoriesContainingClassFilesUseCase {
   companion object {
     private const val EXTENSION_CLASS = "class"
