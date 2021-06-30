@@ -6,7 +6,7 @@ import kotlin.streams.toList
 
 class FindDirectoriesContainingClassFilesUseCase {
   companion object {
-    private const val EXTENSION_CLASS = ".class"
+    private const val EXTENSION_CLASS = "class"
   }
 
   fun invoke(directory: File): Set<String> {
@@ -15,7 +15,7 @@ class FindDirectoriesContainingClassFilesUseCase {
     return Files
       .walk(normalizedWorkingDirectoryPath)
       .filter { Files.isRegularFile(it) }
-      .filter { it.toString().endsWith(EXTENSION_CLASS) }
+      .filter { it.toFile().extension == EXTENSION_CLASS }
       .map { it.parent.toAbsolutePath().toString() }
       .map { it.substring(normalizedWorkingDirectoryPath.toString().length) }
       .distinct()
