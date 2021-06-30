@@ -1,13 +1,12 @@
 package io.redgreen.cardbox.cli.commands
 
-import io.redgreen.cardbox.ClassFilesLocationUseCase
 import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
+import io.redgreen.cardbox.GroupLocationsBySourceSetsUseCase
 import io.redgreen.cardbox.model.ClassFilesLocation
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
-import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
@@ -23,20 +22,12 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   lateinit var directory: File
 
   private val discoverClassFilesDirectoryPathsUseCase by lazy { DiscoverClassFilesDirectoryPathsUseCase() }
-  private val classFilesLocationUseCase by lazy { ClassFilesLocationUseCase() }
+  private val groupLocationsBySourceSetsUseCase by lazy { GroupLocationsBySourceSetsUseCase() }
 
   override fun run() {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
-    val sourceSetLocationsMap = groupLocationsBySourceSets(classFilesDirectoryPaths)
+    val sourceSetLocationsMap = groupLocationsBySourceSetsUseCase.invoke(classFilesDirectoryPaths)
     printSourcesSetsByLocation(sourceSetLocationsMap)
-  }
-
-  private fun groupLocationsBySourceSets(
-    classFileDirectoryPaths: Set<RelativePath>
-  ): Map<SourceSet, List<ClassFilesLocation>> {
-    return classFileDirectoryPaths
-      .map { classFilesLocationUseCase.invoke(File(".${it.segment}")) }
-      .groupBy { it.sourceSet }
   }
 
   private fun printSourcesSetsByLocation(sourceSetLocationsMap: Map<SourceSet, List<ClassFilesLocation>>) {
