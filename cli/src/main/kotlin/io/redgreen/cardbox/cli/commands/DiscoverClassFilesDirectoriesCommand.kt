@@ -16,6 +16,10 @@ import picocli.CommandLine.Parameters
   description = ["finds directories containing java .class files"]
 )
 class DiscoverClassFilesDirectoriesCommand : Runnable {
+  companion object {
+    private const val EMOJI_PACKAGE = "\uD83D\uDCE6"
+  }
+
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 
@@ -43,7 +47,7 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
 
   private fun printPackagesInPath(packagesInPath: PackagesInPath) {
     val (relativePath, packageNameResults) = packagesInPath
-    println(relativePath.segment)
+    println("${relativePath.segment} => [$EMOJI_PACKAGE ${packagesInPath.artifactName}]")
     packageNameResults.map(PackageNameResult::displayText).onEach(::println)
     println()
   }
