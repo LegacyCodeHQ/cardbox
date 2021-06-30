@@ -2,11 +2,11 @@ package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.FindDirectoriesContainingClassFilesUseCase
 import io.redgreen.cardbox.GuessClassFilesRootDirectoryFromPackageNameUseCase
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
 import io.redgreen.cardbox.model.Association
+import io.redgreen.cardbox.model.PackageNameResult
+import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
+import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
+import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
@@ -61,7 +61,7 @@ class FindClassFileDirectoriesCommand : Runnable {
     }
   }
 
-  private fun printPackageName(result: Result) {
+  private fun printPackageName(result: PackageNameResult) {
     when (result) {
       is PackageName -> println(result.value)
       DefaultPackage -> println("(default package)")

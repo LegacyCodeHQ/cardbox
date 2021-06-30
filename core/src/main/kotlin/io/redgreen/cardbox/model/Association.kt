@@ -1,8 +1,8 @@
 package io.redgreen.cardbox.model
 
-import io.redgreen.cardbox.PackageNameFromClassUseCase
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
+import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
+import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
+import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import io.redgreen.cardbox.model.SourceSet.PRODUCTION
 import io.redgreen.cardbox.model.SourceSet.TEST
 import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
@@ -10,7 +10,7 @@ import java.io.File
 
 data class Association(
   val classFilesDirectory: File,
-  val packageNameResult: PackageNameFromClassUseCase.Result
+  val packageNameResult: PackageNameResult
 ) {
   companion object {
     private val SEPARATOR = File.separatorChar
@@ -36,7 +36,7 @@ data class Association(
     when (packageNameResult) {
       is PackageName -> findJarToolPath(packageNameResult)
       DefaultPackage -> classFilesDirectory
-      PackageNameFromClassUseCase.Result.NotClassFile -> error("This cannot happen!")
+      NotClassFile -> error("This cannot happen!")
     }
   }
 

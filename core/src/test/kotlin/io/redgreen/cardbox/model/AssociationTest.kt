@@ -1,8 +1,8 @@
 package io.redgreen.cardbox.model
 
 import com.google.common.truth.Truth.assertThat
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
+import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
+import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import io.redgreen.cardbox.model.SourceSet.PRODUCTION
 import io.redgreen.cardbox.model.SourceSet.TEST
 import io.redgreen.cardbox.model.SourceSet.UNDETERMINED

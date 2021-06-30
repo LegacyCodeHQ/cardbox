@@ -1,9 +1,9 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.DefaultPackage
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.NotClassFile
-import io.redgreen.cardbox.PackageNameFromClassUseCase.Result.PackageName
+import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
+import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
+import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import io.redgreen.testassist.getResourceStream
 import org.junit.jupiter.api.Test
 
