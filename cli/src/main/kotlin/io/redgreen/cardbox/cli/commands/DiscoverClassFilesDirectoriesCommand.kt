@@ -5,10 +5,13 @@ import io.redgreen.cardbox.GroupClassFilesLocationsUseCase
 import io.redgreen.cardbox.GroupPackagesInPathsUseCase
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackagesInPath
+import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
+
+typealias ArtifactName = String
 
 @Command(
   name = "discover",
@@ -18,6 +21,7 @@ import picocli.CommandLine.Parameters
 class DiscoverClassFilesDirectoriesCommand : Runnable {
   companion object {
     private const val EMOJI_PACKAGE = "\uD83D\uDCE6"
+    private const val COLUMN_WIDTH = 120
   }
 
   @Parameters(index = "0", description = ["directory"])
@@ -31,24 +35,50 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
     val sourceSetsLocationsMap = groupClassFilesLocationsUseCase.invoke(classFilesDirectoryPaths)
     val sourceSetsPackagesInPathMap = groupPackagesInPathsUseCase.invoke(sourceSetsLocationsMap)
+    val sourceSetsArtifacts = groupPackagesByArtifacts(sourceSetsPackagesInPathMap)
 
-    printSourcesSetsByLocation(sourceSetsPackagesInPathMap)
+    printSourceSetsArtifactInformation(sourceSetsArtifacts)
   }
 
-  private fun printSourcesSetsByLocation(
+  private fun groupPackagesByArtifacts(
     sourceSetsPackagesInPathMap: Map<SourceSet, List<PackagesInPath>>
+  ): Map<SourceSet, Map<String, List<PackagesInPath>>> {
+    return sourceSetsPackagesInPathMap
+      .mapValues { (_, packagesInPath) -> packagesInPath.groupBy { it.artifactName } }
+  }
+
+  private fun printSourceSetsArtifactInformation(
+    sourceSetsArtifacts: Map<SourceSet, Map<ArtifactName, List<PackagesInPath>>>
   ) {
-    sourceSetsPackagesInPathMap.onEach { (sourceSet, packagesInPaths) ->
+    sourceSetsArtifacts.onEach { (sourceSet, artifactNamePackagesInPath) ->
       println(sourceSet)
       println("============")
-      packagesInPaths.onEach(this::printPackagesInPath)
+
+      artifactNamePackagesInPath
+        .onEach { (artifactName, packagesInPath) ->
+          println("[$EMOJI_PACKAGE ${artifactName}]")
+          packagesInPath.onEach { (path, packageNameResults) ->
+            packageNameResults.onEachIndexed { index, packageNameResult ->
+              val showPath = index == 0
+              printPackageNameAndPathSegment(packageNameResult, path, showPath)
+            }
+          }
+          println()
+        }
     }
   }
 
-  private fun printPackagesInPath(packagesInPath: PackagesInPath) {
-    val (relativePath, packageNameResults) = packagesInPath
-    println("${relativePath.segment} => [$EMOJI_PACKAGE ${packagesInPath.artifactName}]")
-    packageNameResults.map(PackageNameResult::displayText).onEach(::println)
-    println()
+  private fun printPackageNameAndPathSegment(
+    packageNameResult: PackageNameResult,
+    path: RelativePath,
+    showPath: Boolean
+  ) {
+    val displayName = packageNameResult.displayText
+    val paddedPath = if (showPath) {
+      " [${path.segment}]".padStart(COLUMN_WIDTH - displayName.length)
+    } else {
+      ""
+    }
+    println("$displayName$paddedPath")
   }
 }
