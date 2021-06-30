@@ -5,7 +5,7 @@ import io.redgreen.cardbox.model.PackagesInPath
 import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 
-class GroupPackagesInPathUseCase {
+class GroupPackagesInPathsUseCase {
   fun invoke(
     sourceSetsClassFilesLocationsMap: Map<SourceSet, List<ClassFilesLocation>>
   ): Map<SourceSet, List<PackagesInPath>> {

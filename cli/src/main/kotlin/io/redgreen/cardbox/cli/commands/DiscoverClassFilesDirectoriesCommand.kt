@@ -2,7 +2,7 @@ package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
 import io.redgreen.cardbox.GroupClassFilesLocationsUseCase
-import io.redgreen.cardbox.GroupPackagesInPathUseCase
+import io.redgreen.cardbox.GroupPackagesInPathsUseCase
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
@@ -24,12 +24,12 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
 
   private val discoverClassFilesDirectoryPathsUseCase = DiscoverClassFilesDirectoryPathsUseCase()
   private val groupClassFilesLocationsUseCase = GroupClassFilesLocationsUseCase()
-  private val groupPackagesInPathUseCase = GroupPackagesInPathUseCase()
+  private val groupPackagesInPathsUseCase = GroupPackagesInPathsUseCase()
 
   override fun run() {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
     val sourceSetsLocationsMap = groupClassFilesLocationsUseCase.invoke(classFilesDirectoryPaths)
-    val sourceSetsPackagesInPathMap = groupPackagesInPathUseCase.invoke(sourceSetsLocationsMap)
+    val sourceSetsPackagesInPathMap = groupPackagesInPathsUseCase.invoke(sourceSetsLocationsMap)
 
     printSourcesSetsByLocation(sourceSetsPackagesInPathMap)
   }
