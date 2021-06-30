@@ -2,13 +2,12 @@ package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
 import io.redgreen.cardbox.GroupClassFilesLocationsUseCase
-import io.redgreen.cardbox.model.ClassFilesLocation
+import io.redgreen.cardbox.GroupPackagesInPathUseCase
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import io.redgreen.cardbox.model.PackagesInPath
-import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
@@ -23,29 +22,16 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 
-  private val discoverClassFilesDirectoryPathsUseCase by lazy { DiscoverClassFilesDirectoryPathsUseCase() }
-  private val groupClassFilesLocationsUseCase by lazy { GroupClassFilesLocationsUseCase() }
+  private val discoverClassFilesDirectoryPathsUseCase = DiscoverClassFilesDirectoryPathsUseCase()
+  private val groupClassFilesLocationsUseCase = GroupClassFilesLocationsUseCase()
+  private val groupPackagesInPathUseCase = GroupPackagesInPathUseCase()
 
   override fun run() {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
     val sourceSetsLocationsMap = groupClassFilesLocationsUseCase.invoke(classFilesDirectoryPaths)
-    val sourceSetsPackagesInPathMap = associateSourceSetsWithLocationsPackageNames(sourceSetsLocationsMap)
+    val sourceSetsPackagesInPathMap = groupPackagesInPathUseCase.invoke(sourceSetsLocationsMap)
 
     printSourcesSetsByLocation(sourceSetsPackagesInPathMap)
-  }
-
-  private fun associateSourceSetsWithLocationsPackageNames(
-    sourceSetsLocationsMap: Map<SourceSet, List<ClassFilesLocation>>
-  ): Map<SourceSet, List<PackagesInPath>> {
-    return sourceSetsLocationsMap
-      .map { (sourceSet, _) ->
-        sourceSet to sourceSetsLocationsMap[sourceSet]!!.groupBy { RelativePath(it.jarToolPath.toString()) }
-      }.associate { (sourceSet, jarToolPathClassFilesLocationsMap) ->
-        val packagesInPath = jarToolPathClassFilesLocationsMap.map { (path, classFilesLocations) ->
-          PackagesInPath(path, classFilesLocations.map(ClassFilesLocation::packageNameResult))
-        }
-        sourceSet to packagesInPath
-      }
   }
 
   private fun printSourcesSetsByLocation(
