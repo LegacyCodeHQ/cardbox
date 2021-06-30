@@ -1,14 +1,14 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
-import io.redgreen.cardbox.model.Association
+import io.redgreen.cardbox.model.ClassFilesLocation
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import java.io.File
 import org.junit.jupiter.api.Test
 
-class MapClassFilesDirectoryToPackageNameUseCaseTest {
-  private val useCase = MapClassFilesDirectoryToPackageNameUseCase()
+class ClassFilesLocationUseCaseTest {
+  private val useCase = ClassFilesLocationUseCase()
 
   @Test
   fun `test classes package name`() {
@@ -20,7 +20,7 @@ class MapClassFilesDirectoryToPackageNameUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(Association(testClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(ClassFilesLocation(testClassesDirectory, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
@@ -33,7 +33,7 @@ class MapClassFilesDirectoryToPackageNameUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(Association(productionClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(ClassFilesLocation(productionClassesDirectory, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
@@ -46,7 +46,7 @@ class MapClassFilesDirectoryToPackageNameUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(Association(classesDirectory, DefaultPackage))
+      .isEqualTo(ClassFilesLocation(classesDirectory, DefaultPackage))
   }
 
   @Test
@@ -59,6 +59,6 @@ class MapClassFilesDirectoryToPackageNameUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(Association(testClassesDirectory, PackageName("one")))
+      .isEqualTo(ClassFilesLocation(testClassesDirectory, PackageName("one")))
   }
 }

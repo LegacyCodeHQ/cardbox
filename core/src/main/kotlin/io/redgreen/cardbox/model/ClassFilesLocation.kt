@@ -8,7 +8,7 @@ import io.redgreen.cardbox.model.SourceSet.TEST
 import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
 import java.io.File
 
-data class Association(
+data class ClassFilesLocation(
   val classFilesDirectory: File,
   val packageNameResult: PackageNameResult
 ) {

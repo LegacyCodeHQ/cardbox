@@ -12,20 +12,20 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-class AssociationTest {
+class ClassFilesLocationTest {
   @Nested
   inner class JarToolPaths {
     @Test
     fun `test classes`() {
       // given
       val testClassesDirectory = File("./build/classes/kotlin/test/io/redgreen/cardbox")
-      val association = Association(
+      val location = ClassFilesLocation(
         testClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
       // when & then
-      assertThat(association.jarToolPath)
+      assertThat(location.jarToolPath)
         .isEqualTo(File("./build/classes/kotlin/test/io"))
     }
 
@@ -33,13 +33,13 @@ class AssociationTest {
     fun `production classes`() {
       // given
       val productionClassesDirectory = File("./build/classes/kotlin/main/io/redgreen/cardbox")
-      val association = Association(
+      val location = ClassFilesLocation(
         productionClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
       // when & then
-      assertThat(association.jarToolPath)
+      assertThat(location.jarToolPath)
         .isEqualTo(File("./build/classes/kotlin/main/io"))
     }
 
@@ -47,10 +47,10 @@ class AssociationTest {
     fun `default package`() {
       // given
       val classesDirectory = File("./build/classes/java/test")
-      val association = Association(classesDirectory, DefaultPackage)
+      val location = ClassFilesLocation(classesDirectory, DefaultPackage)
 
       // when & then
-      assertThat(association.jarToolPath)
+      assertThat(location.jarToolPath)
         .isEqualTo(File("./build/classes/java/test"))
     }
   }
@@ -61,26 +61,26 @@ class AssociationTest {
     fun test() {
       // given
       val testClassesDirectory = File("./build/classes/kotlin/test/io/redgreen/cardbox")
-      val association = Association(
+      val location = ClassFilesLocation(
         testClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
       // when & then
-      assertThat(association.sourceSet)
+      assertThat(location.sourceSet)
         .isEqualTo(TEST)
     }
 
     @Test
     fun production() {
       val productionClassesDirectory = File("./build/classes/kotlin/main/io/redgreen/cardbox")
-      val association = Association(
+      val location = ClassFilesLocation(
         productionClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
       // when & then
-      assertThat(association.sourceSet)
+      assertThat(location.sourceSet)
         .isEqualTo(PRODUCTION)
     }
 
@@ -88,10 +88,10 @@ class AssociationTest {
     fun `default package (test)`() {
       // given
       val classesDirectory = File("./build/classes/java/test")
-      val association = Association(classesDirectory, DefaultPackage)
+      val location = ClassFilesLocation(classesDirectory, DefaultPackage)
 
       // when & then
-      assertThat(association.sourceSet)
+      assertThat(location.sourceSet)
         .isEqualTo(TEST)
     }
 
@@ -99,10 +99,10 @@ class AssociationTest {
     fun `default package (production)`() {
       // given
       val classesDirectory = File("./build/classes/java/main")
-      val association = Association(classesDirectory, DefaultPackage)
+      val location = ClassFilesLocation(classesDirectory, DefaultPackage)
 
       // when & then
-      assertThat(association.sourceSet)
+      assertThat(location.sourceSet)
         .isEqualTo(PRODUCTION)
     }
 
@@ -117,10 +117,10 @@ class AssociationTest {
     fun `classes inside undetermined locations`(path: String) {
       // given
       val classesDirectory = File(path)
-      val association = Association(classesDirectory, PackageName("io.redgreen.cardbox"))
+      val location = ClassFilesLocation(classesDirectory, PackageName("io.redgreen.cardbox"))
 
       // when & then
-      assertThat(association.sourceSet)
+      assertThat(location.sourceSet)
         .isEqualTo(UNDETERMINED)
     }
   }

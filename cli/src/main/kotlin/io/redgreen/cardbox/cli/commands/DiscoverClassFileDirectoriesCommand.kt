@@ -1,8 +1,8 @@
 package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.FindDirectoriesContainingClassFilesUseCase
-import io.redgreen.cardbox.MapClassFilesDirectoryToPackageNameUseCase
-import io.redgreen.cardbox.model.Association
+import io.redgreen.cardbox.ClassFilesLocationUseCase
+import io.redgreen.cardbox.model.ClassFilesLocation
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
@@ -22,40 +22,40 @@ class DiscoverClassFileDirectoriesCommand : Runnable {
   lateinit var directory: File
 
   private val directoriesContainingClassFilesUseCase by lazy { FindDirectoriesContainingClassFilesUseCase() }
-  private val directoryToPackageNameUseCase by lazy { MapClassFilesDirectoryToPackageNameUseCase() }
+  private val classFilesLocationUseCase by lazy { ClassFilesLocationUseCase() }
 
   override fun run() {
     val classFileDirectoryPaths = directoriesContainingClassFilesUseCase.invoke(directory)
-    printSourcesSetsByAssociation(classFileDirectoryPaths)
+    printSourcesSetsByLocation(classFileDirectoryPaths)
   }
 
-  private fun printSourcesSetsByAssociation(classFileDirectoryPaths: Set<String>) {
-    val sourceSets = groupAssociationsBySourceSet(classFileDirectoryPaths)
+  private fun printSourcesSetsByLocation(classFileDirectoryPaths: Set<String>) {
+    val sourceSets = groupLocationsBySourceSet(classFileDirectoryPaths)
 
     sourceSets.keys.onEach { key ->
       printSummary(key, sourceSets[key]!!)
     }
   }
 
-  private fun groupAssociationsBySourceSet(
+  private fun groupLocationsBySourceSet(
     classFilesDirectoryPaths: Set<String>
-  ): Map<SourceSet, List<Association>> {
+  ): Map<SourceSet, List<ClassFilesLocation>> {
     return classFilesDirectoryPaths
-      .map { directoryToPackageNameUseCase.invoke(File(".$it")) }
+      .map { classFilesLocationUseCase.invoke(File(".$it")) }
       .groupBy { it.sourceSet }
   }
 
   private fun printSummary(
     sourceSet: SourceSet,
-    associations: List<Association>
+    classFilesLocations: List<ClassFilesLocation>
   ) {
     println(sourceSet)
     println("============")
-    val jarToolPathAssociations = associations.groupBy { it.jarToolPath }
-    jarToolPathAssociations.keys.onEach { jarToolPath ->
+    val jarToolPathLocations = classFilesLocations.groupBy { it.jarToolPath }
+    jarToolPathLocations.keys.onEach { jarToolPath ->
       println(jarToolPath)
-      jarToolPathAssociations[jarToolPath]!!
-        .map(Association::packageNameResult)
+      jarToolPathLocations[jarToolPath]!!
+        .map(ClassFilesLocation::packageNameResult)
         .onEach(this::printPackageName)
       println()
     }
