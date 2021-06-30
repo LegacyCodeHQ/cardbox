@@ -7,6 +7,8 @@ import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
+import io.redgreen.cardbox.model.PackagesInPath
+import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
@@ -27,40 +29,42 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   override fun run() {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
     val sourceSetsLocationsMap = groupLocationsBySourceSetsUseCase.invoke(classFilesDirectoryPaths)
-    val sourceSetsPackageNamesMap = associateSourceSetsWithLocationsPackageNames(sourceSetsLocationsMap)
+    val sourceSetsPackagesInPathMap = associateSourceSetsWithLocationsPackageNames(sourceSetsLocationsMap)
 
-    printSourcesSetsByLocation(sourceSetsPackageNamesMap)
+    printSourcesSetsByLocation(sourceSetsPackagesInPathMap)
   }
 
   private fun associateSourceSetsWithLocationsPackageNames(
     sourceSetsLocationsMap: Map<SourceSet, List<ClassFilesLocation>>
-  ): Map<SourceSet, Map<File, List<PackageNameResult>>> {
+  ): Map<SourceSet, List<PackagesInPath>> {
     return sourceSetsLocationsMap
       .map { (sourceSet, _) ->
-        sourceSet to sourceSetsLocationsMap[sourceSet]!!.groupBy { it.jarToolPath }
+        sourceSet to sourceSetsLocationsMap[sourceSet]!!.groupBy { RelativePath(it.jarToolPath.toString()) }
       }.associate { (sourceSet, jarToolPathClassFilesLocationsMap) ->
-        sourceSet to jarToolPathClassFilesLocationsMap.mapValues { it.value.map(ClassFilesLocation::packageNameResult) }
+        val packagesInPath = jarToolPathClassFilesLocationsMap.map { (path, classFilesLocations) ->
+          PackagesInPath(path, classFilesLocations.map(ClassFilesLocation::packageNameResult))
+        }
+        sourceSet to packagesInPath
       }
   }
 
   private fun printSourcesSetsByLocation(
-    sourceSetsPackageNamesMap: Map<SourceSet, Map<File, List<PackageNameResult>>>
+    sourceSetsPackagesInPathMap: Map<SourceSet, List<PackagesInPath>>
   ) {
-    sourceSetsPackageNamesMap
+    sourceSetsPackagesInPathMap
       .onEach { (sourceSet, jarToolPathPackageNamesMap) ->
         println(sourceSet)
         println("============")
-        jarToolPathPackageNamesMap.onEach { (jarToolPath, packageNameResults) ->
-          printPackageNameResults(jarToolPath, packageNameResults)
+        jarToolPathPackageNamesMap.onEach { (path, packageNameResults) ->
+          val packagesInPath = PackagesInPath(path, packageNameResults)
+          printPackagesInPath(packagesInPath)
         }
       }
   }
 
-  private fun printPackageNameResults(
-    jarToolPath: File,
-    packageNameResults: List<PackageNameResult>
-  ) {
-    println(jarToolPath)
+  private fun printPackagesInPath(packagesInPath: PackagesInPath) {
+    val (relativePath, packageNameResults) = packagesInPath
+    println(relativePath.segment)
     packageNameResults.onEach(::printPackageName)
     println()
   }
