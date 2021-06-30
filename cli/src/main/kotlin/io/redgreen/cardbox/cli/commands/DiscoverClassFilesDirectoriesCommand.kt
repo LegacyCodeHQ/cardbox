@@ -1,7 +1,7 @@
 package io.redgreen.cardbox.cli.commands
 
-import io.redgreen.cardbox.FindDirectoriesContainingClassFilesUseCase
 import io.redgreen.cardbox.ClassFilesLocationUseCase
+import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
 import io.redgreen.cardbox.model.ClassFilesLocation
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
@@ -17,16 +17,16 @@ import picocli.CommandLine.Parameters
   mixinStandardHelpOptions = true,
   description = ["finds directories containing java .class files"]
 )
-class DiscoverClassFileDirectoriesCommand : Runnable {
+class DiscoverClassFilesDirectoriesCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 
-  private val directoriesContainingClassFilesUseCase by lazy { FindDirectoriesContainingClassFilesUseCase() }
+  private val discoverClassFilesDirectoryPathsUseCase by lazy { DiscoverClassFilesDirectoryPathsUseCase() }
   private val classFilesLocationUseCase by lazy { ClassFilesLocationUseCase() }
 
   override fun run() {
-    val classFileDirectoryPaths = directoriesContainingClassFilesUseCase.invoke(directory)
-    printSourcesSetsByLocation(classFileDirectoryPaths)
+    val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
+    printSourcesSetsByLocation(classFilesDirectoryPaths)
   }
 
   private fun printSourcesSetsByLocation(classFileDirectoryPaths: Set<String>) {
