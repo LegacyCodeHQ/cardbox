@@ -46,10 +46,10 @@ class DiscoverClassFileDirectoriesCommand : Runnable {
   }
 
   private fun printSummary(
-    key: SourceSet,
+    sourceSet: SourceSet,
     associations: List<Association>
   ) {
-    println(key)
+    println(sourceSet)
     println("============")
     val jarToolPathAssociations = associations.groupBy { it.jarToolPath }
     jarToolPathAssociations.keys.onEach { jarToolPath ->
