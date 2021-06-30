@@ -1,5 +1,6 @@
 package io.redgreen.cardbox.model
 
+import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import java.io.File
 
 data class PackagesInPath(
@@ -13,8 +14,16 @@ data class PackagesInPath(
 
   val artifactName: String
     get() {
+      val pathContainsDefaultPackage = packageNameResults.first() is DefaultPackage
+
       val identifiers = path.segment.split(SEPARATOR)
-      return (listOf(identifiers[1]) + identifiers.takeLast(2))
+      val finalIdentifiers = if (pathContainsDefaultPackage) {
+        identifiers.takeLast(2)
+      } else {
+        identifiers.takeLast(3).dropLast(1)
+      }
+
+      return (listOf(identifiers[1]) + finalIdentifiers)
         .joinToString("-", postfix = EXTENSION_JAR)
     }
 }
