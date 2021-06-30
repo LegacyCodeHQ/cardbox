@@ -23,7 +23,7 @@ class GetClassesRootDirectoryUseCase {
 
   data class Association(
     val classFilesDirectory: File,
-    val result: Result
+    val packageNameResult: Result
   ) {
     enum class SourceSet {
       TEST,
@@ -42,15 +42,15 @@ class GetClassesRootDirectoryUseCase {
     }
 
     val jarToolPath: File by lazy {
-      when (result) {
-        is PackageName -> findJarToolPath(result)
+      when (packageNameResult) {
+        is PackageName -> findJarToolPath(packageNameResult)
         DefaultPackage -> classFilesDirectory
         NotClassFile -> error("This cannot happen!")
       }
     }
 
     private fun packageNameMatchesDirectoryPath(path: String): Boolean =
-      result is PackageName && path.contains(result.toPathSegment()) || result is DefaultPackage
+      packageNameResult is PackageName && path.contains(packageNameResult.toPathSegment()) || packageNameResult is DefaultPackage
 
     private fun findJarToolPath(packageName: PackageName): File {
       val packageNamePathSegment = packageName.toPathSegment()

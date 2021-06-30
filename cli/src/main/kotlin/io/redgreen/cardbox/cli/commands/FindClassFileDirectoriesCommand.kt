@@ -33,14 +33,13 @@ class FindClassFileDirectoriesCommand : Runnable {
     val sourceSets = getSourceSets(classFileDirectoryPaths)
 
     sourceSets.keys.onEach { key ->
-      val associations = sourceSets[key]
-      if (associations != null) {
-        printSummary(key, associations)
-      }
+      printSummary(key, sourceSets[key]!!)
     }
   }
 
-  private fun getSourceSets(classFileDirectoryPaths: Set<String>): Map<SourceSet, List<Association>> {
+  private fun getSourceSets(
+    classFileDirectoryPaths: Set<String>
+  ): Map<SourceSet, List<Association>> {
     return classFileDirectoryPaths
       .map { getClassesRootDirectoryUseCase.invoke(File(".$it")) }
       .groupBy { it.sourceSet }
@@ -56,7 +55,7 @@ class FindClassFileDirectoriesCommand : Runnable {
     jarToolPathAssociations.keys.onEach { jarToolPath ->
       println(jarToolPath)
       jarToolPathAssociations[jarToolPath]!!
-        .map(Association::result)
+        .map(Association::packageNameResult)
         .onEach(this::printPackageName)
       println()
     }
