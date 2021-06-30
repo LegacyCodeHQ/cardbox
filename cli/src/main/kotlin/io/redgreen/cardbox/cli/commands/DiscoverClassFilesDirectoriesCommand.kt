@@ -7,6 +7,7 @@ import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
+import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
@@ -29,7 +30,7 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
     printSourcesSetsByLocation(classFilesDirectoryPaths)
   }
 
-  private fun printSourcesSetsByLocation(classFileDirectoryPaths: Set<String>) {
+  private fun printSourcesSetsByLocation(classFileDirectoryPaths: Set<RelativePath>) {
     val sourceSets = groupLocationsBySourceSet(classFileDirectoryPaths)
 
     sourceSets.keys.onEach { key ->
@@ -38,10 +39,10 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   }
 
   private fun groupLocationsBySourceSet(
-    classFilesDirectoryPaths: Set<String>
+    classFilesDirectoryPaths: Set<RelativePath>
   ): Map<SourceSet, List<ClassFilesLocation>> {
     return classFilesDirectoryPaths
-      .map { classFilesLocationUseCase.invoke(File(".$it")) }
+      .map { classFilesLocationUseCase.invoke(File(".${it.segment}")) }
       .groupBy { it.sourceSet }
   }
 

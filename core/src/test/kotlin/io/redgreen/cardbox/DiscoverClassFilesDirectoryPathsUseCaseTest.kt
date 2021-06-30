@@ -1,6 +1,7 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
+import io.redgreen.cardbox.model.RelativePath
 import java.io.File
 import org.junit.jupiter.api.Test
 
@@ -16,9 +17,9 @@ class DiscoverClassFilesDirectoryPathsUseCaseTest {
     // then
     assertThat(classFileDirectoryPaths)
       .containsAtLeast(
-        "/build/classes/kotlin/main/io/redgreen/cardbox",
-        "/build/classes/kotlin/test/io/redgreen/cardbox",
-        "/build/classes/java/test",
+        RelativePath("/build/classes/kotlin/main/io/redgreen/cardbox"),
+        RelativePath("/build/classes/kotlin/test/io/redgreen/cardbox"),
+        RelativePath("/build/classes/java/test"),
       )
   }
 }

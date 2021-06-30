@@ -23,7 +23,7 @@ allprojects {
 
     kotlinOptions {
       jvmTarget = "1.8"
-      apiVersion = "1.4"
+      apiVersion = "1.5"
 
       freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
     }
