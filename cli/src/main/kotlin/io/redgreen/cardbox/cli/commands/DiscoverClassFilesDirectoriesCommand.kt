@@ -4,9 +4,6 @@ import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
 import io.redgreen.cardbox.GroupClassFilesLocationsUseCase
 import io.redgreen.cardbox.GroupPackagesInPathsUseCase
 import io.redgreen.cardbox.model.PackageNameResult
-import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
-import io.redgreen.cardbox.model.PackageNameResult.NotClassFile
-import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import io.redgreen.cardbox.model.PackagesInPath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
@@ -47,15 +44,7 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   private fun printPackagesInPath(packagesInPath: PackagesInPath) {
     val (relativePath, packageNameResults) = packagesInPath
     println(relativePath.segment)
-    packageNameResults.onEach(::printPackageName)
+    packageNameResults.map(PackageNameResult::displayText).onEach(::println)
     println()
-  }
-
-  private fun printPackageName(result: PackageNameResult) {
-    when (result) {
-      is PackageName -> println(result.value)
-      DefaultPackage -> println("(default package)")
-      NotClassFile -> println("Uh oh!")
-    }
   }
 }

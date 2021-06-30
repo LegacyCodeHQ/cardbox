@@ -3,6 +3,13 @@ package io.redgreen.cardbox.model
 import java.io.File
 
 sealed class PackageNameResult {
+  val displayText: String
+    get() = when (this) {
+      is PackageName -> value
+      DefaultPackage -> "(default package)"
+      NotClassFile -> "Uh oh! Not a class file."
+    }
+
   data class PackageName(val value: String) : PackageNameResult() {
     companion object {
       private const val DOT = '.'
