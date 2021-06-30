@@ -55,8 +55,13 @@ class GetClassesRootDirectoryUseCase {
     private fun findJarToolPath(packageName: PackageName): File {
       val packageNamePathSegment = packageName.toPathSegment()
       val classFilesDirectoryPath = classFilesDirectory.toString()
-      val packageRootDirectoryPath = classFilesDirectoryPath
-        .substring(0, classFilesDirectoryPath.indexOf(packageNamePathSegment))
+      val packageNamePathSegmentIndex = classFilesDirectoryPath.indexOf(packageNamePathSegment)
+      val classFilePathDoesNotMatchPackageName = packageNamePathSegmentIndex == -1
+      if (classFilePathDoesNotMatchPackageName) {
+        return File(classFilesDirectoryPath)
+      }
+
+      val packageRootDirectoryPath = classFilesDirectoryPath.substring(0, packageNamePathSegmentIndex)
       val indexOfSeparator = packageNamePathSegment.indexOf(SEPARATOR)
 
       val singleIdentifierPackageName = indexOfSeparator == -1
