@@ -1,6 +1,6 @@
 package io.redgreen.cardbox.cli.commands
 
-import io.redgreen.cardbox.FindClassFileDirectoriesUseCase
+import io.redgreen.cardbox.FindDirectoriesContainingClassFilesUseCase
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association
 import io.redgreen.cardbox.GetClassesRootDirectoryUseCase.Association.SourceSet
@@ -21,11 +21,11 @@ class FindClassFileDirectoriesCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 
-  private val findClassFileDirectoriesUseCase by lazy { FindClassFileDirectoriesUseCase() }
+  private val findDirectoriesContainingClassFilesUseCase by lazy { FindDirectoriesContainingClassFilesUseCase() }
   private val getClassesRootDirectoryUseCase by lazy { GetClassesRootDirectoryUseCase() }
 
   override fun run() {
-    val classFileDirectoryPaths = findClassFileDirectoriesUseCase.invoke(directory)
+    val classFileDirectoryPaths = findDirectoriesContainingClassFilesUseCase.invoke(directory)
     printSourcesSetsByAssociation(classFileDirectoryPaths)
   }
 

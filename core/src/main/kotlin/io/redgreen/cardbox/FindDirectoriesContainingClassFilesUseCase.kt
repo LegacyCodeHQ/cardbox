@@ -4,7 +4,11 @@ import java.io.File
 import java.nio.file.Files
 import kotlin.streams.toList
 
-class FindClassFileDirectoriesUseCase {
+class FindDirectoriesContainingClassFilesUseCase {
+  companion object {
+    private const val EXTENSION_CLASS = ".class"
+  }
+
   fun invoke(directory: File): Set<String> {
     val normalizedWorkingDirectoryPath = directory.toPath().toAbsolutePath().normalize()
 
@@ -17,9 +21,5 @@ class FindClassFileDirectoriesUseCase {
       .distinct()
       .toList()
       .toSet()
-  }
-
-  companion object {
-    private const val EXTENSION_CLASS = ".class"
   }
 }

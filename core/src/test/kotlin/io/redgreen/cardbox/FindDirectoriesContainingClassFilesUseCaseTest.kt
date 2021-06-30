@@ -4,11 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import java.io.File
 import org.junit.jupiter.api.Test
 
-class FindClassFileDirectoriesUseCaseTest {
+class FindDirectoriesContainingClassFilesUseCaseTest {
   @Test
   fun `it should return class file directories from the current project`() {
     // given
-    val useCase = FindClassFileDirectoriesUseCase()
+    val useCase = FindDirectoriesContainingClassFilesUseCase()
 
     // when
     val classFileDirectoryPaths = useCase.invoke(File("."))
