@@ -5,7 +5,7 @@ import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
 
-class GroupLocationsBySourceSetsUseCase {
+class GroupClassFilesLocationsUseCase {
   private val classFilesLocationUseCase by lazy { ClassFilesLocationUseCase() }
 
   fun invoke(classFilesDirectoryPaths: Set<RelativePath>): Map<SourceSet, List<ClassFilesLocation>> {
