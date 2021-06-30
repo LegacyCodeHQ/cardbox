@@ -37,15 +37,11 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   private fun printSourcesSetsByLocation(
     sourceSetsPackagesInPathMap: Map<SourceSet, List<PackagesInPath>>
   ) {
-    sourceSetsPackagesInPathMap
-      .onEach { (sourceSet, jarToolPathPackageNamesMap) ->
-        println(sourceSet)
-        println("============")
-        jarToolPathPackageNamesMap.onEach { (path, packageNameResults) ->
-          val packagesInPath = PackagesInPath(path, packageNameResults)
-          printPackagesInPath(packagesInPath)
-        }
-      }
+    sourceSetsPackagesInPathMap.onEach { (sourceSet, packagesInPaths) ->
+      println(sourceSet)
+      println("============")
+      packagesInPaths.onEach(this::printPackagesInPath)
+    }
   }
 
   private fun printPackagesInPath(packagesInPath: PackagesInPath) {
