@@ -28,10 +28,8 @@ class JarToolShellCommand(
 
   override fun toString(): String {
     val classFilesRootDirectory = getClassesRootDirectory(packagesInPaths)
-    val packageRootDirectories = getClassPackageRootDirectories()
-    val defaultClasses = getClassesInDefaultPackages(packagesInPaths)
 
-    return "$PROGRAM -c --file ${artifactName.value} -C $classFilesRootDirectory$defaultClasses $packageRootDirectories"
+    return "$PROGRAM -c --file ${artifactName.value} -C $classFilesRootDirectory ."
       .trim()
   }
 

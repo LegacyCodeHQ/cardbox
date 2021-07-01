@@ -29,7 +29,7 @@ internal class JarToolShellCommandTest {
 
       // then
       assertThat(shellCommand.toString())
-        .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ io/")
+        .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ .")
     }
 
     @Test
@@ -52,7 +52,7 @@ internal class JarToolShellCommandTest {
 
       // then
       assertThat(shellCommand.toString())
-        .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ io/ org/")
+        .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ .")
     }
 
     @Test
@@ -83,8 +83,7 @@ internal class JarToolShellCommandTest {
       val shellCommand = JarToolShellCommand.from(ArtifactName("build-kotlin-test.jar"), packagesInPath)
 
       // then
-      val expectedCommand = "jar -c --file build-kotlin-test.jar " +
-        "-C ./build/classes/kotlin/test/ OrientDbCanaryTest.class OrientDbCanaryTest${'$'}Companion.class CoreCanaryTest.class io/ one/"
+      val expectedCommand = "jar -c --file build-kotlin-test.jar -C ./build/classes/kotlin/test/ ."
       assertThat(shellCommand.toString())
         .isEqualTo(expectedCommand)
     }
@@ -118,7 +117,7 @@ internal class JarToolShellCommandTest {
     fun arguments() {
       assertThat(shellCommand.arguments)
         .containsExactly(
-          "-c", "--file", "core-kotlin-main.jar", "-C", "./core/build/classes/kotlin/main/", "io/", "org/"
+          "-c", "--file", "core-kotlin-main.jar", "-C", "./core/build/classes/kotlin/main/", "."
         )
         .inOrder()
     }
