@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="cardbox (run)" type="JetRunConfigurationType">
+  <configuration default="false" name="cardbox (discover)" type="JetRunConfigurationType">
     <option name="MAIN_CLASS_NAME" value="io.redgreen.cardbox.cli.CliKt" />
     <module name="cardbox.cli.main" />
     <option name="PROGRAM_PARAMETERS" value="discover ." />
