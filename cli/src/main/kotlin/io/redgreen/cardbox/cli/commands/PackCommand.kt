@@ -33,7 +33,8 @@ class PackCommand : Runnable {
         println(jarShellCommand)
 
         val processBuilder = ProcessBuilder(jarShellCommand.program, *jarShellCommand.arguments.toTypedArray())
-        processBuilder.start()
+        val process = processBuilder.start()
+        println(process.errorStream.bufferedReader().readText())
       }
       println()
     }
