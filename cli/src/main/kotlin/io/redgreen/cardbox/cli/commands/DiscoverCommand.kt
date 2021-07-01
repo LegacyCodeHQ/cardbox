@@ -13,9 +13,9 @@ import picocli.CommandLine.Parameters
 @Command(
   name = "discover",
   mixinStandardHelpOptions = true,
-  description = ["finds directories containing java .class files"]
+  description = ["scans directories and lists potential artifacts for discovered .class files"]
 )
-class DiscoverPotentialArtifactsCommand : Runnable {
+class DiscoverCommand : Runnable {
   companion object {
     private const val EMOJI_PACKAGE = "\uD83D\uDCE6"
     private const val COLUMN_WIDTH = 120
