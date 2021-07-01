@@ -10,6 +10,7 @@ internal class JarToolShellCommandTest {
   inner class ToString {
     @Test
     fun `command for multiple packages (homogeneous)`() {
+      // given
       val packagesInPath = listOf(
         PackagesInPath(
           RelativePath("./core/build/classes/kotlin/main/io"),
@@ -32,6 +33,7 @@ internal class JarToolShellCommandTest {
 
     @Test
     fun `command for multiple packages (heterogeneous)`() {
+      // given
       val packagesInPath = listOf(
         PackagesInPath(
           RelativePath("./core/build/classes/kotlin/main/io"),
@@ -50,6 +52,40 @@ internal class JarToolShellCommandTest {
       // then
       assertThat(shellCommand.toString())
         .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ io/ org/")
+    }
+  }
+
+  @Nested
+  inner class ProcessBuilder {
+    // given
+    private val packagesInPath = listOf(
+      PackagesInPath(
+        RelativePath("./core/build/classes/kotlin/main/io"),
+        listOf(PackageName("io.redgreen.cardbox"))
+      ),
+
+      PackagesInPath(
+        RelativePath("./core/build/classes/kotlin/main/org"),
+        listOf(PackageName("org.asm.java.bytecode"))
+      ),
+    )
+
+    private val shellCommand = JarToolShellCommand
+      .from(ArtifactName("core-kotlin-main.jar"), packagesInPath)
+
+    @Test
+    fun program() {
+      assertThat(shellCommand.program)
+        .isEqualTo("jar")
+    }
+
+    @Test
+    fun arguments() {
+      assertThat(shellCommand.arguments)
+        .containsExactly(
+          "-c", "--file", "core-kotlin-main.jar", "-C", "./core/build/classes/kotlin/main/", "io/", "org/"
+        )
+        .inOrder()
     }
   }
 }

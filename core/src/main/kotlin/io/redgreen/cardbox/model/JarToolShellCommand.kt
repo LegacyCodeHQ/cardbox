@@ -9,6 +9,8 @@ class JarToolShellCommand(
 ) {
   companion object {
     private const val DOT = '.'
+    private const val PROGRAM = "jar"
+    private const val SPACE = " "
 
     fun from(
       artifactName: ArtifactName,
@@ -17,6 +19,9 @@ class JarToolShellCommand(
       return JarToolShellCommand(artifactName, packagesInPath)
     }
   }
+
+  val program: String by lazy { toString().split(SPACE).first() }
+  val arguments: List<String> by lazy { toString().split(SPACE).drop(1) }
 
   override fun toString(): String {
     val classFilesRootDirectory = getClassesRootDirectory(packagesInPath)
@@ -30,7 +35,7 @@ class JarToolShellCommand(
       .distinct()
       .joinToString(" ")
 
-    return "jar -c --file ${artifactName.value} -C $classFilesRootDirectory $packageRootDirectories"
+    return "$PROGRAM -c --file ${artifactName.value} -C $classFilesRootDirectory $packageRootDirectories"
   }
 
   private fun getClassesRootDirectory(packagesInPath: List<PackagesInPath>): String {
