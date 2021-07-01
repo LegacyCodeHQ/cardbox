@@ -2,6 +2,7 @@ package io.redgreen.cardbox.cli.commands
 
 import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
 import io.redgreen.cardbox.GroupClassFilesLocationsUseCase
+import io.redgreen.cardbox.GroupPackagesByArtifactsUseCase
 import io.redgreen.cardbox.GroupPackagesInPathsUseCase
 import io.redgreen.cardbox.model.ArtifactName
 import io.redgreen.cardbox.model.PackageNameResult
@@ -29,21 +30,15 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   private val discoverClassFilesDirectoryPathsUseCase = DiscoverClassFilesDirectoryPathsUseCase()
   private val groupClassFilesLocationsUseCase = GroupClassFilesLocationsUseCase()
   private val groupPackagesInPathsUseCase = GroupPackagesInPathsUseCase()
+  private val groupPackagesByArtifactsUseCase = GroupPackagesByArtifactsUseCase()
 
   override fun run() {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
     val sourceSetsLocationsMap = groupClassFilesLocationsUseCase.invoke(classFilesDirectoryPaths)
     val sourceSetsPackagesInPathMap = groupPackagesInPathsUseCase.invoke(sourceSetsLocationsMap)
-    val sourceSetsArtifacts = groupPackagesByArtifacts(sourceSetsPackagesInPathMap)
+    val sourceSetsArtifacts = groupPackagesByArtifactsUseCase.invoke(sourceSetsPackagesInPathMap)
 
     printSourceSetsArtifactInformation(sourceSetsArtifacts)
-  }
-
-  private fun groupPackagesByArtifacts(
-    sourceSetsPackagesInPathMap: Map<SourceSet, List<PackagesInPath>>
-  ): Map<SourceSet, Map<ArtifactName, List<PackagesInPath>>> {
-    return sourceSetsPackagesInPathMap
-      .mapValues { (_, packagesInPath) -> packagesInPath.groupBy { it.artifactName } }
   }
 
   private fun printSourceSetsArtifactInformation(
@@ -53,17 +48,34 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
       println(sourceSet)
       println("============")
 
-      artifactNamePackagesInPath
-        .onEach { (artifactName, packagesInPath) ->
-          println("[$EMOJI_PACKAGE ${artifactName.value}]")
-          packagesInPath.onEach { (path, packageNameResults) ->
-            packageNameResults.onEachIndexed { index, packageNameResult ->
-              val showPath = index == 0
-              printPackageNameAndPathSegment(packageNameResult, path, showPath)
-            }
-          }
-          println()
-        }
+      artifactNamePackagesInPath.onEach { (artifactName, packagesInPath) ->
+        printArtifactContents(artifactName, packagesInPath)
+      }
+    }
+  }
+
+  private fun printArtifactContents(
+    artifactName: ArtifactName,
+    packagesInPath: List<PackagesInPath>
+  ) {
+    printArtifactHeader(artifactName)
+    packagesInPath.onEach { (path, packageNameResults) ->
+      printPackageNamesList(path, packageNameResults)
+    }
+    println()
+  }
+
+  private fun printArtifactHeader(artifactName: ArtifactName) {
+    println("[$EMOJI_PACKAGE ${artifactName.value}]")
+  }
+
+  private fun printPackageNamesList(
+    path: RelativePath,
+    packageNameResults: List<PackageNameResult>
+  ) {
+    packageNameResults.onEachIndexed { index, packageNameResult ->
+      val showPath = index == 0
+      printPackageNameAndPathSegment(packageNameResult, path, showPath)
     }
   }
 
