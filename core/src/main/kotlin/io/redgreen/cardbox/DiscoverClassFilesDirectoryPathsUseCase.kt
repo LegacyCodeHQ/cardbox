@@ -8,7 +8,7 @@ import kotlin.streams.toList
 /**
  * Scans a directory recursively and returns all paths containing compiled .class files relative to the given directory.
  */
-class DiscoverClassFilesDirectoryPathsUseCase {
+internal class DiscoverClassFilesDirectoryPathsUseCase {
   companion object {
     private const val EXTENSION_CLASS = "class"
   }

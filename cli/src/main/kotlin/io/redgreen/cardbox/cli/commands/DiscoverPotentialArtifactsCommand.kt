@@ -1,9 +1,6 @@
 package io.redgreen.cardbox.cli.commands
 
-import io.redgreen.cardbox.DiscoverClassFilesDirectoryPathsUseCase
-import io.redgreen.cardbox.GroupClassFilesLocationsUseCase
-import io.redgreen.cardbox.GroupPackagesByArtifactsUseCase
-import io.redgreen.cardbox.GroupPackagesInPathsUseCase
+import io.redgreen.cardbox.DiscoverPotentialArtifactsUseCase
 import io.redgreen.cardbox.model.ArtifactName
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackagesInPath
@@ -18,7 +15,7 @@ import picocli.CommandLine.Parameters
   mixinStandardHelpOptions = true,
   description = ["finds directories containing java .class files"]
 )
-class DiscoverClassFilesDirectoriesCommand : Runnable {
+class DiscoverPotentialArtifactsCommand : Runnable {
   companion object {
     private const val EMOJI_PACKAGE = "\uD83D\uDCE6"
     private const val COLUMN_WIDTH = 120
@@ -27,17 +24,8 @@ class DiscoverClassFilesDirectoriesCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var directory: File
 
-  private val discoverClassFilesDirectoryPathsUseCase = DiscoverClassFilesDirectoryPathsUseCase()
-  private val groupClassFilesLocationsUseCase = GroupClassFilesLocationsUseCase()
-  private val groupPackagesInPathsUseCase = GroupPackagesInPathsUseCase()
-  private val groupPackagesByArtifactsUseCase = GroupPackagesByArtifactsUseCase()
-
   override fun run() {
-    val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
-    val sourceSetsLocationsMap = groupClassFilesLocationsUseCase.invoke(classFilesDirectoryPaths)
-    val sourceSetsPackagesInPathMap = groupPackagesInPathsUseCase.invoke(sourceSetsLocationsMap)
-    val sourceSetsArtifacts = groupPackagesByArtifactsUseCase.invoke(sourceSetsPackagesInPathMap)
-
+    val sourceSetsArtifacts = DiscoverPotentialArtifactsUseCase().invoke(directory)
     printSourceSetsArtifactInformation(sourceSetsArtifacts)
   }
 
