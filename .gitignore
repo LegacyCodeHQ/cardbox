@@ -20,3 +20,6 @@ proguard-lab/
 
 # Approvals
 *.received.*
+
+# Jar files
+*.jar

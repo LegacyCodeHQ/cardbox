@@ -28,6 +28,7 @@ class JarToolShellCommand(
     val packageRootDirectories = packagesInPath
       .flatMap { it.packageNameResults }
       .asSequence()
+      .filter { it is PackageName }
       .map { it as PackageName }
       .map { it.value }
       .map { it.split(DOT).take(1).first() }
