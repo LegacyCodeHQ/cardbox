@@ -1,6 +1,7 @@
 package io.redgreen.cardbox.model
 
 import com.google.common.truth.Truth.assertThat
+import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -52,6 +53,40 @@ internal class JarToolShellCommandTest {
       // then
       assertThat(shellCommand.toString())
         .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ io/ org/")
+    }
+
+    @Test
+    fun `command for multiple packages (heterogeneous, default package)`() {
+      // given
+      val packagesInPath = listOf(
+        PackagesInPath(
+          RelativePath("./build/classes/kotlin/test"),
+          listOf(DefaultPackage),
+        ),
+
+        PackagesInPath(
+          RelativePath("./build/classes/kotlin/test/io"),
+          listOf(
+            PackageName("io.redgreen.testassist"),
+            PackageName("io.redgreen.cardbox"),
+            PackageName("io.redgreen.cardbox.model")
+          )
+        ),
+
+        PackagesInPath(
+          RelativePath("./build/classes/kotlin/test/one"),
+          listOf(PackageName("one"))
+        ),
+      )
+
+      // when
+      val shellCommand = JarToolShellCommand.from(ArtifactName("build-kotlin-test.jar"), packagesInPath)
+
+      // then
+      val expectedCommand = "jar -c --file build-kotlin-test.jar " +
+        "-C ./build/classes/kotlin/test/ OrientDbCanaryTest.class OrientDbCanaryTest${'$'}Companion.class CoreCanaryTest.class io/ one/"
+      assertThat(shellCommand.toString())
+        .isEqualTo(expectedCommand)
     }
   }
 
