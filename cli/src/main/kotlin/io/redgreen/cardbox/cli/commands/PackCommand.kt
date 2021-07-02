@@ -20,11 +20,20 @@ import picocli.CommandLine.Parameters
 )
 class PackCommand : Runnable {
   companion object {
+    private const val SOURCE_SET_UNDERLINE = "=========="
+
     private const val USER_HOME_KEY = "user.home"
     private const val ARTIFACT_DIRECTORY_NAME = "cardbox"
 
     private const val GIT_DIRECTORY = ".git"
     private const val EMOJI_PACKAGE = "\uD83D\uDCE6"
+
+    private const val EMPTY_STRING = ""
+    private const val REPO_SHA_LENGTH = 10
+    private const val REPO_DIRTY_SUFFIX = "-dirty"
+    private const val REPO_UNKNOWN_REVISION_SUFFIX = "-unknown"
+
+    private const val DEBUG_PRINT_JAR_COMMAND = false
   }
 
   @Parameters(index = "0", description = ["directory"])
@@ -32,7 +41,7 @@ class PackCommand : Runnable {
 
   private val outputDirectory: File by lazy {
     val projectName = projectDirectory.canonicalFile.name
-    val gitRevisionShaSuffix = gitRevisionShaSuffix ?: "-unknown"
+    val gitRevisionShaSuffix = gitRevisionShaSuffix ?: REPO_UNKNOWN_REVISION_SUFFIX
     File(System.getProperty(USER_HOME_KEY)).resolve(ARTIFACT_DIRECTORY_NAME).resolve(projectName + gitRevisionShaSuffix)
   }
 
@@ -44,8 +53,8 @@ class PackCommand : Runnable {
 
     if (objectId != null) {
       val status = Git(repository).status().call()
-      val suffix = if (status.isClean) "" else "-dirty"
-      "-${objectId.abbreviate(8).name()}$suffix"
+      val suffix = if (status.isClean) EMPTY_STRING else REPO_DIRTY_SUFFIX
+      "-${objectId.abbreviate(REPO_SHA_LENGTH).name()}$suffix"
     } else {
       null
     }
@@ -72,7 +81,7 @@ class PackCommand : Runnable {
   ) {
     sourceSetsArtifacts.onEach { (sourceSet, artifactNamesPackagesInPathMap) ->
       println(sourceSet)
-      println("==========")
+      println(SOURCE_SET_UNDERLINE)
       artifactNamesPackagesInPathMap.onEach { (artifactName, packagesInPath) ->
         println("$EMOJI_PACKAGE ${artifactName.value}")
         executeJarCommand(artifactName, packagesInPath)
@@ -85,7 +94,9 @@ class PackCommand : Runnable {
     packagesInPath: List<PackagesInPath>
   ) {
     val jarShellCommand = JarToolShellCommand.from(artifactName, packagesInPath, outputDirectory)
-    println(jarShellCommand.text())
+    if (DEBUG_PRINT_JAR_COMMAND) {
+      println(jarShellCommand.text())
+    }
 
     val processBuilder = ProcessBuilder(jarShellCommand.program, *jarShellCommand.arguments.toTypedArray())
     val process = processBuilder.start()
