@@ -23,16 +23,16 @@ class PackCommand : Runnable {
   }
 
   @Parameters(index = "0", description = ["directory"])
-  lateinit var directory: File
+  lateinit var projectDirectory: File
 
   private val outputDirectory: File by lazy {
-    val projectName = directory.canonicalFile.name
+    val projectName = projectDirectory.canonicalFile.name
     File(System.getProperty(USER_HOME_KEY)).resolve(ARTIFACT_DIRECTORY_NAME).resolve(projectName)
   }
 
   override fun run() {
     val sourceSetsArtifacts = DiscoverPotentialArtifactsUseCase()
-      .invoke(directory)
+      .invoke(projectDirectory)
       .toMutableMap()
     sourceSetsArtifacts.remove(UNDETERMINED)
 
