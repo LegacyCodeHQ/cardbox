@@ -12,6 +12,9 @@ dependencies {
   // Picocli
   implementation("info.picocli:picocli:4.6.1")
 
+  // JGit
+  implementation("org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r")
+
   // JUnit 5
   testImplementation(kotlin("test-junit5"))
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")

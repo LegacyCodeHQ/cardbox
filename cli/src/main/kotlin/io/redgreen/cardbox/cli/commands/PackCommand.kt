@@ -7,6 +7,9 @@ import io.redgreen.cardbox.model.PackagesInPath
 import io.redgreen.cardbox.model.SourceSet
 import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
 import java.io.File
+import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.lib.Constants
+import org.eclipse.jgit.lib.RepositoryBuilder
 import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
 
@@ -19,6 +22,8 @@ class PackCommand : Runnable {
   companion object {
     private const val USER_HOME_KEY = "user.home"
     private const val ARTIFACT_DIRECTORY_NAME = "cardbox"
+
+    private const val GIT_DIRECTORY = ".git"
     private const val EMOJI_PACKAGE = "\uD83D\uDCE6"
   }
 
@@ -27,7 +32,23 @@ class PackCommand : Runnable {
 
   private val outputDirectory: File by lazy {
     val projectName = projectDirectory.canonicalFile.name
-    File(System.getProperty(USER_HOME_KEY)).resolve(ARTIFACT_DIRECTORY_NAME).resolve(projectName)
+    val gitRevisionShaSuffix = gitRevisionShaSuffix ?: "-unknown"
+    File(System.getProperty(USER_HOME_KEY)).resolve(ARTIFACT_DIRECTORY_NAME).resolve(projectName + gitRevisionShaSuffix)
+  }
+
+  private val gitRevisionShaSuffix: String? by lazy {
+    val repository = RepositoryBuilder()
+      .setGitDir(projectDirectory.resolve(GIT_DIRECTORY))
+      .build()
+    val objectId = repository.resolve(Constants.HEAD)
+
+    if (objectId != null) {
+      val status = Git(repository).status().call()
+      val suffix = if (status.isClean) "" else "-dirty"
+      "-${objectId.abbreviate(8).name()}$suffix"
+    } else {
+      null
+    }
   }
 
   override fun run() {
@@ -36,17 +57,18 @@ class PackCommand : Runnable {
       .toMutableMap()
     sourceSetsArtifacts.remove(UNDETERMINED)
 
-    if (sourceSetsArtifacts.values.isNotEmpty()) {
-      if (!outputDirectory.exists()) {
-        outputDirectory.mkdirs()
-      }
+    if (sourceSetsArtifacts.values.isEmpty()) {
+      return
     }
 
+    if (!outputDirectory.exists()) {
+      outputDirectory.mkdirs()
+    }
     createArtifacts(sourceSetsArtifacts)
   }
 
   private fun createArtifacts(
-    sourceSetsArtifacts: MutableMap<SourceSet, Map<ArtifactName, List<PackagesInPath>>>
+    sourceSetsArtifacts: MutableMap<SourceSet, Map<ArtifactName, List<PackagesInPath>>>,
   ) {
     sourceSetsArtifacts.onEach { (sourceSet, artifactNamesPackagesInPathMap) ->
       println(sourceSet)
