@@ -5,7 +5,8 @@ import java.io.File
 
 class JarToolShellCommand(
   private val artifactName: ArtifactName,
-  private val packagesInPaths: List<PackagesInPath>
+  private val packagesInPaths: List<PackagesInPath>,
+  private val artifactDestination: File? = null,
 ) {
   companion object {
     private const val PROGRAM = "jar"
@@ -13,9 +14,10 @@ class JarToolShellCommand(
 
     fun from(
       artifactName: ArtifactName,
-      packagesInPath: List<PackagesInPath>
+      packagesInPath: List<PackagesInPath>,
+      artifactsDestination: File? = null
     ): JarToolShellCommand {
-      return JarToolShellCommand(artifactName, packagesInPath)
+      return JarToolShellCommand(artifactName, packagesInPath, artifactsDestination)
     }
   }
 
@@ -24,7 +26,14 @@ class JarToolShellCommand(
 
   fun text(): String {
     val classFilesRootDirectory = getClassesRootDirectory(packagesInPaths)
-    return "$PROGRAM -c --file ${artifactName.value} -C $classFilesRootDirectory ."
+
+    val artifactFilePath = if (artifactDestination != null) {
+      "${artifactDestination.canonicalPath}${File.separatorChar}${artifactName.value}"
+    } else {
+      artifactName.value
+    }
+
+    return "$PROGRAM -c --file $artifactFilePath -C $classFilesRootDirectory ."
       .trim()
   }
 

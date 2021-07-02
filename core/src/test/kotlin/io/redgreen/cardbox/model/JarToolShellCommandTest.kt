@@ -3,6 +3,7 @@ package io.redgreen.cardbox.model
 import com.google.common.truth.Truth.assertThat
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
+import java.io.File
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -106,6 +107,27 @@ internal class JarToolShellCommandTest {
       assertThat(shellCommand.text())
         .isEqualTo(expectedCommand)
     }
+
+    @Test
+    fun `allow specifying artifact destination`() {
+      // given
+      val packagesInPath = listOf(
+        PackagesInPath(
+          RelativePath("./build/classes/java/test"),
+          listOf(DefaultPackage),
+        ),
+      )
+
+      // when
+      val shellCommand = JarToolShellCommand
+        .from(ArtifactName("build-java-test.jar"), packagesInPath, File("/Users/skrawberry/project-sha"))
+
+      // then
+      val expectedCommand =
+        "jar -c --file /Users/skrawberry/project-sha/build-java-test.jar -C ./build/classes/java/test ."
+      assertThat(shellCommand.text())
+        .isEqualTo(expectedCommand)
+    }
   }
 
   @Nested
@@ -137,6 +159,25 @@ internal class JarToolShellCommandTest {
       assertThat(shellCommand.arguments)
         .containsExactly(
           "-c", "--file", "core-kotlin-main.jar", "-C", "./core/build/classes/kotlin/main/", "."
+        )
+        .inOrder()
+    }
+
+    @Test
+    fun `arguments with artifact destination`() {
+      // given
+      val shellCommand = JarToolShellCommand
+        .from(ArtifactName("core-kotlin-main.jar"), packagesInPath, File("/Users/skrawberry/project-sha"))
+
+      // when & then
+      assertThat(shellCommand.arguments)
+        .containsExactly(
+          "-c",
+          "--file",
+          "/Users/skrawberry/project-sha/core-kotlin-main.jar",
+          "-C",
+          "./core/build/classes/kotlin/main/",
+          "."
         )
         .inOrder()
     }
