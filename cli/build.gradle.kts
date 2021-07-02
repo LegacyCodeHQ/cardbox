@@ -15,6 +15,11 @@ dependencies {
   // JGit
   implementation("org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r")
 
+  // SLF4J
+  implementation("org.slf4j:slf4j-simple:1.7.30") {
+    because("JGit uses SLF4J and prints an error message on the console if this dependency is missing.")
+  }
+
   // JUnit 5
   testImplementation(kotlin("test-junit5"))
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")

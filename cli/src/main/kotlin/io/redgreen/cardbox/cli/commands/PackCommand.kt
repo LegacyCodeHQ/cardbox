@@ -73,7 +73,14 @@ class PackCommand : Runnable {
     if (!outputDirectory.exists()) {
       outputDirectory.mkdirs()
     }
+
+    printOutputDirectory(outputDirectory)
     createArtifacts(sourceSetsArtifacts)
+  }
+
+  private fun printOutputDirectory(outputDirectory: File) {
+    println("[Writing artifacts to: ${outputDirectory.canonicalPath}]")
+    println()
   }
 
   private fun createArtifacts(
@@ -86,6 +93,7 @@ class PackCommand : Runnable {
         println("$EMOJI_PACKAGE ${artifactName.value}")
         executeJarCommand(artifactName, packagesInPath)
       }
+      println()
     }
   }
 
@@ -100,6 +108,9 @@ class PackCommand : Runnable {
 
     val processBuilder = ProcessBuilder(jarShellCommand.program, *jarShellCommand.arguments.toTypedArray())
     val process = processBuilder.start()
-    println(process.errorStream.bufferedReader().readText())
+    val errorText = process.errorStream.bufferedReader().readText()
+    if (errorText.isNotBlank()) {
+      println(errorText)
+    }
   }
 }
