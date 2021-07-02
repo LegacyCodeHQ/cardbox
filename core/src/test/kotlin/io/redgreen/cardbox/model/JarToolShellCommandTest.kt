@@ -87,6 +87,25 @@ internal class JarToolShellCommandTest {
       assertThat(shellCommand.toString())
         .isEqualTo(expectedCommand)
     }
+
+    @Test
+    fun `command for default package`() {
+      // given
+      val packagesInPath = listOf(
+        PackagesInPath(
+          RelativePath("./build/classes/java/test"),
+          listOf(DefaultPackage),
+        ),
+      )
+
+      // when
+      val shellCommand = JarToolShellCommand.from(ArtifactName("build-java-test.jar"), packagesInPath)
+
+      // then
+      val expectedCommand = "jar -c --file build-java-test.jar -C ./build/classes/java/test ."
+      assertThat(shellCommand.toString())
+        .isEqualTo(expectedCommand)
+    }
   }
 
   @Nested

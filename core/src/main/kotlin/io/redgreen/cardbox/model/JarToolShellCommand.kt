@@ -33,16 +33,24 @@ class JarToolShellCommand(
       .trim()
   }
 
-  private fun getClassesRootDirectory(packagesInPath: List<PackagesInPath>): String {
-    val rootPaths = packagesInPath.groupBy {
+  private fun getClassesRootDirectory(packagesInPaths: List<PackagesInPath>): String {
+    val rootPaths = packagesInPaths.groupBy {
       val pathSegment = it.path.segment
-      pathSegment.substring(0, pathSegment.lastIndexOf(File.separatorChar) + 1)
+      val containsClassesInDefaultPackage = packagesInPaths.any { packagesInPath ->
+        packagesInPath.packageNameResults.contains(DefaultPackage)
+      }
+
+      if (containsClassesInDefaultPackage) {
+        pathSegment
+      } else {
+        pathSegment.substring(0, pathSegment.lastIndexOf(File.separatorChar) + 1)
+      }
     }.keys
 
     return if (rootPaths.size == 1) {
       rootPaths.first()
     } else {
-      rootPaths.maxByOrNull { it.length }!!
+      "${rootPaths.minByOrNull { it.length }!!}${File.separator}"
     }
   }
 
