@@ -1,7 +1,6 @@
 package io.redgreen.cardbox.model
 
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
-import io.redgreen.cardbox.model.PackageNameResult.PackageName
 import java.io.File
 
 class JarToolShellCommand(
@@ -9,11 +8,8 @@ class JarToolShellCommand(
   private val packagesInPaths: List<PackagesInPath>
 ) {
   companion object {
-    private const val DOT = '.'
     private const val PROGRAM = "jar"
     private const val SPACE = " "
-    private const val EMPTY_STRING = ""
-    private const val EXTENSION_CLASS = "class"
 
     fun from(
       artifactName: ArtifactName,
@@ -50,36 +46,6 @@ class JarToolShellCommand(
       rootPaths.first()
     } else {
       "${rootPaths.minByOrNull { it.length }!!}${File.separator}"
-    }
-  }
-
-  private fun getClassPackageRootDirectories(): String {
-    return packagesInPaths
-      .flatMap { it.packageNameResults }
-      .asSequence()
-      .filter { it is PackageName }
-      .map { it as PackageName }
-      .map { it.value }
-      .map { it.split(DOT).take(1).first() }
-      .map { "$it${File.separatorChar}" }
-      .distinct()
-      .joinToString(SPACE)
-  }
-
-  private fun getClassesInDefaultPackages(packagesInPaths: List<PackagesInPath>): String {
-    val classesBelongingToDefaultPackage = packagesInPaths
-      .filter { (_, packageNameResults) -> packageNameResults.any { it is DefaultPackage } }
-      .flatMap { (relativePath, _) ->
-        val listFiles = File(relativePath.segment).listFiles()
-        listFiles?.toList() ?: emptyList()
-      }
-      .filter { it.extension == EXTENSION_CLASS }
-      .map { it.name }
-
-    return if (classesBelongingToDefaultPackage.isEmpty()) {
-      EMPTY_STRING
-    } else {
-      classesBelongingToDefaultPackage.joinToString(SPACE, prefix = SPACE)
     }
   }
 }
