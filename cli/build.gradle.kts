@@ -1,7 +1,14 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
   kotlin("jvm")
-  id("application")
+  application
   id("io.gitlab.arturbosch.detekt")
+  id("com.github.johnrengelman.shadow") version "7.0.0"
+}
+
+repositories {
+  mavenCentral()
 }
 
 application.mainClassName = "io.redgreen.cardbox.cli.CliKt"
@@ -27,4 +34,38 @@ dependencies {
 
   // Truth
   testImplementation("com.google.truth:truth:1.1.2")
+}
+
+tasks {
+  named<ShadowJar>("shadowJar") {
+    archiveBaseName.set("cardbox")
+    mergeServiceFiles()
+
+    manifest {
+      attributes(mapOf("Main-Class" to "io.redgreen.cardbox.cli.CliKt"))
+    }
+  }
+}
+
+tasks {
+  build {
+    dependsOn(shadowJar)
+  }
+}
+
+tasks.register("executable", DefaultTask::class) {
+  description = "Creates self-executable file, that runs generated shadow jar"
+  group = "Distribution"
+
+  inputs.files(tasks.named("shadowJar"))
+  outputs.file("${buildDir.resolve("exec").resolve("cardbox")}")
+
+  doLast {
+    val execFile = outputs.files.singleFile
+
+    execFile.outputStream().use {
+      it.write("#!/bin/sh\n\nexec java -Xmx512m -jar \"\$0\" \"\$@\"\n\n".toByteArray())
+      it.write(inputs.files.singleFile.readBytes())
+    }
+  }
 }
