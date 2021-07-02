@@ -23,12 +23,11 @@ class JarToolShellCommand(
     }
   }
 
-  val program: String by lazy { toString().split(SPACE).first() }
-  val arguments: List<String> by lazy { toString().split(SPACE).drop(1) }
+  val program: String by lazy { text().split(SPACE).first() }
+  val arguments: List<String> by lazy { text().split(SPACE).drop(1) }
 
-  override fun toString(): String {
+  fun text(): String {
     val classFilesRootDirectory = getClassesRootDirectory(packagesInPaths)
-
     return "$PROGRAM -c --file ${artifactName.value} -C $classFilesRootDirectory ."
       .trim()
   }

@@ -28,7 +28,7 @@ internal class JarToolShellCommandTest {
       val shellCommand = JarToolShellCommand.from(ArtifactName("core-kotlin-main.jar"), packagesInPath)
 
       // then
-      assertThat(shellCommand.toString())
+      assertThat(shellCommand.text())
         .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ .")
     }
 
@@ -51,7 +51,7 @@ internal class JarToolShellCommandTest {
       val shellCommand = JarToolShellCommand.from(ArtifactName("core-kotlin-main.jar"), packagesInPath)
 
       // then
-      assertThat(shellCommand.toString())
+      assertThat(shellCommand.text())
         .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ .")
     }
 
@@ -84,7 +84,7 @@ internal class JarToolShellCommandTest {
 
       // then
       val expectedCommand = "jar -c --file build-kotlin-test.jar -C ./build/classes/kotlin/test/ ."
-      assertThat(shellCommand.toString())
+      assertThat(shellCommand.text())
         .isEqualTo(expectedCommand)
     }
 
@@ -103,7 +103,7 @@ internal class JarToolShellCommandTest {
 
       // then
       val expectedCommand = "jar -c --file build-java-test.jar -C ./build/classes/java/test ."
-      assertThat(shellCommand.toString())
+      assertThat(shellCommand.text())
         .isEqualTo(expectedCommand)
     }
   }
