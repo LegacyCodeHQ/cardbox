@@ -4,7 +4,6 @@ import io.redgreen.cardbox.model.ClassFilesLocation
 import io.redgreen.cardbox.model.Project
 import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
-import java.io.File
 
 internal class GroupClassFilesLocationsUseCase {
   private val classFilesLocationUseCase by lazy { ClassFilesLocationUseCase() }
@@ -14,7 +13,7 @@ internal class GroupClassFilesLocationsUseCase {
     classFilesDirectoryPaths: Set<RelativePath>
   ): Map<SourceSet, List<ClassFilesLocation>> {
     return classFilesDirectoryPaths
-      .map { classFilesLocationUseCase.invoke(File(".${it.segment}"), it) }
+      .map { classFilesLocationUseCase.invoke(project, it) }
       .groupBy { it.sourceSet }
   }
 }

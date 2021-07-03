@@ -1,8 +1,8 @@
 package io.redgreen.cardbox
 
 import io.redgreen.cardbox.model.ClassFilesLocation
+import io.redgreen.cardbox.model.Project
 import io.redgreen.cardbox.model.RelativePath
-import java.io.File
 
 /**
  * Given a directory that contains compiled .class files, the use case returns the original directory and the package
@@ -15,8 +15,8 @@ class ClassFilesLocationUseCase {
 
   private val packageNameFromClassUseCase = PackageNameFromClassUseCase()
 
-  fun invoke(classFilesDirectory: File, classFilesPath: RelativePath): ClassFilesLocation {
-    val firstClassFile = File(classFilesPath.segment).listFiles()!!
+  fun invoke(project: Project, classFilesPath: RelativePath): ClassFilesLocation {
+    val firstClassFile = project.resolve(classFilesPath).listFiles()!!
       .first { it.isFile && it.extension == CLASS_FILE_EXTENSION }
     return ClassFilesLocation(
       classFilesPath,
