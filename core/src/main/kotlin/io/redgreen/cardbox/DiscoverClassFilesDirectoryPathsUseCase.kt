@@ -22,6 +22,7 @@ internal class DiscoverClassFilesDirectoryPathsUseCase {
       .filter { it.toFile().extension == EXTENSION_CLASS }
       .map { it.parent.toAbsolutePath().toString() }
       .map { it.substring(normalizedWorkingDirectoryPath.toString().length) }
+      .map { ".$it" }
       .map(::RelativePath)
       .distinct()
       .toList()

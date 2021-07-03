@@ -18,9 +18,9 @@ class DiscoverClassFilesDirectoryPathsUseCaseTest {
     // then
     assertThat(classFileDirectoryPaths)
       .containsAtLeast(
-        RelativePath("/build/classes/kotlin/main/io/redgreen/cardbox"),
-        RelativePath("/build/classes/kotlin/test/io/redgreen/cardbox"),
-        RelativePath("/build/classes/java/test"),
+        RelativePath("./build/classes/kotlin/main/io/redgreen/cardbox"),
+        RelativePath("./build/classes/kotlin/test/io/redgreen/cardbox"),
+        RelativePath("./build/classes/java/test"),
       )
   }
 }
