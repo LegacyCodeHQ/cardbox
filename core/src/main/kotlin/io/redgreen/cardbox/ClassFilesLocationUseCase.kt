@@ -20,7 +20,6 @@ class ClassFilesLocationUseCase {
       .first { it.isFile && it.extension == CLASS_FILE_EXTENSION }
     return ClassFilesLocation(
       RelativePath(classFilesDirectory.toString()),
-      classFilesDirectory,
       packageNameFromClassUseCase.invoke(firstClassFile.inputStream())
     )
   }

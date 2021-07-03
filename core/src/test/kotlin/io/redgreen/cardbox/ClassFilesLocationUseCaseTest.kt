@@ -22,7 +22,7 @@ class ClassFilesLocationUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassFilesLocation(testClassesPath, testClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(ClassFilesLocation(testClassesPath, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
@@ -37,7 +37,7 @@ class ClassFilesLocationUseCaseTest {
     // then
     assertThat(result)
       .isEqualTo(
-        ClassFilesLocation(productionClassesPath, productionClassesDirectory, PackageName("io.redgreen.cardbox"))
+        ClassFilesLocation(productionClassesPath, PackageName("io.redgreen.cardbox"))
       )
   }
 
@@ -52,7 +52,7 @@ class ClassFilesLocationUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassFilesLocation(classesPath, classesDirectory, DefaultPackage))
+      .isEqualTo(ClassFilesLocation(classesPath, DefaultPackage))
   }
 
   @Test
@@ -66,6 +66,6 @@ class ClassFilesLocationUseCaseTest {
 
     // then
     assertThat(result)
-      .isEqualTo(ClassFilesLocation(testClassesPath, testClassesDirectory, PackageName("one")))
+      .isEqualTo(ClassFilesLocation(testClassesPath, PackageName("one")))
   }
 }

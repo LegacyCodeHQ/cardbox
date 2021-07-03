@@ -10,7 +10,6 @@ import java.io.File
 
 data class ClassFilesLocation(
   val classFilesPath: RelativePath,
-  val classFilesDirectory: File,
   val packageNameResult: PackageNameResult
 ) {
   companion object {
@@ -21,11 +20,10 @@ data class ClassFilesLocation(
   }
 
   val sourceSet: SourceSet by lazy {
-    val classFilesDirectoryPath = classFilesDirectory.toString()
     when {
-      !packageNameMatchesDirectoryPath(classFilesDirectoryPath) -> UNDETERMINED
-      !classFilesDirectoryPath.matches(REGEX_TEST_SOURCE_SET) -> PRODUCTION
-      classFilesDirectoryPath.matches(REGEX_TEST_SOURCE_SET) -> TEST
+      !packageNameMatchesDirectoryPath(classFilesPath.segment) -> UNDETERMINED
+      !classFilesPath.segment.matches(REGEX_TEST_SOURCE_SET) -> PRODUCTION
+      classFilesPath.segment.matches(REGEX_TEST_SOURCE_SET) -> TEST
       else -> UNDETERMINED
     }
   }
@@ -33,7 +31,7 @@ data class ClassFilesLocation(
   val jarToolPath: File by lazy {
     when (packageNameResult) {
       is PackageName -> findJarToolPath(packageNameResult)
-      DefaultPackage -> classFilesDirectory
+      DefaultPackage -> File(classFilesPath.segment)
       NotClassFile -> error("This cannot happen!")
     }
   }
@@ -43,7 +41,7 @@ data class ClassFilesLocation(
 
   private fun findJarToolPath(packageName: PackageName): File {
     val packageNamePathSegment = packageName.toPathSegment()
-    val classFilesDirectoryPath = classFilesDirectory.toString()
+    val classFilesDirectoryPath = classFilesPath.segment
     val packageNamePathSegmentIndex = classFilesDirectoryPath.indexOf(packageNamePathSegment)
     val classFilePathDoesNotMatchPackageName = packageNamePathSegmentIndex == -1
     if (classFilePathDoesNotMatchPackageName) {

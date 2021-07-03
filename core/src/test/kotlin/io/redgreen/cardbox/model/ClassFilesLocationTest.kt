@@ -19,10 +19,8 @@ class ClassFilesLocationTest {
     fun `test classes`() {
       // given
       val testClassesPath = RelativePath("./build/classes/kotlin/test/io/redgreen/cardbox")
-      val testClassesDirectory = File("./build/classes/kotlin/test/io/redgreen/cardbox")
       val location = ClassFilesLocation(
         testClassesPath,
-        testClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
@@ -35,10 +33,8 @@ class ClassFilesLocationTest {
     fun `production classes`() {
       // given
       val productionClassesPath = RelativePath("./build/classes/kotlin/main/io/redgreen/cardbox")
-      val productionClassesDirectory = File("./build/classes/kotlin/main/io/redgreen/cardbox")
       val location = ClassFilesLocation(
         productionClassesPath,
-        productionClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
@@ -51,8 +47,7 @@ class ClassFilesLocationTest {
     fun `default package`() {
       // given
       val classesPath = RelativePath("./build/classes/java/test")
-      val classesDirectory = File("./build/classes/java/test")
-      val location = ClassFilesLocation(classesPath, classesDirectory, DefaultPackage)
+      val location = ClassFilesLocation(classesPath, DefaultPackage)
 
       // when & then
       assertThat(location.jarToolPath)
@@ -66,10 +61,8 @@ class ClassFilesLocationTest {
     fun test() {
       // given
       val testClassesPath = RelativePath("./build/classes/kotlin/test/io/redgreen/cardbox")
-      val testClassesDirectory = File("./build/classes/kotlin/test/io/redgreen/cardbox")
       val location = ClassFilesLocation(
         testClassesPath,
-        testClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
@@ -81,10 +74,8 @@ class ClassFilesLocationTest {
     @Test
     fun production() {
       val productionClassesPath = RelativePath("./build/classes/kotlin/main/io/redgreen/cardbox")
-      val productionClassesDirectory = File("./build/classes/kotlin/main/io/redgreen/cardbox")
       val location = ClassFilesLocation(
         productionClassesPath,
-        productionClassesDirectory,
         PackageName("io.redgreen.cardbox")
       )
 
@@ -97,8 +88,7 @@ class ClassFilesLocationTest {
     fun `default package (test)`() {
       // given
       val classesPath = RelativePath("./build/classes/java/test")
-      val classesDirectory = File("./build/classes/java/test")
-      val location = ClassFilesLocation(classesPath, classesDirectory, DefaultPackage)
+      val location = ClassFilesLocation(classesPath, DefaultPackage)
 
       // when & then
       assertThat(location.sourceSet)
@@ -109,8 +99,7 @@ class ClassFilesLocationTest {
     fun `default package (production)`() {
       // given
       val classesPath = RelativePath("./build/classes/java/main")
-      val classesDirectory = File("./build/classes/java/main")
-      val location = ClassFilesLocation(classesPath, classesDirectory, DefaultPackage)
+      val location = ClassFilesLocation(classesPath, DefaultPackage)
 
       // when & then
       assertThat(location.sourceSet)
@@ -127,8 +116,7 @@ class ClassFilesLocationTest {
     fun `classes inside undetermined locations`(path: String) {
       // given
       val classesPath = RelativePath(path)
-      val classesDirectory = File(path)
-      val location = ClassFilesLocation(classesPath, classesDirectory, PackageName("io.redgreen.cardbox"))
+      val location = ClassFilesLocation(classesPath, PackageName("io.redgreen.cardbox"))
 
       // when & then
       assertThat(location.sourceSet)
@@ -138,8 +126,7 @@ class ClassFilesLocationTest {
     @Test
     fun `classes with proper package directory structure is production`() {
       val classesPath = RelativePath("./core/build/io/redgreen/cardbox")
-      val classesDirectory = File("./core/build/io/redgreen/cardbox")
-      val location = ClassFilesLocation(classesPath, classesDirectory, PackageName("io.redgreen.cardbox"))
+      val location = ClassFilesLocation(classesPath, PackageName("io.redgreen.cardbox"))
 
       // when & then
       assertThat(location.sourceSet)
