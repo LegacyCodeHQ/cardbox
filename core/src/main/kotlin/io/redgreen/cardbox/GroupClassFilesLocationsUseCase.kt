@@ -14,7 +14,7 @@ internal class GroupClassFilesLocationsUseCase {
     classFilesDirectoryPaths: Set<RelativePath>
   ): Map<SourceSet, List<ClassFilesLocation>> {
     return classFilesDirectoryPaths
-      .map { classFilesLocationUseCase.invoke(project.directory.resolve(File(".${it.segment}"))) }
+      .map { classFilesLocationUseCase.invoke(File(".${it.segment}")) }
       .groupBy { it.sourceSet }
   }
 }

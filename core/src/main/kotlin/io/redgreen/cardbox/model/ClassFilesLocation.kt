@@ -9,6 +9,7 @@ import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
 import java.io.File
 
 data class ClassFilesLocation(
+  val classFilesPath: RelativePath,
   val classFilesDirectory: File,
   val packageNameResult: PackageNameResult
 ) {

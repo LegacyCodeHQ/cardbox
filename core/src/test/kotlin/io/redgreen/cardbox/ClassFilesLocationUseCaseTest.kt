@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import io.redgreen.cardbox.model.ClassFilesLocation
 import io.redgreen.cardbox.model.PackageNameResult.DefaultPackage
 import io.redgreen.cardbox.model.PackageNameResult.PackageName
+import io.redgreen.cardbox.model.RelativePath
 import java.io.File
 import org.junit.jupiter.api.Test
 
@@ -13,52 +14,58 @@ class ClassFilesLocationUseCaseTest {
   @Test
   fun `test classes package name`() {
     // given
-    val testClassesDirectory = File("./build/classes/kotlin/test/io/redgreen/cardbox")
+    val testClassesPath = RelativePath("./build/classes/kotlin/test/io/redgreen/cardbox")
+    val testClassesDirectory = File(testClassesPath.segment)
 
     // when
     val result = useCase.invoke(testClassesDirectory)
 
     // then
     assertThat(result)
-      .isEqualTo(ClassFilesLocation(testClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(ClassFilesLocation(testClassesPath, testClassesDirectory, PackageName("io.redgreen.cardbox")))
   }
 
   @Test
   fun `production classes package name`() {
     // given
-    val productionClassesDirectory = File("./build/classes/kotlin/main/io/redgreen/cardbox")
+    val productionClassesPath = RelativePath("./build/classes/kotlin/main/io/redgreen/cardbox")
+    val productionClassesDirectory = File(productionClassesPath.segment)
 
     // when
     val result = useCase.invoke(productionClassesDirectory)
 
     // then
     assertThat(result)
-      .isEqualTo(ClassFilesLocation(productionClassesDirectory, PackageName("io.redgreen.cardbox")))
+      .isEqualTo(
+        ClassFilesLocation(productionClassesPath, productionClassesDirectory, PackageName("io.redgreen.cardbox"))
+      )
   }
 
   @Test
   fun `default package`() {
     // given
-    val classesDirectory = File("./build/classes/java/test")
+    val classesPath = RelativePath("./build/classes/java/test")
+    val classesDirectory = File(classesPath.segment)
 
     // when
     val result = useCase.invoke(classesDirectory)
 
     // then
     assertThat(result)
-      .isEqualTo(ClassFilesLocation(classesDirectory, DefaultPackage))
+      .isEqualTo(ClassFilesLocation(classesPath, classesDirectory, DefaultPackage))
   }
 
   @Test
   fun `single identifier package name`() {
     // given
-    val testClassesDirectory = File("./build/classes/kotlin/test/one")
+    val testClassesPath = RelativePath("./build/classes/kotlin/test/one")
+    val testClassesDirectory = File(testClassesPath.segment)
 
     // when
     val result = useCase.invoke(testClassesDirectory)
 
     // then
     assertThat(result)
-      .isEqualTo(ClassFilesLocation(testClassesDirectory, PackageName("one")))
+      .isEqualTo(ClassFilesLocation(testClassesPath, testClassesDirectory, PackageName("one")))
   }
 }

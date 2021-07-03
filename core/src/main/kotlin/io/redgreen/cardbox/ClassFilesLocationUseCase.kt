@@ -1,6 +1,7 @@
 package io.redgreen.cardbox
 
 import io.redgreen.cardbox.model.ClassFilesLocation
+import io.redgreen.cardbox.model.RelativePath
 import java.io.File
 
 /**
@@ -18,6 +19,7 @@ class ClassFilesLocationUseCase {
     val firstClassFile = classFilesDirectory.listFiles()!!
       .first { it.isFile && it.extension == CLASS_FILE_EXTENSION }
     return ClassFilesLocation(
+      RelativePath(classFilesDirectory.toString()),
       classFilesDirectory,
       packageNameFromClassUseCase.invoke(firstClassFile.inputStream())
     )
