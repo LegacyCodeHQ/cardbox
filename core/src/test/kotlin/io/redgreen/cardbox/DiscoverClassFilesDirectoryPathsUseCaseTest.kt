@@ -1,6 +1,7 @@
 package io.redgreen.cardbox
 
 import com.google.common.truth.Truth.assertThat
+import io.redgreen.cardbox.model.Project
 import io.redgreen.cardbox.model.RelativePath
 import java.io.File
 import org.junit.jupiter.api.Test
@@ -12,7 +13,7 @@ class DiscoverClassFilesDirectoryPathsUseCaseTest {
     val useCase = DiscoverClassFilesDirectoryPathsUseCase()
 
     // when
-    val classFileDirectoryPaths = useCase.invoke(File("."))
+    val classFileDirectoryPaths = useCase.invoke(Project(File(".")))
 
     // then
     assertThat(classFileDirectoryPaths)

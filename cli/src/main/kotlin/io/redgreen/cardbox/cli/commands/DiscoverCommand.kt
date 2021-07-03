@@ -4,6 +4,7 @@ import io.redgreen.cardbox.DiscoverPotentialArtifactsUseCase
 import io.redgreen.cardbox.model.ArtifactName
 import io.redgreen.cardbox.model.PackageNameResult
 import io.redgreen.cardbox.model.PackagesInPath
+import io.redgreen.cardbox.model.Project
 import io.redgreen.cardbox.model.RelativePath
 import io.redgreen.cardbox.model.SourceSet
 import java.io.File
@@ -25,7 +26,7 @@ class DiscoverCommand : Runnable {
   lateinit var directory: File
 
   override fun run() {
-    val sourceSetsArtifacts = DiscoverPotentialArtifactsUseCase().invoke(directory)
+    val sourceSetsArtifacts = DiscoverPotentialArtifactsUseCase().invoke(Project(directory))
     printSourceSetsArtifactInformation(sourceSetsArtifacts)
   }
 

@@ -4,6 +4,7 @@ import io.redgreen.cardbox.DiscoverPotentialArtifactsUseCase
 import io.redgreen.cardbox.model.ArtifactName
 import io.redgreen.cardbox.model.JarToolShellCommand
 import io.redgreen.cardbox.model.PackagesInPath
+import io.redgreen.cardbox.model.Project
 import io.redgreen.cardbox.model.SourceSet
 import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
 import java.io.File
@@ -39,10 +40,17 @@ class PackCommand : Runnable {
   @Parameters(index = "0", description = ["directory"])
   lateinit var projectDirectory: File
 
+  private val project by lazy {
+    Project(projectDirectory)
+  }
+
   private val outputDirectory: File by lazy {
-    val projectName = projectDirectory.canonicalFile.name
     val gitRevisionShaSuffix = gitRevisionShaSuffix ?: REPO_UNKNOWN_REVISION_SUFFIX
-    File(System.getProperty(USER_HOME_KEY)).resolve(ARTIFACT_DIRECTORY_NAME).resolve(projectName + gitRevisionShaSuffix)
+    val userHomeDirectory = File(System.getProperty(USER_HOME_KEY))
+
+    userHomeDirectory
+      .resolve(ARTIFACT_DIRECTORY_NAME)
+      .resolve(project.name + gitRevisionShaSuffix)
   }
 
   private val gitRevisionShaSuffix: String? by lazy {
@@ -62,7 +70,7 @@ class PackCommand : Runnable {
 
   override fun run() {
     val sourceSetsArtifacts = DiscoverPotentialArtifactsUseCase()
-      .invoke(projectDirectory)
+      .invoke(project)
       .toMutableMap()
     sourceSetsArtifacts.remove(UNDETERMINED)
 

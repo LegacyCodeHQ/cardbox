@@ -1,7 +1,7 @@
 package io.redgreen.cardbox
 
+import io.redgreen.cardbox.model.Project
 import io.redgreen.cardbox.model.RelativePath
-import java.io.File
 import java.nio.file.Files
 import kotlin.streams.toList
 
@@ -13,8 +13,8 @@ internal class DiscoverClassFilesDirectoryPathsUseCase {
     private const val EXTENSION_CLASS = "class"
   }
 
-  fun invoke(directory: File): Set<RelativePath> {
-    val normalizedWorkingDirectoryPath = directory.toPath().toAbsolutePath().normalize()
+  fun invoke(project: Project): Set<RelativePath> {
+    val normalizedWorkingDirectoryPath = project.directory.toPath().toAbsolutePath().normalize()
 
     return Files
       .walk(normalizedWorkingDirectoryPath)
