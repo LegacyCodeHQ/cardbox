@@ -13,7 +13,7 @@ class DiscoverPotentialArtifactsUseCase {
 
   fun invoke(directory: File): Map<SourceSet, Map<ArtifactName, List<PackagesInPath>>> {
     val classFilesDirectoryPaths = discoverClassFilesDirectoryPathsUseCase.invoke(directory)
-    val sourceSetsLocationsMap = groupClassFilesLocationsUseCase.invoke(classFilesDirectoryPaths)
+    val sourceSetsLocationsMap = groupClassFilesLocationsUseCase.invoke(directory, classFilesDirectoryPaths)
     val sourceSetsPackagesInPathMap = groupPackagesInPathsUseCase.invoke(sourceSetsLocationsMap)
 
     return groupPackagesByArtifactsUseCase.invoke(sourceSetsPackagesInPathMap)

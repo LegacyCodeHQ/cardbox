@@ -8,9 +8,12 @@ import java.io.File
 internal class GroupClassFilesLocationsUseCase {
   private val classFilesLocationUseCase by lazy { ClassFilesLocationUseCase() }
 
-  fun invoke(classFilesDirectoryPaths: Set<RelativePath>): Map<SourceSet, List<ClassFilesLocation>> {
+  fun invoke(
+    parent: File,
+    classFilesDirectoryPaths: Set<RelativePath>
+  ): Map<SourceSet, List<ClassFilesLocation>> {
     return classFilesDirectoryPaths
-      .map { classFilesLocationUseCase.invoke(File(".${it.segment}")) }
+      .map { classFilesLocationUseCase.invoke(parent.resolve(File(".${it.segment}"))) }
       .groupBy { it.sourceSet }
   }
 }
