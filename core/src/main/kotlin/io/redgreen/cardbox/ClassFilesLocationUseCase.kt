@@ -15,11 +15,11 @@ class ClassFilesLocationUseCase {
 
   private val packageNameFromClassUseCase = PackageNameFromClassUseCase()
 
-  fun invoke(classFilesDirectory: File): ClassFilesLocation {
-    val firstClassFile = classFilesDirectory.listFiles()!!
+  fun invoke(classFilesDirectory: File, classFilesPath: RelativePath): ClassFilesLocation {
+    val firstClassFile = File(classFilesPath.segment).listFiles()!!
       .first { it.isFile && it.extension == CLASS_FILE_EXTENSION }
     return ClassFilesLocation(
-      RelativePath(classFilesDirectory.toString()),
+      classFilesPath,
       packageNameFromClassUseCase.invoke(firstClassFile.inputStream())
     )
   }

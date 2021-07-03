@@ -18,7 +18,7 @@ class ClassFilesLocationUseCaseTest {
     val testClassesDirectory = File(testClassesPath.segment)
 
     // when
-    val result = useCase.invoke(testClassesDirectory)
+    val result = useCase.invoke(testClassesDirectory, testClassesPath)
 
     // then
     assertThat(result)
@@ -32,7 +32,7 @@ class ClassFilesLocationUseCaseTest {
     val productionClassesDirectory = File(productionClassesPath.segment)
 
     // when
-    val result = useCase.invoke(productionClassesDirectory)
+    val result = useCase.invoke(productionClassesDirectory, productionClassesPath)
 
     // then
     assertThat(result)
@@ -48,7 +48,7 @@ class ClassFilesLocationUseCaseTest {
     val classesDirectory = File(classesPath.segment)
 
     // when
-    val result = useCase.invoke(classesDirectory)
+    val result = useCase.invoke(classesDirectory, classesPath)
 
     // then
     assertThat(result)
@@ -62,7 +62,7 @@ class ClassFilesLocationUseCaseTest {
     val testClassesDirectory = File(testClassesPath.segment)
 
     // when
-    val result = useCase.invoke(testClassesDirectory)
+    val result = useCase.invoke(testClassesDirectory, testClassesPath)
 
     // then
     assertThat(result)
