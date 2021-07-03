@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 internal class JarToolShellCommandTest {
+  private val project = Project(File("/Users/PostIt"))
+
   @Nested
   inner class ToString {
     @Test
@@ -26,11 +28,12 @@ internal class JarToolShellCommandTest {
       )
 
       // when
-      val shellCommand = JarToolShellCommand.from(ArtifactName("core-kotlin-main.jar"), packagesInPath)
+      val shellCommand = JarToolShellCommand
+        .from(project, packagesInPath, ArtifactName("core-kotlin-main.jar"))
 
       // then
       assertThat(shellCommand.text())
-        .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ .")
+        .isEqualTo("jar -c --file core-kotlin-main.jar -C /Users/PostIt/core/build/classes/kotlin/main/ .")
     }
 
     @Test
@@ -49,11 +52,12 @@ internal class JarToolShellCommandTest {
       )
 
       // when
-      val shellCommand = JarToolShellCommand.from(ArtifactName("core-kotlin-main.jar"), packagesInPath)
+      val shellCommand = JarToolShellCommand
+        .from(project, packagesInPath, ArtifactName("core-kotlin-main.jar"))
 
       // then
       assertThat(shellCommand.text())
-        .isEqualTo("jar -c --file core-kotlin-main.jar -C ./core/build/classes/kotlin/main/ .")
+        .isEqualTo("jar -c --file core-kotlin-main.jar -C /Users/PostIt/core/build/classes/kotlin/main/ .")
     }
 
     @Test
@@ -81,10 +85,11 @@ internal class JarToolShellCommandTest {
       )
 
       // when
-      val shellCommand = JarToolShellCommand.from(ArtifactName("build-kotlin-test.jar"), packagesInPath)
+      val shellCommand = JarToolShellCommand
+        .from(project, packagesInPath, ArtifactName("build-kotlin-test.jar"))
 
       // then
-      val expectedCommand = "jar -c --file build-kotlin-test.jar -C ./build/classes/kotlin/test/ ."
+      val expectedCommand = "jar -c --file build-kotlin-test.jar -C /Users/PostIt/build/classes/kotlin/test/ ."
       assertThat(shellCommand.text())
         .isEqualTo(expectedCommand)
     }
@@ -100,10 +105,11 @@ internal class JarToolShellCommandTest {
       )
 
       // when
-      val shellCommand = JarToolShellCommand.from(ArtifactName("build-java-test.jar"), packagesInPath)
+      val shellCommand = JarToolShellCommand
+        .from(project, packagesInPath, ArtifactName("build-java-test.jar"))
 
       // then
-      val expectedCommand = "jar -c --file build-java-test.jar -C ./build/classes/java/test ."
+      val expectedCommand = "jar -c --file build-java-test.jar -C /Users/PostIt/build/classes/java/test/ ."
       assertThat(shellCommand.text())
         .isEqualTo(expectedCommand)
     }
@@ -119,12 +125,14 @@ internal class JarToolShellCommandTest {
       )
 
       // when
+      val artifactName = ArtifactName("build-java-test.jar")
+      val artifactsDestination = File("/Users/skrawberry/project-sha")
       val shellCommand = JarToolShellCommand
-        .from(ArtifactName("build-java-test.jar"), packagesInPath, File("/Users/skrawberry/project-sha"))
+        .from(project, packagesInPath, artifactName, artifactsDestination)
 
       // then
       val expectedCommand =
-        "jar -c --file /Users/skrawberry/project-sha/build-java-test.jar -C ./build/classes/java/test ."
+        "jar -c --file /Users/skrawberry/project-sha/build-java-test.jar -C /Users/PostIt/build/classes/java/test/ ."
       assertThat(shellCommand.text())
         .isEqualTo(expectedCommand)
     }
@@ -146,7 +154,7 @@ internal class JarToolShellCommandTest {
     )
 
     private val shellCommand = JarToolShellCommand
-      .from(ArtifactName("core-kotlin-main.jar"), packagesInPath)
+      .from(project, packagesInPath, ArtifactName("core-kotlin-main.jar"))
 
     @Test
     fun program() {
@@ -158,7 +166,7 @@ internal class JarToolShellCommandTest {
     fun arguments() {
       assertThat(shellCommand.arguments)
         .containsExactly(
-          "-c", "--file", "core-kotlin-main.jar", "-C", "./core/build/classes/kotlin/main/", "."
+          "-c", "--file", "core-kotlin-main.jar", "-C", "/Users/PostIt/core/build/classes/kotlin/main/", "."
         )
         .inOrder()
     }
@@ -166,8 +174,10 @@ internal class JarToolShellCommandTest {
     @Test
     fun `arguments with artifact destination`() {
       // given
+      val artifactName = ArtifactName("core-kotlin-main.jar")
+      val artifactsDestination = File("/Users/skrawberry/project-sha")
       val shellCommand = JarToolShellCommand
-        .from(ArtifactName("core-kotlin-main.jar"), packagesInPath, File("/Users/skrawberry/project-sha"))
+        .from(project, packagesInPath, artifactName, artifactsDestination)
 
       // when & then
       assertThat(shellCommand.arguments)
@@ -176,7 +186,7 @@ internal class JarToolShellCommandTest {
           "--file",
           "/Users/skrawberry/project-sha/core-kotlin-main.jar",
           "-C",
-          "./core/build/classes/kotlin/main/",
+          "/Users/PostIt/core/build/classes/kotlin/main/",
           "."
         )
         .inOrder()

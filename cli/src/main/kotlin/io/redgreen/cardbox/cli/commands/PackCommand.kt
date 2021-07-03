@@ -99,17 +99,19 @@ class PackCommand : Runnable {
       println(SOURCE_SET_UNDERLINE)
       artifactNamesPackagesInPathMap.onEach { (artifactName, packagesInPath) ->
         println("$EMOJI_PACKAGE ${artifactName.value}")
-        executeJarCommand(artifactName, packagesInPath)
+        executeJarCommand(project, artifactName, packagesInPath)
       }
       println()
     }
   }
 
   private fun executeJarCommand(
+    project: Project,
     artifactName: ArtifactName,
     packagesInPath: List<PackagesInPath>
   ) {
-    val jarShellCommand = JarToolShellCommand.from(artifactName, packagesInPath, outputDirectory)
+    val jarShellCommand = JarToolShellCommand
+      .from(project, packagesInPath, artifactName, outputDirectory)
     if (DEBUG_PRINT_JAR_COMMAND) {
       println(jarShellCommand.text())
     }
