@@ -33,7 +33,7 @@ dependencies {
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
 
   // Truth
-  testImplementation("com.google.truth:truth:1.1.2")
+  testImplementation("com.google.truth:truth:1.1.3")
 }
 
 tasks {
