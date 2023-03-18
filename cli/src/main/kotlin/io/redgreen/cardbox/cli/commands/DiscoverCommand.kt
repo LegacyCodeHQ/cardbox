@@ -14,7 +14,7 @@ import picocli.CommandLine.Parameters
 @Command(
   name = "discover",
   mixinStandardHelpOptions = true,
-  description = ["scans directories and lists potential artifacts for discovered .class files"]
+  description = ["lists potential artifacts for discovered .class files"]
 )
 class DiscoverCommand : Runnable {
   companion object {

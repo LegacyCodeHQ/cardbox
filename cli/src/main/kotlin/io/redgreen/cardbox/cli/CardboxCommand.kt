@@ -10,7 +10,7 @@ internal const val TOOL_VERSION = "0.0.1-dev"
   name = "cardbox",
   mixinStandardHelpOptions = true,
   subcommands = [DiscoverCommand::class, PackCommand::class],
-  description = ["Accelerator for developing Timelapse features."],
+  description = ["Create JARs from Android projects."],
   commandListHeading = "%nCommands:%n%nAvailable commands are:%n",
   version = ["v$TOOL_VERSION"],
 )
