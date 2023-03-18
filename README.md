@@ -32,6 +32,8 @@ After a successful run, you will find the packaged JARs inside the `$HOME/cardbo
 You can scan these artifacts using [jQAssistant](https://github.com/jQAssistant/jqa-commandline-tool) to perform your
 analysis.
 
+![jQAssistant](docs/images/jqassistant.png)
+
 ## License
 
 ```
