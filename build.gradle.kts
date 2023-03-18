@@ -13,12 +13,12 @@ allprojects {
     gradlePluginPortal()
   }
 
-  tasks.withType<JavaCompile>() {
+  tasks.withType<JavaCompile> {
     sourceCompatibility = JavaVersion.VERSION_1_8.toString()
     targetCompatibility = JavaVersion.VERSION_1_8.toString()
   }
 
-  tasks.withType<KotlinCompile>() {
+  tasks.withType<KotlinCompile> {
     sourceCompatibility = JavaVersion.VERSION_1_8.toString()
     targetCompatibility = JavaVersion.VERSION_1_8.toString()
 
@@ -30,7 +30,7 @@ allprojects {
     }
   }
 
-  tasks.withType<Test>() {
+  tasks.withType<Test> {
     useJUnitPlatform()
   }
 
@@ -51,7 +51,7 @@ subprojects {
       reports {
         html.enabled = true // observe findings in your browser with structure and code snippets
         xml.enabled = true // checkstyle like format mainly for integrations like Jenkins
-        sarif.enabled = true // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+        sarif.enabled = true // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with GitHub Code Scanning
       }
     }
   }
