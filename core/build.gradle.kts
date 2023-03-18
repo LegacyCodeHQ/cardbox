@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-  implementation("org.apache.bcel:bcel:6.5.0")
+  implementation("org.apache.bcel:bcel:6.7.0")
 
   implementation("com.orientechnologies:orientdb-client:3.2.0")
   implementation("com.orientechnologies:orientdb-core:3.2.0")
