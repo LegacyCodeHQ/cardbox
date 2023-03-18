@@ -6,11 +6,6 @@ plugins {
 dependencies {
   implementation("org.apache.bcel:bcel:6.7.0")
 
-  implementation("com.orientechnologies:orientdb-client:3.2.0")
-  implementation("com.orientechnologies:orientdb-core:3.2.0")
-  implementation("com.orientechnologies:orientdb-server:3.2.0")
-  implementation("com.orientechnologies:orientdb-tools:3.2.0")
-
   testImplementation(kotlin("test-junit5"))
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
   testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.0")
