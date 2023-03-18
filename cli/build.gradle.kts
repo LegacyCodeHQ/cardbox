@@ -11,7 +11,7 @@ repositories {
   mavenCentral()
 }
 
-application.mainClassName = "io.redgreen.cardbox.cli.CliKt"
+application.mainClass.set("io.redgreen.cardbox.cli.CliKt")
 
 dependencies {
   implementation(project(":core"))
