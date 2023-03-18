@@ -4,7 +4,7 @@ import io.redgreen.cardbox.cli.commands.DiscoverCommand
 import io.redgreen.cardbox.cli.commands.PackCommand
 import picocli.CommandLine.Command
 
-internal const val TOOL_VERSION = "0.0.1-dev"
+internal const val TOOL_VERSION = "0.1.0"
 
 @Command(
   name = "cardbox",
