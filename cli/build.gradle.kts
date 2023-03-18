@@ -14,12 +14,12 @@ repositories {
   mavenCentral()
 }
 
-val mainClassName = "io.redgreen.cardbox.cli.CliKt"
+val mainClassFqn = "io.redgreen.cardbox.cli.CliKt"
 val toolVersion = "0.1.0"
 
 application {
   applicationName = "cardbox"
-  mainClass.set(mainClassName)
+  mainClassName = mainClassFqn
 }
 
 dependencies {
@@ -48,7 +48,7 @@ dependencies {
 tasks.withType<Jar> {
   manifest {
     attributes(
-      "Main-Class" to mainClassName,
+      "Main-Class" to mainClassFqn,
     )
   }
 }
@@ -59,7 +59,7 @@ tasks {
     mergeServiceFiles()
 
     manifest {
-      attributes(mapOf("Main-Class" to mainClassName))
+      attributes(mapOf("Main-Class" to mainClassFqn))
     }
   }
 }
