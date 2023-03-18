@@ -20,7 +20,7 @@ dependencies {
   implementation("info.picocli:picocli:4.6.1")
 
   // JGit
-  implementation("org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r")
+  implementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
 
   // SLF4J
   implementation("org.slf4j:slf4j-simple:1.7.30") {
