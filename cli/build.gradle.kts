@@ -29,8 +29,8 @@ dependencies {
 
   // JUnit 5
   testImplementation(kotlin("test-junit5"))
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 
   // Truth
   testImplementation("com.google.truth:truth:1.1.3")
