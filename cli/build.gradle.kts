@@ -91,23 +91,6 @@ tasks {
   }
 }
 
-tasks.register("executable", DefaultTask::class) {
-  description = "Creates self-executable file, that runs generated shadow jar"
-  group = "Distribution"
-
-  inputs.files(tasks.named("shadowJar"))
-  outputs.file("${buildDir.resolve("exec").resolve("cardbox")}")
-
-  doLast {
-    val execFile = outputs.files.singleFile
-
-    execFile.outputStream().use {
-      it.write("#!/bin/sh\n\nexec java -Xmx512m -jar \"\$0\" \"\$@\"\n\n".toByteArray())
-      it.write(inputs.files.singleFile.readBytes())
-    }
-  }
-}
-
 jreleaser {
   version = toolVersion
   gitRootSearch.set(true)
