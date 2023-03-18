@@ -23,7 +23,7 @@ dependencies {
   implementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
 
   // SLF4J
-  implementation("org.slf4j:slf4j-simple:1.7.30") {
+  implementation("org.slf4j:slf4j-simple:2.0.7") {
     because("JGit uses SLF4J and prints an error message on the console if this dependency is missing.")
   }
 
