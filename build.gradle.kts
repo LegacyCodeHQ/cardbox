@@ -2,7 +2,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin("jvm") version "1.5.20" apply false
+  kotlin("jvm") version "1.8.10" apply false
   id("io.gitlab.arturbosch.detekt") version "1.22.0"
   id("com.github.ben-manes.versions") version "0.46.0"
 }
@@ -19,9 +19,6 @@ allprojects {
   }
 
   tasks.withType<KotlinCompile> {
-    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-    targetCompatibility = JavaVersion.VERSION_1_8.toString()
-
     kotlinOptions {
       jvmTarget = "1.8"
       apiVersion = "1.5"
