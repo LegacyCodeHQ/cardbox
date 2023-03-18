@@ -2,9 +2,35 @@
 
 Create JARs from Android projects for jQAssistant.
 
+## Use cases
+
+- Modularization
+- Kotlin Multiplatform Mobile (KMM) migration
+
+## Installation
+
+```bash
+$ brew install redgreenio/tap/cardbox
+```
+
+## Update
+
+```bash
+$ brew upgrade cardbox
+```
+
 ## Usage
 
-See `cardbox --help` for usage.
+Build your Android project and from the project root run,
+
+```bash
+$ cardbox pack .
+```
+
+After a successful run, you will find the packaged JARs inside the `$HOME/cardbox/<project-name>-<git-sha>` directory.
+
+You can scan these artifacts using [jQAssistant](https://github.com/jQAssistant/jqa-commandline-tool) to perform your
+analysis.
 
 ## License
 
