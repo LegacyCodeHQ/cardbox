@@ -50,7 +50,8 @@ class PackCommand : Runnable {
 
     userHomeDirectory
       .resolve(ARTIFACT_DIRECTORY_NAME)
-      .resolve(project.name + gitRevisionShaSuffix)
+      .resolve(project.name)
+      .resolve(gitRevisionShaSuffix)
   }
 
   private val gitRevisionShaSuffix: String? by lazy {
@@ -62,7 +63,7 @@ class PackCommand : Runnable {
     if (objectId != null) {
       val status = Git(repository).status().call()
       val suffix = if (status.isClean) EMPTY_STRING else REPO_DIRTY_SUFFIX
-      "-${objectId.abbreviate(REPO_SHA_LENGTH).name()}$suffix"
+      "${objectId.abbreviate(REPO_SHA_LENGTH).name()}$suffix"
     } else {
       null
     }
