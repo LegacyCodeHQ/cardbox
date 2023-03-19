@@ -15,7 +15,7 @@ repositories {
 }
 
 val mainClassFqn = "io.redgreen.cardbox.cli.CliKt"
-val toolVersion = "0.2.0"
+val toolVersion = "0.3.0-SNAPSHOT"
 
 application {
   applicationName = "cardbox"
