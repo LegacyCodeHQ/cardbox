@@ -27,7 +27,10 @@ Build your Android project and from the project root run,
 $ cardbox pack .
 ```
 
-After a successful run, you will find the packaged JARs inside the `$HOME/cardbox/<project-name>-<git-sha>` directory.
+After a successful run, you will find the packaged artifacts inside the `$HOME/cardbox/<project>/<git-sha>`
+directory.
+
+![packaged JARs](docs/images/packaged-jars.png)
 
 You can scan these artifacts using [jQAssistant](https://github.com/jQAssistant/jqa-commandline-tool) to perform your
 analysis.
