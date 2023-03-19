@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ClassOrdering:ClassFilesLocation.kt$ClassFilesLocation$private fun findJarToolPath(packageName: PackageName): File</ID>
+    <ID>ClassOrdering:ClassFilesLocation.kt$ClassFilesLocation$private fun packageNameMatchesDirectoryPath(path: String): Boolean</ID>
+    <ID>ClassOrdering:ClassFilesLocation.kt$ClassFilesLocation$val jarToolPath: File by lazy { when (packageNameResult) { is PackageName -&gt; findJarToolPath(packageNameResult) DefaultPackage -&gt; File(classFilesPath.segment) NotClassFile -&gt; error("This cannot happen!") } }</ID>
+    <ID>ClassOrdering:ClassFilesLocation.kt$ClassFilesLocation$val sourceSet: SourceSet by lazy { when { !packageNameMatchesDirectoryPath(classFilesPath.segment) -&gt; UNDETERMINED !classFilesPath.segment.matches(REGEX_TEST_SOURCE_SET) -&gt; PRODUCTION classFilesPath.segment.matches(REGEX_TEST_SOURCE_SET) -&gt; TEST else -&gt; UNDETERMINED } }</ID>
+    <ID>ClassOrdering:ClassFilesLocationUseCase.kt$ClassFilesLocationUseCase$fun invoke(project: Project, classFilesPath: RelativePath): ClassFilesLocation</ID>
+    <ID>ClassOrdering:ClassFilesLocationUseCase.kt$ClassFilesLocationUseCase$private val packageNameFromClassUseCase = PackageNameFromClassUseCase()</ID>
+    <ID>ClassOrdering:DiscoverClassFilesDirectoryPathsUseCase.kt$DiscoverClassFilesDirectoryPathsUseCase$fun invoke(project: Project): Set&lt;RelativePath&gt;</ID>
+    <ID>ClassOrdering:JarToolShellCommand.kt$JarToolShellCommand$fun text(): String</ID>
+    <ID>ClassOrdering:JarToolShellCommand.kt$JarToolShellCommand$private fun getClassesRootDirectory(packagesInPaths: List&lt;PackagesInPath&gt;): String</ID>
+    <ID>ClassOrdering:JarToolShellCommand.kt$JarToolShellCommand$val arguments: List&lt;String&gt; by lazy { text().split(SPACE).drop(1) }</ID>
+    <ID>ClassOrdering:JarToolShellCommand.kt$JarToolShellCommand$val program: String by lazy { text().split(SPACE).first() }</ID>
+    <ID>ClassOrdering:PackageNameFromClassUseCase.kt$PackageNameFromClassUseCase$fun invoke(classFileInputStream: InputStream): PackageNameResult</ID>
+    <ID>ClassOrdering:PackageNameResult.kt$PackageNameResult.PackageName$fun toPathSegment(): String</ID>
+    <ID>ClassOrdering:PackagesInPath.kt$PackagesInPath$val artifactName: ArtifactName get() { val pathContainsDefaultPackage = packageNameResults.first() is DefaultPackage val identifiers = path.segment.split(SEPARATOR) val finalIdentifiers = if (pathContainsDefaultPackage) { identifiers.takeLast(2) } else { identifiers.takeLast(3).dropLast(1) } val value = (listOf(identifiers[1]) + finalIdentifiers).joinToString("-", postfix = EXTENSION_JAR) return ArtifactName(value) }</ID>
+    <ID>ClassOrdering:PackagesInPathTest.kt$PackagesInPathTest$@ParameterizedTest @MethodSource("defaultPackageArtifactNames") fun `artifact name for path containing default package`(segmentArtifactName: Pair&lt;String, ArtifactName&gt;)</ID>
+    <ID>ClassOrdering:PackagesInPathTest.kt$PackagesInPathTest$@ParameterizedTest @MethodSource("packageNameArtifactNames") fun `artifact name for path containing non-default package`( packagesInPathArtifactName: Pair&lt;PackagesInPath, ArtifactName&gt; )</ID>
+  </CurrentIssues>
+</SmellBaseline>
