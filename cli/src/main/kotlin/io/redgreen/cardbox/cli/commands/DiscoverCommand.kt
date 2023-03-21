@@ -75,7 +75,7 @@ class DiscoverCommand : Runnable {
   ) {
     val displayName = packageNameResult.displayText
     val paddedPath = if (showPath) {
-      " [${path.segment}]".padStart(COLUMN_WIDTH - displayName.length)
+      " [${path.parent.segment}]".padStart(COLUMN_WIDTH - displayName.length)
     } else {
       ""
     }
