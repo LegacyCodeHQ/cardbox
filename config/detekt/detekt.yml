@@ -35,7 +35,7 @@ complexity:
     threshold: 10
     includeStaticDeclarations: false
     includePrivateDeclarations: false
-  ComplexMethod:
+  CyclomaticComplexMethod:
     active: true
     ignoreSingleWhenExpression: true
   LargeClass:
@@ -69,17 +69,13 @@ potential-bugs:
 
 style:
   ClassOrdering:
-    active: true
+    active: false
   CollapsibleIfStatements:
     active: true
   ForbiddenComment:
     active: true
     values: [ 'TODO:', 'FIXME:', 'STOPSHIP:', '@author', '@requiresTypeResolution' ]
     excludes: [ '**/detekt-rules-style/**/ForbiddenComment.kt' ]
-  LibraryCodeMustSpecifyReturnType:
-    active: true
-    excludes: [ '**/*.kt' ]
-    includes: [ '**/detekt-api/src/main/**/api/*.kt' ]
   MaxLineLength:
     active: true
     excludes: [ '**/test/**', '**/*Test.kt', '**/*Spec.kt' ]
