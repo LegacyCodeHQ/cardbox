@@ -8,6 +8,8 @@ import io.redgreen.cardbox.model.Project
 import io.redgreen.cardbox.model.SourceSet
 import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.RepositoryBuilder
@@ -45,13 +47,14 @@ class PackCommand : Runnable {
   }
 
   private val outputDirectory: File by lazy {
+    val date = LocalDate.now().format(DateTimeFormatter.ofPattern("MMddyy"))
     val gitRevisionShaSuffix = gitRevisionShaSuffix ?: REPO_UNKNOWN_REVISION_SUFFIX
     val userHomeDirectory = File(System.getProperty(USER_HOME_KEY))
 
     userHomeDirectory
       .resolve(ARTIFACT_DIRECTORY_NAME)
       .resolve(project.name)
-      .resolve(gitRevisionShaSuffix)
+      .resolve("$date-$gitRevisionShaSuffix")
   }
 
   private val gitRevisionShaSuffix: String? by lazy {
