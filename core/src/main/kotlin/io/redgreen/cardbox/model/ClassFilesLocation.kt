@@ -28,9 +28,9 @@ data class ClassFilesLocation(
     }
   }
 
-  val jarToolPath: File by lazy {
+  val pathForJarTool: File by lazy {
     when (packageNameResult) {
-      is PackageName -> findJarToolPath(packageNameResult)
+      is PackageName -> findPathForJarTool(packageNameResult)
       DefaultPackage -> File(classFilesPath.segment)
       NotClassFile -> error("This cannot happen!")
     }
@@ -39,7 +39,7 @@ data class ClassFilesLocation(
   private fun packageNameMatchesDirectoryPath(path: String): Boolean = packageNameResult is PackageName &&
     path.contains(packageNameResult.toPathSegment()) || packageNameResult is DefaultPackage
 
-  private fun findJarToolPath(packageName: PackageName): File {
+  private fun findPathForJarTool(packageName: PackageName): File {
     val packageNamePathSegment = packageName.toPathSegment()
     val classFilesDirectoryPath = classFilesPath.segment
     val packageNamePathSegmentIndex = classFilesDirectoryPath.indexOf(packageNamePathSegment)

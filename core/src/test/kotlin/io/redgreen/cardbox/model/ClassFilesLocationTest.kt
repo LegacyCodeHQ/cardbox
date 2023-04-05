@@ -25,7 +25,7 @@ class ClassFilesLocationTest {
       )
 
       // when & then
-      assertThat(location.jarToolPath)
+      assertThat(location.pathForJarTool)
         .isEqualTo(File("./build/classes/kotlin/test/io"))
     }
 
@@ -39,7 +39,7 @@ class ClassFilesLocationTest {
       )
 
       // when & then
-      assertThat(location.jarToolPath)
+      assertThat(location.pathForJarTool)
         .isEqualTo(File("./build/classes/kotlin/main/io"))
     }
 
@@ -50,7 +50,7 @@ class ClassFilesLocationTest {
       val location = ClassFilesLocation(classesPath, DefaultPackage)
 
       // when & then
-      assertThat(location.jarToolPath)
+      assertThat(location.pathForJarTool)
         .isEqualTo(File("./build/classes/java/test"))
     }
   }

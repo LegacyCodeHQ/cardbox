@@ -7,16 +7,26 @@ import io.redgreen.cardbox.model.SourceSet
 
 internal class GroupPackagesInPathsUseCase {
   fun invoke(
-    sourceSetsClassFilesLocationsMap: Map<SourceSet, List<ClassFilesLocation>>
+    sourceSetsClassFilesLocationsMap: Map<SourceSet, List<ClassFilesLocation>>,
   ): Map<SourceSet, List<PackagesInPath>> {
     return sourceSetsClassFilesLocationsMap
       .map { (sourceSet, _) ->
-        sourceSet to sourceSetsClassFilesLocationsMap[sourceSet]!!.groupBy { RelativePath(it.jarToolPath.toString()) }
+        groupSourceSetsAndPathsForJarTool(sourceSet, sourceSetsClassFilesLocationsMap[sourceSet]!!)
       }.associate { (sourceSet, jarToolPathClassFilesLocationsMap) ->
         val packagesInPath = jarToolPathClassFilesLocationsMap.map { (path, classFilesLocations) ->
           PackagesInPath(path, classFilesLocations.map(ClassFilesLocation::packageNameResult))
         }
         sourceSet to packagesInPath
       }
+  }
+
+  private fun groupSourceSetsAndPathsForJarTool(
+    sourceSet: SourceSet,
+    classFilesLocations: List<ClassFilesLocation>,
+  ): Pair<SourceSet, Map<RelativePath, List<ClassFilesLocation>>> {
+    val pathsForJarToolAndClassFilesLocations = classFilesLocations
+      .groupBy { classFilesLocation -> RelativePath(classFilesLocation.pathForJarTool.toString()) }
+
+    return sourceSet to pathsForJarToolAndClassFilesLocations
   }
 }
