@@ -10,7 +10,7 @@ Create JARs from Android projects for jQAssistant.
 ## Installation
 
 ```bash
-$ brew install redgreenio/tap/cardbox
+$ brew install legacycodehq/tap/cardbox
 ```
 
 ## Update
