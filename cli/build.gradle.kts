@@ -98,17 +98,17 @@ jreleaser {
   project {
     name.set("cardbox")
     description.set("Create JARs from Android projects for jQAssistant.")
-    website.set("https://github.com/redgreenio/cardbox")
+    website.set("https://github.com/LegacyCodeHQ/cardbox")
     license.set("Apache-2.0")
     copyright.set("2021-Present, Ragunath Jawahar")
   }
 
   release {
     github {
-      repoOwner.set("redgreenio")
+      repoOwner.set("LegacyCodeHQ")
       name.set("cardbox")
       branch.set("main")
-      repoUrl.set("git@github.com:redgreenio/cardbox.git")
+      repoUrl.set("git@github.com:legacycodehq/cardbox.git")
 
       tagName.set("cardbox-$toolVersion")
       releaseName.set("cardbox $toolVersion")
@@ -129,7 +129,7 @@ jreleaser {
         formulaName.set("cardbox")
 
         repoTap {
-          repoOwner.set("redgreenio")
+          repoOwner.set("LegacyCodeHQ")
           name.set("homebrew-tap")
         }
 
