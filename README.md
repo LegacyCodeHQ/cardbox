@@ -1,4 +1,4 @@
-# cardbox
+# cardbox ![CI](https://github.com/legacycodehq/cardbox/actions/workflows/tests.yml/badge.svg)
 
 Create JARs from Android projects for jQAssistant.
 
