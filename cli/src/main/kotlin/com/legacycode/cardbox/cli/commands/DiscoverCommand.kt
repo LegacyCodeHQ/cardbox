@@ -1,4 +1,4 @@
-package io.redgreen.cardbox.cli.commands
+package com.legacycode.cardbox.cli.commands
 
 import com.legacycode.cardbox.DiscoverPotentialArtifactsUseCase
 import com.legacycode.cardbox.model.ArtifactName

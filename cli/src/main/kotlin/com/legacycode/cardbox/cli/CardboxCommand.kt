@@ -1,7 +1,7 @@
-package io.redgreen.cardbox.cli
+package com.legacycode.cardbox.cli
 
-import io.redgreen.cardbox.cli.commands.DiscoverCommand
-import io.redgreen.cardbox.cli.commands.PackCommand
+import com.legacycode.cardbox.cli.commands.DiscoverCommand
+import com.legacycode.cardbox.cli.commands.PackCommand
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option
 

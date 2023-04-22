@@ -1,4 +1,4 @@
-package io.redgreen.cardbox.cli
+package com.legacycode.cardbox.cli
 
 import java.util.Properties
 import kotlin.system.exitProcess

@@ -14,7 +14,7 @@ repositories {
   mavenCentral()
 }
 
-val mainClassFqn = "io.redgreen.cardbox.cli.CliKt"
+val mainClassFqn = "com.legacycode.cardbox.cli.CliKt"
 val toolVersion = "0.4.0-SNAPSHOT"
 
 application {
