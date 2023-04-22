@@ -17,13 +17,13 @@ internal class JarToolShellCommandTest {
       // given
       val packagesInPath = listOf(
         PackagesInPath(
-          RelativePath("./core/build/classes/kotlin/main/io"),
-          listOf(PackageName("io.redgreen.cardbox"))
+          RelativePath("./core/build/classes/kotlin/main/com"),
+          listOf(PackageName("com.legacycode.cardbox"))
         ),
 
         PackagesInPath(
-          RelativePath("./core/build/classes/kotlin/main/io"),
-          listOf(PackageName("io.redgreen.cardbox.model"))
+          RelativePath("./core/build/classes/kotlin/main/com"),
+          listOf(PackageName("com.legacycode.cardbox.model"))
         ),
       )
 
@@ -41,8 +41,8 @@ internal class JarToolShellCommandTest {
       // given
       val packagesInPath = listOf(
         PackagesInPath(
-          RelativePath("./core/build/classes/kotlin/main/io"),
-          listOf(PackageName("io.redgreen.cardbox"))
+          RelativePath("./core/build/classes/kotlin/main/com"),
+          listOf(PackageName("com.legacycode.cardbox"))
         ),
 
         PackagesInPath(
@@ -70,11 +70,11 @@ internal class JarToolShellCommandTest {
         ),
 
         PackagesInPath(
-          RelativePath("./build/classes/kotlin/test/io"),
+          RelativePath("./build/classes/kotlin/test/com"),
           listOf(
-            PackageName("io.redgreen.testassist"),
-            PackageName("io.redgreen.cardbox"),
-            PackageName("io.redgreen.cardbox.model")
+            PackageName("com.legacycode.testassist"),
+            PackageName("com.legacycode.cardbox"),
+            PackageName("com.legacycode.cardbox.model")
           )
         ),
 
@@ -143,8 +143,8 @@ internal class JarToolShellCommandTest {
     // given
     private val packagesInPath = listOf(
       PackagesInPath(
-        RelativePath("./core/build/classes/kotlin/main/io"),
-        listOf(PackageName("io.redgreen.cardbox"))
+        RelativePath("./core/build/classes/kotlin/main/com"),
+        listOf(PackageName("com.legacycode.cardbox"))
       ),
 
       PackagesInPath(

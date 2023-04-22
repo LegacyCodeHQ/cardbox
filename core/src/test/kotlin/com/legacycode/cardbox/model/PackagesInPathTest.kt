@@ -26,16 +26,16 @@ class PackagesInPathTest {
       val example1 = PackagesInPath(
         RelativePath("./core/build/classes/kotlin/main/io"),
         listOf(
-          PackageName("io.redgreen.cardbox"),
-          PackageName("io.redgreen.cardbox.model")
+          PackageName("com.legacycode.cardbox"),
+          PackageName("com.legacycode.cardbox.model")
         )
       )
 
       val example2 = PackagesInPath(
         RelativePath("./cli/build/classes/kotlin/main/io"),
         listOf(
-          PackageName("io.redgreen.cardbox.cli"),
-          PackageName("io.redgreen.cardbox.cli.commands")
+          PackageName("com.legacycode.cardbox.cli"),
+          PackageName("com.legacycode.cardbox.cli.commands")
         )
       )
 

@@ -18,29 +18,29 @@ class ClassFilesLocationTest {
     @Test
     fun `test classes`() {
       // given
-      val testClassesPath = RelativePath("./build/classes/kotlin/test/io/redgreen/cardbox")
+      val testClassesPath = RelativePath("./build/classes/kotlin/test/com/legacycode/cardbox")
       val location = ClassFilesLocation(
         testClassesPath,
-        PackageName("io.redgreen.cardbox")
+        PackageName("com.legacycode.cardbox")
       )
 
       // when & then
       assertThat(location.pathForJarTool)
-        .isEqualTo(File("./build/classes/kotlin/test/io"))
+        .isEqualTo(File("./build/classes/kotlin/test/com"))
     }
 
     @Test
     fun `production classes`() {
       // given
-      val productionClassesPath = RelativePath("./build/classes/kotlin/main/io/redgreen/cardbox")
+      val productionClassesPath = RelativePath("./build/classes/kotlin/main/com/legacycode/cardbox")
       val location = ClassFilesLocation(
         productionClassesPath,
-        PackageName("io.redgreen.cardbox")
+        PackageName("com.legacycode.cardbox")
       )
 
       // when & then
       assertThat(location.pathForJarTool)
-        .isEqualTo(File("./build/classes/kotlin/main/io"))
+        .isEqualTo(File("./build/classes/kotlin/main/com"))
     }
 
     @Test
@@ -60,10 +60,10 @@ class ClassFilesLocationTest {
     @Test
     fun test() {
       // given
-      val testClassesPath = RelativePath("./build/classes/kotlin/test/io/redgreen/cardbox")
+      val testClassesPath = RelativePath("./build/classes/kotlin/test/com/legacycode/cardbox")
       val location = ClassFilesLocation(
         testClassesPath,
-        PackageName("io.redgreen.cardbox")
+        PackageName("com.legacycode.cardbox")
       )
 
       // when & then
@@ -73,10 +73,10 @@ class ClassFilesLocationTest {
 
     @Test
     fun production() {
-      val productionClassesPath = RelativePath("./build/classes/kotlin/main/io/redgreen/cardbox")
+      val productionClassesPath = RelativePath("./build/classes/kotlin/main/com/legacycode/cardbox")
       val location = ClassFilesLocation(
         productionClassesPath,
-        PackageName("io.redgreen.cardbox")
+        PackageName("com.legacycode.cardbox")
       )
 
       // when & then
@@ -116,7 +116,7 @@ class ClassFilesLocationTest {
     fun `classes inside undetermined locations`(path: String) {
       // given
       val classesPath = RelativePath(path)
-      val location = ClassFilesLocation(classesPath, PackageName("io.redgreen.cardbox"))
+      val location = ClassFilesLocation(classesPath, PackageName("com.legacycode.cardbox"))
 
       // when & then
       assertThat(location.sourceSet)
@@ -125,8 +125,8 @@ class ClassFilesLocationTest {
 
     @Test
     fun `classes with proper package directory structure is production`() {
-      val classesPath = RelativePath("./core/build/io/redgreen/cardbox")
-      val location = ClassFilesLocation(classesPath, PackageName("io.redgreen.cardbox"))
+      val classesPath = RelativePath("./core/build/com/legacycode/cardbox")
+      val location = ClassFilesLocation(classesPath, PackageName("com.legacycode.cardbox"))
 
       // when & then
       assertThat(location.sourceSet)
