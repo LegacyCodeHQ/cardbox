@@ -1,12 +1,12 @@
 package io.redgreen.cardbox.cli.commands
 
-import io.redgreen.cardbox.DiscoverPotentialArtifactsUseCase
-import io.redgreen.cardbox.model.ArtifactName
-import io.redgreen.cardbox.model.JarToolShellCommand
-import io.redgreen.cardbox.model.PackagesInPath
-import io.redgreen.cardbox.model.Project
-import io.redgreen.cardbox.model.SourceSet
-import io.redgreen.cardbox.model.SourceSet.UNDETERMINED
+import com.legacycode.cardbox.DiscoverPotentialArtifactsUseCase
+import com.legacycode.cardbox.model.ArtifactName
+import com.legacycode.cardbox.model.JarToolShellCommand
+import com.legacycode.cardbox.model.PackagesInPath
+import com.legacycode.cardbox.model.Project
+import com.legacycode.cardbox.model.SourceSet
+import com.legacycode.cardbox.model.SourceSet.UNDETERMINED
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

@@ -1,12 +1,12 @@
 package io.redgreen.cardbox.cli.commands
 
-import io.redgreen.cardbox.DiscoverPotentialArtifactsUseCase
-import io.redgreen.cardbox.model.ArtifactName
-import io.redgreen.cardbox.model.PackageNameResult
-import io.redgreen.cardbox.model.PackagesInPath
-import io.redgreen.cardbox.model.Project
-import io.redgreen.cardbox.model.RelativePath
-import io.redgreen.cardbox.model.SourceSet
+import com.legacycode.cardbox.DiscoverPotentialArtifactsUseCase
+import com.legacycode.cardbox.model.ArtifactName
+import com.legacycode.cardbox.model.PackageNameResult
+import com.legacycode.cardbox.model.PackagesInPath
+import com.legacycode.cardbox.model.Project
+import com.legacycode.cardbox.model.RelativePath
+import com.legacycode.cardbox.model.SourceSet
 import java.io.File
 import picocli.CommandLine.Command
 import picocli.CommandLine.Parameters
