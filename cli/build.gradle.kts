@@ -26,7 +26,7 @@ dependencies {
   implementation(project(":core"))
 
   // Picocli
-  implementation("info.picocli:picocli:4.7.1")
+  implementation("info.picocli:picocli:4.7.3")
 
   // JGit
   implementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
