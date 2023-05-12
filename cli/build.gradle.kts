@@ -15,7 +15,7 @@ repositories {
 }
 
 val mainClassFqn = "com.legacycode.cardbox.cli.CliKt"
-val toolVersion = "0.4.0"
+val toolVersion = "0.5.0-SNAPSHOT"
 
 application {
   applicationName = "cardbox"
