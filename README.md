@@ -10,13 +10,13 @@ Create JARs from Android projects for jQAssistant.
 ## Installation
 
 ```bash
-$ brew install legacycodehq/tap/cardbox
+brew install legacycodehq/tap/cardbox
 ```
 
 ## Update
 
 ```bash
-$ brew upgrade cardbox
+brew upgrade cardbox
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ $ brew upgrade cardbox
 Build your Android project and from the project root run,
 
 ```bash
-$ cardbox pack .
+cardbox pack .
 ```
 
 After a successful run, you will find the packaged artifacts inside the `$HOME/cardbox/<project>/<git-sha>`
