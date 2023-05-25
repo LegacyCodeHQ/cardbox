@@ -18,14 +18,16 @@ class SubprojectDependencyTest {
       val dependencies = extractSubprojectDependencies(kotlinDsl)
 
       // then
-      assertThat(dependencies).containsExactly(
-        SubprojectDependency("web-server", "implementation"),
-        SubprojectDependency("filesystem", "implementation"),
-        SubprojectDependency("bytecode:scanner", "implementation"),
-        SubprojectDependency("viz", "implementation"),
-        SubprojectDependency("android", "implementation"),
-        SubprojectDependency("bytecode:testing", "testImplementation"),
-      ).inOrder()
+      assertThat(dependencies)
+        .containsExactly(
+          SubprojectDependency("web-server", "implementation"),
+          SubprojectDependency("filesystem", "implementation"),
+          SubprojectDependency("bytecode:scanner", "implementation"),
+          SubprojectDependency("viz", "implementation"),
+          SubprojectDependency("android", "implementation"),
+          SubprojectDependency("bytecode:testing", "testImplementation"),
+        )
+        .inOrder()
     }
   }
 
@@ -40,9 +42,11 @@ class SubprojectDependencyTest {
       val dependencies = extractSubprojectDependencies(groovyDsl)
 
       // then
-      assertThat(dependencies).containsExactly(
-        SubprojectDependency("qr", "implementation"),
-      ).inOrder()
+      assertThat(dependencies)
+        .containsExactly(
+          SubprojectDependency("qr", "implementation"),
+        )
+        .inOrder()
     }
   }
 }
