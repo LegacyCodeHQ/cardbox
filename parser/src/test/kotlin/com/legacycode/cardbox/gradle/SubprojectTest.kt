@@ -20,9 +20,9 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          Subproject("cli"),
-          Subproject("core"),
-          Subproject("web-server"),
+          Subproject("cli", "cli"),
+          Subproject("core", "core"),
+          Subproject("web-server", "web-server"),
         )
         .inOrder()
     }
@@ -38,9 +38,9 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          Subproject("core"),
-          Subproject("cli"),
-          Subproject("parser"),
+          Subproject("core", "core"),
+          Subproject("cli", "cli"),
+          Subproject("parser", "parser"),
         )
         .inOrder()
     }
@@ -56,9 +56,9 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          Subproject("core"),
-          Subproject("cli"),
-          Subproject("parser"),
+          Subproject("core", "core"),
+          Subproject("cli", "cli"),
+          Subproject("parser", "parser"),
         )
         .inOrder()
     }
@@ -74,16 +74,16 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          Subproject("cli"),
-          Subproject("bytecode:scanner"),
-          Subproject("bytecode:samples"),
-          Subproject("web-server"),
-          Subproject("filesystem"),
-          Subproject("vcs"),
-          Subproject("bytecode:testing"),
-          Subproject("web-client-react"),
-          Subproject("android"),
-          Subproject("viz"),
+          Subproject("cli", "cli"),
+          Subproject("bytecode:scanner", "bytecode/scanner"),
+          Subproject("bytecode:samples", "bytecode/samples"),
+          Subproject("web-server", "web-server"),
+          Subproject("filesystem", "filesystem"),
+          Subproject("vcs", "vcs"),
+          Subproject("bytecode:testing", "bytecode/testing"),
+          Subproject("web-client-react", "web-client-react"),
+          Subproject("android", "android"),
+          Subproject("viz", "viz"),
         )
         .inOrder()
     }
@@ -102,33 +102,33 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          Subproject("Signal-Android"),
-          Subproject("libsignal-service"),
-          Subproject("lintchecks"),
-          Subproject("paging"),
-          Subproject("paging-app"),
-          Subproject("core-util"),
-          Subproject("glide-config"),
-          Subproject("video"),
-          Subproject("device-transfer"),
-          Subproject("device-transfer-app"),
-          Subproject("image-editor"),
-          Subproject("image-editor-app"),
-          Subproject("sms-exporter"),
-          Subproject("sms-exporter-app"),
-          Subproject("donations"),
-          Subproject("donations-app"),
-          Subproject("spinner"),
-          Subproject("spinner-app"),
-          Subproject("contacts"),
-          Subproject("contacts-app"),
-          Subproject("qr"),
-          Subproject("qr-app"),
-          Subproject("sticky-header-grid"),
-          Subproject("photoview"),
-          Subproject("core-ui"),
-          Subproject("benchmark"),
-          Subproject("microbenchmark"),
+          Subproject("Signal-Android", "app"),
+          Subproject("libsignal-service", "libsignal/service"),
+          Subproject("lintchecks", "lintchecks"),
+          Subproject("paging", "paging/lib"),
+          Subproject("paging-app", "paging/app"),
+          Subproject("core-util", "core-util"),
+          Subproject("glide-config", "glide-config"),
+          Subproject("video", "video"),
+          Subproject("device-transfer", "device-transfer/lib"),
+          Subproject("device-transfer-app", "device-transfer/app"),
+          Subproject("image-editor", "image-editor/lib"),
+          Subproject("image-editor-app", "image-editor/app"),
+          Subproject("sms-exporter", "sms-exporter/lib"),
+          Subproject("sms-exporter-app", "sms-exporter/app"),
+          Subproject("donations", "donations/lib"),
+          Subproject("donations-app", "donations/app"),
+          Subproject("spinner", "spinner/lib"),
+          Subproject("spinner-app", "spinner/app"),
+          Subproject("contacts", "contacts/lib"),
+          Subproject("contacts-app", "contacts/app"),
+          Subproject("qr", "qr/lib"),
+          Subproject("qr-app", "qr/app"),
+          Subproject("sticky-header-grid", "sticky-header-grid"),
+          Subproject("photoview", "photoview"),
+          Subproject("core-ui", "core-ui"),
+          Subproject("benchmark", "benchmark"),
+          Subproject("microbenchmark", "microbenchmark"),
         )
         .inOrder()
     }
