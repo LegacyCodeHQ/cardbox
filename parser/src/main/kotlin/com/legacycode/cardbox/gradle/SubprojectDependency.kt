@@ -6,12 +6,12 @@ data class SubprojectDependency(
 )
 
 fun extractSubprojectDependencies(content: String): List<SubprojectDependency> {
-  val subprojectDependencyPattern = Regex("""(\w+)\sproject\(':(.+?)'\)""")
+  val subprojectDependencyPattern = """(\w+)\s*\(?\s*project\(\s*(['"]):?([^'"]*)\2\s*\)\s*\)?""".toRegex()
   val matches = subprojectDependencyPattern.findAll(content)
 
   return matches.map { matchResult ->
     SubprojectDependency(
-      name = matchResult.groupValues[2],
+      name = matchResult.groupValues[3],
       configuration = matchResult.groupValues[1]
     )
   }.toList()

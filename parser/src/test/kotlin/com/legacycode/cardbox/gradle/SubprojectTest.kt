@@ -94,7 +94,7 @@ class SubprojectTest {
     @Test
     fun `subproject with name change`() {
       // given
-      val groovyDsl = GroovyDsl("subproject-name-change-signal-android")
+      val groovyDsl = GroovyDsl.settings("subproject-name-change-signal-android")
 
       // when
       val subprojects = extractSubprojects(groovyDsl.content)
@@ -136,7 +136,7 @@ class SubprojectTest {
     @Test
     fun `basic file`() {
       // given
-      val groovyDsl = GroovyDsl("basic-mastodon-android")
+      val groovyDsl = GroovyDsl.settings("basic-mastodon-android")
 
       // when
       val subprojects = extractSubprojects(groovyDsl.content)

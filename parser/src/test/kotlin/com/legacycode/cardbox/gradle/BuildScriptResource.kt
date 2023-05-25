@@ -28,6 +28,17 @@ sealed class BuildScriptResource(
     }
   }
 
-  class GroovyDsl(filename: String) :
-    BuildScriptResource("settings", "groovy", filename)
+  class GroovyDsl private constructor(rootDirectory: String, filename: String) :
+    BuildScriptResource(rootDirectory, "groovy", filename) {
+
+    companion object {
+      fun settings(filename: String): GroovyDsl {
+        return GroovyDsl("settings", filename)
+      }
+
+      fun build(filename: String): GroovyDsl {
+        return GroovyDsl("build_", filename)
+      }
+    }
+  }
 }
