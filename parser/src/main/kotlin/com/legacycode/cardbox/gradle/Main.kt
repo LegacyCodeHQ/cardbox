@@ -1,6 +1,7 @@
 package com.legacycode.cardbox.gradle
 
 import java.io.File
+import java.util.Locale
 
 fun main() {
   val project = File(System.getProperty("user.home")).resolve("GitHubProjects/Signal-Android")
@@ -30,7 +31,20 @@ private fun plantUml(
   gradleProject: GradleProject,
   subprojects: List<Subproject>,
 ) {
+  val groups = subprojects
+    .filter { it.path.split("/").size > 1 }
+    .groupBy { it.path.split("/").first() }
+    .entries.filter { it.value.size > 1 }
+
   println("@startuml")
+  for ((group, subprojectsInGroup) in groups) {
+    println("""package "${toGroupName(group)}" {""")
+    for (subproject in subprojectsInGroup) {
+      println("  [${subproject.name}]")
+    }
+    println("}")
+  }
+
   subprojects.onEach { subproject ->
     val buildScript = gradleProject.buildScript(subproject).readText()
     val dependencies = extractSubprojectDependencies(buildScript)
@@ -42,4 +56,10 @@ private fun plantUml(
       }
   }
   println("@enduml")
+}
+
+private fun toGroupName(group: String): String {
+  return group
+    .replace('-', ' ')
+    .uppercase(Locale.getDefault())
 }
