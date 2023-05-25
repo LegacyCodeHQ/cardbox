@@ -217,7 +217,7 @@ include ':microbenchmark'
     // then
     assertThat(modules)
       .containsExactly(
-        "app",
+        "Signal-Android",
         "libsignal-service",
         "lintchecks",
         "paging",

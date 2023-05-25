@@ -1,7 +1,9 @@
 fun extractModules(fileContent: String): List<String> {
   val modulePattern1 = Regex("""include\([\s\S]*?\)""")
   val modulePattern2 = Regex("""include '(.+?)'""")
-  val moduleNames = mutableListOf<String>()
+  val projectNamePattern = Regex("""project\(':(.+?)'\)\.name = '(.+?)'""")
+
+  val moduleNames = mutableMapOf<String, String>()
 
   val includeMatches1 = modulePattern1.findAll(fileContent)
   includeMatches1.forEach { matchResult ->
@@ -12,13 +14,24 @@ fun extractModules(fileContent: String): List<String> {
       .map { it.trim().removeSurrounding("\"").removePrefix(":") }
       .filter { it.isNotEmpty() }
 
-    moduleNames.addAll(modules)
+    modules.forEach { moduleName ->
+      moduleNames[moduleName] = moduleName
+    }
   }
 
   val includeMatches2 = modulePattern2.findAll(fileContent)
   includeMatches2.map { it.groupValues[1].removePrefix(":") }
     .filter { it.isNotEmpty() }
-    .toCollection(moduleNames)
+    .forEach { moduleName ->
+      moduleNames[moduleName] = moduleName
+    }
 
-  return moduleNames
+  val projectNameMatches = projectNamePattern.findAll(fileContent)
+  projectNameMatches.forEach { matchResult ->
+    val originalName = matchResult.groupValues[1]
+    val newName = matchResult.groupValues[2]
+    moduleNames[originalName] = newName
+  }
+
+  return moduleNames.values.toList()
 }
