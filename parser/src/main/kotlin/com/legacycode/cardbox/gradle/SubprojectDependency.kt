@@ -14,5 +14,7 @@ fun extractSubprojectDependencies(content: String): List<SubprojectDependency> {
       name = matchResult.groupValues[3],
       configuration = matchResult.groupValues[1]
     )
-  }.toList()
+  }
+    .distinct()
+    .toList()
 }
