@@ -1,0 +1,5 @@
+rootProject.name = "tumbleweed"
+
+include("cli")
+include("core")
+include("web-server")

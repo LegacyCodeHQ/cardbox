@@ -5,23 +5,17 @@ class ModuleTest {
   @Test
   fun `extract module names`() {
     // given
-    val settingsContent = """
-      rootProject.name = "myproject"
-
-      include("module1")
-      include("module2")
-      include("module3")
-    """.trimIndent()
+    val ktsResource = SettingsKtsResource("include-params-single-line")
 
     // when
-    val modules = extractModules(settingsContent)
+    val modules = extractModules(ktsResource.content)
 
     // then
     assertThat(modules)
       .containsExactly(
-        "module1",
-        "module2",
-        "module3",
+        "cli",
+        "core",
+        "web-server",
       )
       .inOrder()
   }
