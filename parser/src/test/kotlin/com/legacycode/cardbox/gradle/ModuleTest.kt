@@ -1,6 +1,8 @@
 package com.legacycode.cardbox.gradle
 
 import com.google.common.truth.Truth.assertThat
+import com.legacycode.cardbox.gradle.SettingsResource.GroovyDsl
+import com.legacycode.cardbox.gradle.SettingsResource.KotlinDsl
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -10,10 +12,10 @@ class ModuleTest {
     @Test
     fun `one include per subproject`() {
       // given
-      val ktsResource = SettingsKtsResource("one-include-per-subproject")
+      val kotlinDsl = KotlinDsl("one-include-per-subproject")
 
       // when
-      val modules = extractModules(ktsResource.content)
+      val modules = extractModules(kotlinDsl.content)
 
       // then
       assertThat(modules)
@@ -28,10 +30,10 @@ class ModuleTest {
     @Test
     fun `one include for all subprojects`() {
       // given
-      val ktsResource = SettingsKtsResource("one-include-for-all-subprojects")
+      val kotlinDsl = KotlinDsl("one-include-for-all-subprojects")
 
       // when
-      val modules = extractModules(ktsResource.content)
+      val modules = extractModules(kotlinDsl.content)
 
       // then
       assertThat(modules)
@@ -46,10 +48,10 @@ class ModuleTest {
     @Test
     fun `one include for all subprojects, each prefixed with a colon`() {
       // given
-      val ktsResource = SettingsKtsResource("one-include-for-all-colon-prefix")
+      val kotlinDsl = KotlinDsl("one-include-for-all-colon-prefix")
 
       // when
-      val modules = extractModules(ktsResource.content)
+      val modules = extractModules(kotlinDsl.content)
 
       // then
       assertThat(modules)
@@ -64,10 +66,10 @@ class ModuleTest {
     @Test
     fun `one include for all with subdirectories and a trailing comma`() {
       // given
-      val ktsResource = SettingsKtsResource("one-include-for-all-subdirectories-trailing-comma")
+      val kotlinDsl = KotlinDsl("one-include-for-all-subdirectories-trailing-comma")
 
       // when
-      val modules = extractModules(ktsResource.content)
+      val modules = extractModules(kotlinDsl.content)
 
       // then
       assertThat(modules)
@@ -92,10 +94,10 @@ class ModuleTest {
     @Test
     fun `subproject with name change`() {
       // given
-      val groovyResource = SettingsGroovyResource("subproject-name-change-signal-android")
+      val groovyDsl = GroovyDsl("subproject-name-change-signal-android")
 
       // when
-      val modules = extractModules(groovyResource.content)
+      val modules = extractModules(groovyDsl.content)
 
       // then
       assertThat(modules)
