@@ -8,7 +8,7 @@ fun extractModules(fileContent: String): List<String> {
       .removePrefix("include(")
       .removeSuffix(")")
       .split(",")
-      .map { it.trim().removeSurrounding("\"") }
+      .map { it.trim().removeSurrounding("\"").removePrefix(":") }
 
     moduleNames.addAll(modules)
   }

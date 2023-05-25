@@ -50,4 +50,29 @@ class ModuleTest {
       )
       .inOrder()
   }
+
+  @Test
+  fun `sample 3`() {
+    // given
+    val settingsContent = """
+      rootProject.name = "cardbox"
+      include(
+        ":core",
+        ":cli",
+        ":parser"
+      )
+    """.trimIndent()
+
+    // when
+    val modules = extractModules(settingsContent)
+
+    // then
+    assertThat(modules)
+      .containsExactly(
+        "core",
+        "cli",
+        "parser",
+      )
+      .inOrder()
+  }
 }
