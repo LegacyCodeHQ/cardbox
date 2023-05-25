@@ -1,18 +1,18 @@
 package com.legacycode.cardbox.gradle
 
 import com.google.common.truth.Truth.assertThat
-import com.legacycode.cardbox.gradle.SettingsResource.GroovyDsl
-import com.legacycode.cardbox.gradle.SettingsResource.KotlinDsl
+import com.legacycode.cardbox.gradle.BuildScriptResource.GroovyDsl
+import com.legacycode.cardbox.gradle.BuildScriptResource.KotlinDsl
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class SubprojectTest {
   @Nested
-  inner class KotlinDsl {
+  inner class Kotlin {
     @Test
     fun `one include per subproject`() {
       // given
-      val kotlinDsl = KotlinDsl("one-include-per-subproject")
+      val kotlinDsl = KotlinDsl.settings("one-include-per-subproject")
 
       // when
       val subprojects = extractSubprojects(kotlinDsl.content)
@@ -30,7 +30,7 @@ class SubprojectTest {
     @Test
     fun `one include for all subprojects`() {
       // given
-      val kotlinDsl = KotlinDsl("one-include-for-all-subprojects")
+      val kotlinDsl = KotlinDsl.settings("one-include-for-all-subprojects")
 
       // when
       val subprojects = extractSubprojects(kotlinDsl.content)
@@ -48,7 +48,7 @@ class SubprojectTest {
     @Test
     fun `one include for all subprojects, each prefixed with a colon`() {
       // given
-      val kotlinDsl = KotlinDsl("one-include-for-all-colon-prefix")
+      val kotlinDsl = KotlinDsl.settings("one-include-for-all-colon-prefix")
 
       // when
       val subprojects = extractSubprojects(kotlinDsl.content)
@@ -66,7 +66,7 @@ class SubprojectTest {
     @Test
     fun `one include for all with subdirectories and a trailing comma`() {
       // given
-      val kotlinDsl = KotlinDsl("one-include-for-all-subdirectories-trailing-comma")
+      val kotlinDsl = KotlinDsl.settings("one-include-for-all-subdirectories-trailing-comma")
 
       // when
       val subprojects = extractSubprojects(kotlinDsl.content)
@@ -90,7 +90,7 @@ class SubprojectTest {
   }
 
   @Nested
-  inner class GroovyDsl {
+  inner class Groovy {
     @Test
     fun `subproject with name change`() {
       // given
