@@ -10,7 +10,7 @@ class ModuleTest {
     @Test
     fun `extract module names`() {
       // given
-      val ktsResource = SettingsKtsResource("include-params-single-line")
+      val ktsResource = SettingsKtsResource("one-include-per-subproject")
 
       // when
       val modules = extractModules(ktsResource.content)
