@@ -1,3 +1,5 @@
+package com.legacycode.cardbox.gradle
+
 fun extractModules(fileContent: String): List<String> {
   val modulePattern1 = Regex("""include\([\s\S]*?\)""")
   val modulePattern2 = Regex("""include '(.+?)'""")

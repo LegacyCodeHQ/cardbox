@@ -1,3 +1,5 @@
+package com.legacycode.cardbox.gradle
+
 class SettingsKtsResource(private val filename: String) {
   val content: String
     get() {

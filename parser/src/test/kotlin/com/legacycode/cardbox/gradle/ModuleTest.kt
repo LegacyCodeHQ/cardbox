@@ -1,3 +1,5 @@
+package com.legacycode.cardbox.gradle
+
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
