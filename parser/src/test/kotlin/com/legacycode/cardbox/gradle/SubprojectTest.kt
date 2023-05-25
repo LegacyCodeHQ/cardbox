@@ -6,7 +6,7 @@ import com.legacycode.cardbox.gradle.SettingsResource.KotlinDsl
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class ModuleTest {
+class SubprojectTest {
   @Nested
   inner class KotlinDsl {
     @Test
@@ -15,10 +15,10 @@ class ModuleTest {
       val kotlinDsl = KotlinDsl("one-include-per-subproject")
 
       // when
-      val modules = extractModules(kotlinDsl.content)
+      val subprojects = extractSubprojects(kotlinDsl.content)
 
       // then
-      assertThat(modules)
+      assertThat(subprojects)
         .containsExactly(
           "cli",
           "core",
@@ -33,10 +33,10 @@ class ModuleTest {
       val kotlinDsl = KotlinDsl("one-include-for-all-subprojects")
 
       // when
-      val modules = extractModules(kotlinDsl.content)
+      val subprojects = extractSubprojects(kotlinDsl.content)
 
       // then
-      assertThat(modules)
+      assertThat(subprojects)
         .containsExactly(
           "core",
           "cli",
@@ -51,10 +51,10 @@ class ModuleTest {
       val kotlinDsl = KotlinDsl("one-include-for-all-colon-prefix")
 
       // when
-      val modules = extractModules(kotlinDsl.content)
+      val subprojects = extractSubprojects(kotlinDsl.content)
 
       // then
-      assertThat(modules)
+      assertThat(subprojects)
         .containsExactly(
           "core",
           "cli",
@@ -69,10 +69,10 @@ class ModuleTest {
       val kotlinDsl = KotlinDsl("one-include-for-all-subdirectories-trailing-comma")
 
       // when
-      val modules = extractModules(kotlinDsl.content)
+      val subprojects = extractSubprojects(kotlinDsl.content)
 
       // then
-      assertThat(modules)
+      assertThat(subprojects)
         .containsExactly(
           "cli",
           "bytecode:scanner",
@@ -97,10 +97,10 @@ class ModuleTest {
       val groovyDsl = GroovyDsl("subproject-name-change-signal-android")
 
       // when
-      val modules = extractModules(groovyDsl.content)
+      val subprojects = extractSubprojects(groovyDsl.content)
 
       // then
-      assertThat(modules)
+      assertThat(subprojects)
         .containsExactly(
           "Signal-Android",
           "libsignal-service",
