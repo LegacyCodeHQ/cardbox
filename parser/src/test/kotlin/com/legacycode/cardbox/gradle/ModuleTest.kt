@@ -8,7 +8,7 @@ class ModuleTest {
   @Nested
   inner class KotlinDsl {
     @Test
-    fun `extract module names`() {
+    fun `one include per subproject`() {
       // given
       val ktsResource = SettingsKtsResource("one-include-per-subproject")
 
@@ -26,19 +26,12 @@ class ModuleTest {
     }
 
     @Test
-    fun `sample 2`() {
+    fun `one include for all subprojects`() {
       // given
-      val settingsContent = """
-      rootProject.name = "cardbox"
-      include(
-        "core",
-        "cli",
-        "parser"
-      )
-    """.trimIndent()
+      val ktsResource = SettingsKtsResource("one-include-for-all-subprojects")
 
       // when
-      val modules = extractModules(settingsContent)
+      val modules = extractModules(ktsResource.content)
 
       // then
       assertThat(modules)
@@ -51,19 +44,12 @@ class ModuleTest {
     }
 
     @Test
-    fun `sample 3`() {
+    fun `one include for all subprojects, each prefixed with a colon`() {
       // given
-      val settingsContent = """
-      rootProject.name = "cardbox"
-      include(
-        ":core",
-        ":cli",
-        ":parser"
-      )
-    """.trimIndent()
+      val ktsResource = SettingsKtsResource("one-include-for-all-colon-prefix")
 
       // when
-      val modules = extractModules(settingsContent)
+      val modules = extractModules(ktsResource.content)
 
       // then
       assertThat(modules)
@@ -76,25 +62,12 @@ class ModuleTest {
     }
 
     @Test
-    fun `sample 4`() {
-      val settingsContent = """
-      rootProject.name = "tumbleweed"
-      include(
-        ":cli",
-        ":bytecode:scanner",
-        ":bytecode:samples",
-        ":web-server",
-        ":filesystem",
-        ":vcs",
-        ":bytecode:testing",
-        ":web-client-react",
-        ":android",
-        ":viz",
-      )
-    """.trimIndent()
+    fun `one include for all with subdirectories and a trailing comma`() {
+      // given
+      val ktsResource = SettingsKtsResource("one-include-for-all-subdirectories-trailing-comma")
 
       // when
-      val modules = extractModules(settingsContent)
+      val modules = extractModules(ktsResource.content)
 
       // then
       assertThat(modules)
