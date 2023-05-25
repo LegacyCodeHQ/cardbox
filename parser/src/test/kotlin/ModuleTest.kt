@@ -112,9 +112,11 @@ class ModuleTest {
     }
   }
 
-  @Test
-  fun `sample 5`() {
-    val settingsContent = """
+  @Nested
+  inner class GroovyDsl {
+    @Test
+    fun `sample 5`() {
+      val settingsContent = """
       pluginManagement {
     repositories {
         google()
@@ -208,40 +210,41 @@ apply from: 'dependencies.gradle'
 include ':microbenchmark'
 """.trimIndent()
 
-    // when
-    val modules = extractModules(settingsContent)
+      // when
+      val modules = extractModules(settingsContent)
 
-    // then
-    assertThat(modules)
-      .containsExactly(
-        "Signal-Android",
-        "libsignal-service",
-        "lintchecks",
-        "paging",
-        "paging-app",
-        "core-util",
-        "glide-config",
-        "video",
-        "device-transfer",
-        "device-transfer-app",
-        "image-editor",
-        "image-editor-app",
-        "sms-exporter",
-        "sms-exporter-app",
-        "donations",
-        "donations-app",
-        "spinner",
-        "spinner-app",
-        "contacts",
-        "contacts-app",
-        "qr",
-        "qr-app",
-        "sticky-header-grid",
-        "photoview",
-        "core-ui",
-        "benchmark",
-        "microbenchmark",
-      )
-      .inOrder()
+      // then
+      assertThat(modules)
+        .containsExactly(
+          "Signal-Android",
+          "libsignal-service",
+          "lintchecks",
+          "paging",
+          "paging-app",
+          "core-util",
+          "glide-config",
+          "video",
+          "device-transfer",
+          "device-transfer-app",
+          "image-editor",
+          "image-editor-app",
+          "sms-exporter",
+          "sms-exporter-app",
+          "donations",
+          "donations-app",
+          "spinner",
+          "spinner-app",
+          "contacts",
+          "contacts-app",
+          "qr",
+          "qr-app",
+          "sticky-header-grid",
+          "photoview",
+          "core-ui",
+          "benchmark",
+          "microbenchmark",
+        )
+        .inOrder()
+    }
   }
 }
