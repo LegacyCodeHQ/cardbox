@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 
 class ModuleTest {
   @Nested
-  inner class Kts {
+  inner class KotlinDsl {
     @Test
     fun `extract module names`() {
       // given
