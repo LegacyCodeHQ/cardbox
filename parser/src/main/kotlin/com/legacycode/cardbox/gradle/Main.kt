@@ -8,7 +8,7 @@ fun main() {
   val gradleProject = GradleProject(project)
   val subprojects = gradleProject.subprojects
   subprojects.onEach { subproject ->
-    println("${subproject.name} @ ${subproject.path}/")
+    println("${subproject.name} (${subproject.path}/)")
     val buildScript = gradleProject.buildScript(subproject).readText()
     val dependencies = extractSubprojectDependencies(buildScript)
 
