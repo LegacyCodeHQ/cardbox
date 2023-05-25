@@ -7,6 +7,13 @@ fun main() {
 
   val gradleProject = GradleProject(project)
   val subprojects = gradleProject.subprojects
+  plantUml(gradleProject, subprojects)
+}
+
+private fun humanReadableOutput(
+  gradleProject: GradleProject,
+  subprojects: List<Subproject>,
+) {
   subprojects.onEach { subproject ->
     val buildScript = gradleProject.buildScript(subproject).readText()
     val dependencies = extractSubprojectDependencies(buildScript)
@@ -17,4 +24,20 @@ fun main() {
     }
     println()
   }
+}
+
+private fun plantUml(
+  gradleProject: GradleProject,
+  subprojects: List<Subproject>,
+) {
+  println("@startuml")
+  subprojects.onEach { subproject ->
+    val buildScript = gradleProject.buildScript(subproject).readText()
+    val dependencies = extractSubprojectDependencies(buildScript)
+
+    dependencies.forEach { dependency ->
+      println("[${subproject.name}] ..> [${dependency.name}]")
+    }
+  }
+  println("@enduml")
 }
