@@ -1,29 +1,32 @@
 import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class ModuleTest {
-  @Test
-  fun `extract module names`() {
-    // given
-    val ktsResource = SettingsKtsResource("include-params-single-line")
+  @Nested
+  inner class Kts {
+    @Test
+    fun `extract module names`() {
+      // given
+      val ktsResource = SettingsKtsResource("include-params-single-line")
 
-    // when
-    val modules = extractModules(ktsResource.content)
+      // when
+      val modules = extractModules(ktsResource.content)
 
-    // then
-    assertThat(modules)
-      .containsExactly(
-        "cli",
-        "core",
-        "web-server",
-      )
-      .inOrder()
-  }
+      // then
+      assertThat(modules)
+        .containsExactly(
+          "cli",
+          "core",
+          "web-server",
+        )
+        .inOrder()
+    }
 
-  @Test
-  fun `sample 2`() {
-    // given
-    val settingsContent = """
+    @Test
+    fun `sample 2`() {
+      // given
+      val settingsContent = """
       rootProject.name = "cardbox"
       include(
         "core",
@@ -32,23 +35,23 @@ class ModuleTest {
       )
     """.trimIndent()
 
-    // when
-    val modules = extractModules(settingsContent)
+      // when
+      val modules = extractModules(settingsContent)
 
-    // then
-    assertThat(modules)
-      .containsExactly(
-        "core",
-        "cli",
-        "parser",
-      )
-      .inOrder()
-  }
+      // then
+      assertThat(modules)
+        .containsExactly(
+          "core",
+          "cli",
+          "parser",
+        )
+        .inOrder()
+    }
 
-  @Test
-  fun `sample 3`() {
-    // given
-    val settingsContent = """
+    @Test
+    fun `sample 3`() {
+      // given
+      val settingsContent = """
       rootProject.name = "cardbox"
       include(
         ":core",
@@ -57,22 +60,22 @@ class ModuleTest {
       )
     """.trimIndent()
 
-    // when
-    val modules = extractModules(settingsContent)
+      // when
+      val modules = extractModules(settingsContent)
 
-    // then
-    assertThat(modules)
-      .containsExactly(
-        "core",
-        "cli",
-        "parser",
-      )
-      .inOrder()
-  }
+      // then
+      assertThat(modules)
+        .containsExactly(
+          "core",
+          "cli",
+          "parser",
+        )
+        .inOrder()
+    }
 
-  @Test
-  fun `sample 4`() {
-    val settingsContent = """
+    @Test
+    fun `sample 4`() {
+      val settingsContent = """
       rootProject.name = "tumbleweed"
       include(
         ":cli",
@@ -88,26 +91,26 @@ class ModuleTest {
       )
     """.trimIndent()
 
-    // when
-    val modules = extractModules(settingsContent)
+      // when
+      val modules = extractModules(settingsContent)
 
-    // then
-    assertThat(modules)
-      .containsExactly(
-        "cli",
-        "bytecode:scanner",
-        "bytecode:samples",
-        "web-server",
-        "filesystem",
-        "vcs",
-        "bytecode:testing",
-        "web-client-react",
-        "android",
-        "viz",
-      )
-      .inOrder()
+      // then
+      assertThat(modules)
+        .containsExactly(
+          "cli",
+          "bytecode:scanner",
+          "bytecode:samples",
+          "web-server",
+          "filesystem",
+          "vcs",
+          "bytecode:testing",
+          "web-client-react",
+          "android",
+          "viz",
+        )
+        .inOrder()
+    }
   }
-
 
   @Test
   fun `sample 5`() {
