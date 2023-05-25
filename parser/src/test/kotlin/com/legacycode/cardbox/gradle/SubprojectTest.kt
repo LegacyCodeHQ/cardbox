@@ -132,5 +132,21 @@ class SubprojectTest {
         )
         .inOrder()
     }
+
+    @Test
+    fun `basic file`() {
+      // given
+      val groovyDsl = GroovyDsl("basic-mastodon-android")
+
+      // when
+      val subprojects = extractSubprojects(groovyDsl.content)
+
+      // then
+      assertThat(subprojects)
+        .containsExactly(
+          Subproject("mastodon", "mastodon"),
+        )
+        .inOrder()
+    }
   }
 }
