@@ -20,9 +20,9 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          "cli",
-          "core",
-          "web-server",
+          Subproject("cli"),
+          Subproject("core"),
+          Subproject("web-server"),
         )
         .inOrder()
     }
@@ -38,9 +38,9 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          "core",
-          "cli",
-          "parser",
+          Subproject("core"),
+          Subproject("cli"),
+          Subproject("parser"),
         )
         .inOrder()
     }
@@ -56,9 +56,9 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          "core",
-          "cli",
-          "parser",
+          Subproject("core"),
+          Subproject("cli"),
+          Subproject("parser"),
         )
         .inOrder()
     }
@@ -74,16 +74,16 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          "cli",
-          "bytecode:scanner",
-          "bytecode:samples",
-          "web-server",
-          "filesystem",
-          "vcs",
-          "bytecode:testing",
-          "web-client-react",
-          "android",
-          "viz",
+          Subproject("cli"),
+          Subproject("bytecode:scanner"),
+          Subproject("bytecode:samples"),
+          Subproject("web-server"),
+          Subproject("filesystem"),
+          Subproject("vcs"),
+          Subproject("bytecode:testing"),
+          Subproject("web-client-react"),
+          Subproject("android"),
+          Subproject("viz"),
         )
         .inOrder()
     }
@@ -102,33 +102,33 @@ class SubprojectTest {
       // then
       assertThat(subprojects)
         .containsExactly(
-          "Signal-Android",
-          "libsignal-service",
-          "lintchecks",
-          "paging",
-          "paging-app",
-          "core-util",
-          "glide-config",
-          "video",
-          "device-transfer",
-          "device-transfer-app",
-          "image-editor",
-          "image-editor-app",
-          "sms-exporter",
-          "sms-exporter-app",
-          "donations",
-          "donations-app",
-          "spinner",
-          "spinner-app",
-          "contacts",
-          "contacts-app",
-          "qr",
-          "qr-app",
-          "sticky-header-grid",
-          "photoview",
-          "core-ui",
-          "benchmark",
-          "microbenchmark",
+          Subproject("Signal-Android"),
+          Subproject("libsignal-service"),
+          Subproject("lintchecks"),
+          Subproject("paging"),
+          Subproject("paging-app"),
+          Subproject("core-util"),
+          Subproject("glide-config"),
+          Subproject("video"),
+          Subproject("device-transfer"),
+          Subproject("device-transfer-app"),
+          Subproject("image-editor"),
+          Subproject("image-editor-app"),
+          Subproject("sms-exporter"),
+          Subproject("sms-exporter-app"),
+          Subproject("donations"),
+          Subproject("donations-app"),
+          Subproject("spinner"),
+          Subproject("spinner-app"),
+          Subproject("contacts"),
+          Subproject("contacts-app"),
+          Subproject("qr"),
+          Subproject("qr-app"),
+          Subproject("sticky-header-grid"),
+          Subproject("photoview"),
+          Subproject("core-ui"),
+          Subproject("benchmark"),
+          Subproject("microbenchmark"),
         )
         .inOrder()
     }

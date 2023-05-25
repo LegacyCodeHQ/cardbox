@@ -1,6 +1,8 @@
 package com.legacycode.cardbox.gradle
 
-fun extractSubprojects(content: String): List<String> {
+data class Subproject(val name: String)
+
+fun extractSubprojects(content: String): List<Subproject> {
   val modulePattern1 = Regex("""include\([\s\S]*?\)""")
   val modulePattern2 = Regex("""include '(.+?)'""")
   val projectNamePattern = Regex("""project\(':(.+?)'\)\.name = '(.+?)'""")
@@ -35,5 +37,5 @@ fun extractSubprojects(content: String): List<String> {
     moduleNames[originalName] = newName
   }
 
-  return moduleNames.values.toList()
+  return moduleNames.values.map(::Subproject).toList()
 }
