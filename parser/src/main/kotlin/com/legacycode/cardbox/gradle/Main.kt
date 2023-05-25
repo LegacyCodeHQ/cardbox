@@ -35,9 +35,11 @@ private fun plantUml(
     val buildScript = gradleProject.buildScript(subproject).readText()
     val dependencies = extractSubprojectDependencies(buildScript)
 
-    dependencies.forEach { dependency ->
-      println("[${subproject.name}] ..> [${dependency.name}]")
-    }
+    dependencies
+      .distinctBy { dependency -> dependency.name }
+      .forEach { dependency ->
+        println("[${subproject.name}] ..> [${dependency.name}]")
+      }
   }
   println("@enduml")
 }
