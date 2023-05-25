@@ -75,4 +75,42 @@ class ModuleTest {
       )
       .inOrder()
   }
+
+  @Test
+  fun `sample 4`() {
+    val settingsContent = """
+      rootProject.name = "tumbleweed"
+      include(
+        ":cli",
+        ":bytecode:scanner",
+        ":bytecode:samples",
+        ":web-server",
+        ":filesystem",
+        ":vcs",
+        ":bytecode:testing",
+        ":web-client-react",
+        ":android",
+        ":viz",
+      )
+    """.trimIndent()
+
+    // when
+    val modules = extractModules(settingsContent)
+
+    // then
+    assertThat(modules)
+      .containsExactly(
+        "cli",
+        "bytecode:scanner",
+        "bytecode:samples",
+        "web-server",
+        "filesystem",
+        "vcs",
+        "bytecode:testing",
+        "web-client-react",
+        "android",
+        "viz",
+      )
+      .inOrder()
+  }
 }

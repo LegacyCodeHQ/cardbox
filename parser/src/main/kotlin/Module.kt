@@ -9,6 +9,7 @@ fun extractModules(fileContent: String): List<String> {
       .removeSuffix(")")
       .split(",")
       .map { it.trim().removeSurrounding("\"").removePrefix(":") }
+      .filter { it.isNotEmpty() }
 
     moduleNames.addAll(modules)
   }
