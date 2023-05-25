@@ -1,5 +1,6 @@
 rootProject.name = "cardbox"
 include(
   "core",
-  "cli"
+  "cli",
+  "parser"
 )
