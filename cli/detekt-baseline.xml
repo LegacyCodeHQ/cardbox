@@ -1,21 +1,5 @@
 <?xml version="1.0" ?>
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
-  <CurrentIssues>
-    <ID>ClassOrdering:DiscoverCommand.kt$DiscoverCommand$@Parameters(index = "0", description = ["directory"]) lateinit var directory: File</ID>
-    <ID>ClassOrdering:DiscoverCommand.kt$DiscoverCommand$override fun run()</ID>
-    <ID>ClassOrdering:DiscoverCommand.kt$DiscoverCommand$private fun printArtifactContents( artifactName: ArtifactName, packagesInPath: List&lt;PackagesInPath&gt; )</ID>
-    <ID>ClassOrdering:DiscoverCommand.kt$DiscoverCommand$private fun printArtifactHeader(artifactName: ArtifactName)</ID>
-    <ID>ClassOrdering:DiscoverCommand.kt$DiscoverCommand$private fun printPackageNameAndPathSegment( packageNameResult: PackageNameResult, path: RelativePath, showPath: Boolean )</ID>
-    <ID>ClassOrdering:DiscoverCommand.kt$DiscoverCommand$private fun printPackageNamesList( path: RelativePath, packageNameResults: List&lt;PackageNameResult&gt; )</ID>
-    <ID>ClassOrdering:DiscoverCommand.kt$DiscoverCommand$private fun printSourceSetsArtifactInformation( sourceSetsArtifacts: Map&lt;SourceSet, Map&lt;ArtifactName, List&lt;PackagesInPath&gt;&gt;&gt; )</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$@Parameters(index = "0", description = ["directory"]) lateinit var projectDirectory: File</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$override fun run()</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$private fun createArtifacts( sourceSetsArtifacts: MutableMap&lt;SourceSet, Map&lt;ArtifactName, List&lt;PackagesInPath&gt;&gt;&gt;, )</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$private fun executeJarCommand( project: Project, artifactName: ArtifactName, packagesInPath: List&lt;PackagesInPath&gt; )</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$private fun printOutputDirectory(outputDirectory: File)</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$private val gitRevisionShaSuffix: String? by lazy { val repository = RepositoryBuilder() .setGitDir(projectDirectory.resolve(GIT_DIRECTORY)) .build() val objectId = repository.resolve(Constants.HEAD) if (objectId != null) { val status = Git(repository).status().call() val suffix = if (status.isClean) EMPTY_STRING else REPO_DIRTY_SUFFIX "${objectId.abbreviate(REPO_SHA_LENGTH).name()}$suffix" } else { null } }</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$private val outputDirectory: File by lazy { val gitRevisionShaSuffix = gitRevisionShaSuffix ?: REPO_UNKNOWN_REVISION_SUFFIX val userHomeDirectory = File(System.getProperty(USER_HOME_KEY)) userHomeDirectory .resolve(ARTIFACT_DIRECTORY_NAME) .resolve(project.name) .resolve(gitRevisionShaSuffix) }</ID>
-    <ID>ClassOrdering:PackCommand.kt$PackCommand$private val project by lazy { Project(projectDirectory) }</ID>
-  </CurrentIssues>
+  <CurrentIssues></CurrentIssues>
 </SmellBaseline>
