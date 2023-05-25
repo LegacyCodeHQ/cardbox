@@ -1,8 +1,17 @@
 fun extractModules(fileContent: String): List<String> {
-  val modulePattern = Regex("""include\("(.+?)"\)""")
-  val moduleMatches = modulePattern.findAll(fileContent)
+  val modulePattern = Regex("""include\([\s\S]*?\)""")
+  val includeMatches = modulePattern.findAll(fileContent)
+  val moduleNames = mutableListOf<String>()
 
-  return moduleMatches
-    .map { matchResult -> matchResult.groupValues[1] }
-    .toList()
+  includeMatches.forEach { matchResult ->
+    val modules = matchResult.value
+      .removePrefix("include(")
+      .removeSuffix(")")
+      .split(",")
+      .map { it.trim().removeSurrounding("\"") }
+
+    moduleNames.addAll(modules)
+  }
+
+  return moduleNames
 }
